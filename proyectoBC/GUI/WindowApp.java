@@ -7,6 +7,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import proyectoBC.engine.GameEngine;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
+import proyectoBC.keyboard.ThreadKeyboard;
 
 import org.eclipse.swt.widgets.Label;
 
@@ -15,6 +16,7 @@ public class WindowApp {
 	protected Shell shell;
 	protected GameEngine ge;
 	protected TanqueJugador tj;
+	protected ThreadKeyboard tkeyboard;
 
 	/**
 	 * Launch the application.
@@ -56,6 +58,7 @@ public class WindowApp {
 		/* Game engine and TanqueJugador */
 		ge = new GameEngine();
 		tj = new TanqueJugador(0,0,ge);
+		tkeyboard= new ThreadKeyboard(ge);
 		
 		Label label1 = new Label(shell, SWT.NONE);
 		label1.setImage(SWTResourceManager.getImage(WindowApp.class, tj.getImages()[0]));

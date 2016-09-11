@@ -16,4 +16,12 @@ public abstract class Tanque {
 			case 3: this.y -= d;break;
 		}
 	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
 }
