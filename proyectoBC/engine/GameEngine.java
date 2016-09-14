@@ -15,17 +15,20 @@ import javax.swing.ImageIcon;
 public class GameEngine {
 	
 	private TanqueJugador player;
+	private SwingWindow gui;
 
-	public GameEngine() {
+	public GameEngine(SwingWindow gui) {
+		this.gui = gui;
 		System.out.println("Game Engine Creado");
 	}
 	
 	public void movePlayer(int dir){
-		player.move(canMove(dir));
+		//player.move(canMove(dir));
  
 	}
-	
+	/*
 	private int canMove(int direccion){
+		
 		int x= player.getX();
 		int y= player.getY();
 		int distancia=0;
@@ -36,5 +39,7 @@ public class GameEngine {
 			case 3: distancia= x;
 		}
 		return distancia;
+		
 	}
+	*/
 }

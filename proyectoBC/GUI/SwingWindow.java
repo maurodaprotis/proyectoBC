@@ -8,11 +8,17 @@ import java.awt.Window.Type;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
+import proyectoBC.engine.GameEngine;
+import proyectoBC.keyboard.ThreadKeyboard;
+
 import javax.swing.ImageIcon;
 
 public class SwingWindow {
 
 	private JFrame frmBatleCity;
+	private GameEngine ge;
+	private ThreadKeyboard tk;
 
 	/**
 	 * Launch the application.
@@ -64,5 +70,12 @@ public class SwingWindow {
 					.addContainerGap(257, Short.MAX_VALUE))
 		);
 		frmBatleCity.getContentPane().setLayout(groupLayout);
+		
+		initGame();
+	}
+	
+	private void initGame(){
+		this.ge = new GameEngine(this);
+		this.tk = new ThreadKeyboard(ge);
 	}
 }
