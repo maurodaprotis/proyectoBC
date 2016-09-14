@@ -26,11 +26,12 @@ public class GameEngine {
 	public GameEngine(SwingWindow gui) {
 		this.gui = gui;
 		this.player = new TanqueJugador(3,24,24);
+		gui.getContentPane().add(this.player.getImage());;
 		System.out.println("Game Engine Creado");
 	}
 	
 	public void movePlayer(int dir){
-		int distancia= canMove(player,dir);
+		int distancia = canMove(player,dir);
 		if (distancia > 0)
 			player.move(dir,distancia);
 	}
@@ -42,10 +43,10 @@ public class GameEngine {
 		int pointY= (int) point.getY();
 		int distancia=0;
 		switch (direccion){
-			case KeyEvent.VK_UP: distancia= pointY;
-			case KeyEvent.VK_RIGHT: distancia= 312 - (pointX + 24);
-			case KeyEvent.VK_LEFT: distancia= pointX;
-			case KeyEvent.VK_DOWN: distancia= 312 - (pointY + 24);
+			case KeyEvent.VK_UP: distancia= pointY;break;
+			case KeyEvent.VK_RIGHT: distancia= 312 - (pointX + 24);break;
+			case KeyEvent.VK_LEFT: distancia= pointX;break;
+			case KeyEvent.VK_DOWN: distancia= 312 - (pointY + 24);break;
 		}
 		return distancia;	
 	}

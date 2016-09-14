@@ -12,21 +12,28 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 		protected boolean pressed, UPpressed,DOWNpressed,LEFTpressed,RIGHTpressed,SPACEpressed,gameOver;
 		
 		public ThreadKeyboard(GameEngine ge){
+			UPpressed=DOWNpressed=LEFTpressed=RIGHTpressed=false;
 			pressed=false;
 			this.ge=ge;
             gameOver=false;
+		}
+		public void listen() {
             start();
 		}
 		
 		 public void run(){
+			 
 			 while (!gameOver){
 				 try {
                       ThreadKeyboard.sleep(30);
 				 }catch (InterruptedException e) {
                      e.printStackTrace();
-             	}	
-				if (UPpressed)
-					 ge.movePlayer(KeyEvent.VK_UP);
+             	}
+				if (UPpressed){
+					ge.movePlayer(KeyEvent.VK_UP);
+					System.out.println("up");
+				}
+					 
 				 if (DOWNpressed)
 					 ge.movePlayer(KeyEvent.VK_DOWN);
 				 if (RIGHTpressed)
@@ -41,13 +48,13 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	     }
 		 
 		public void keyPressed(KeyEvent ev){
+			System.out.println("keypressed");
 			int keyCode= ev.getKeyCode();
 			switch(keyCode){
         		case KeyEvent.VK_UP: {
-        			if (!pressed){
+        				System.out.println("up press");
         				pressed= true;
         				UPpressed=true;
-        			}
         			break;
            		}
         		case KeyEvent.VK_DOWN: {
@@ -77,7 +84,8 @@ public class ThreadKeyboard extends Thread implements KeyListener{
         		}        		
 			}
 		}
-        public void keyReleased(KeyEvent event){  
+        public void keyReleased(KeyEvent event){
+        	System.out.println("keyreleased");
         	int keyCode= event.getKeyCode();
             switch(keyCode){
                     case KeyEvent.VK_UP: {

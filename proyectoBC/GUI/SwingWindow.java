@@ -5,18 +5,27 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Window.Type;
+import java.awt.event.KeyAdapter;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.event.KeyEvent;
 
 import proyectoBC.engine.GameEngine;
 import proyectoBC.keyboard.ThreadKeyboard;
 
 import javax.swing.ImageIcon;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-public class SwingWindow {
+public class SwingWindow extends JFrame {
 
 	private JFrame frmBatleCity;
+	private JPanel contentPane;
 	private GameEngine ge;
 	private ThreadKeyboard tk;
 
@@ -28,7 +37,7 @@ public class SwingWindow {
 			public void run() {
 				try {
 					SwingWindow window = new SwingWindow();
-					window.frmBatleCity.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -40,7 +49,23 @@ public class SwingWindow {
 	 * Create the application.
 	 */
 	public SwingWindow() {
-		initialize();
+		//initialize();
+		this.contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		this.contentPane.setBorder(new EmptyBorder(0,0,0,0));
+		this.contentPane.setLayout(null);
+		setContentPane(this.contentPane);
+		getContentPane().setLayout(null);
+		
+		
+		//JLabel background = new JLabel("");
+		//background.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
+		//background.setBounds(0, 0, 365, 365);
+		//contentPane.add(background);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100,100,365,365);
+		
+		initGame();
 	}
 
 	/**
@@ -54,28 +79,26 @@ public class SwingWindow {
 		frmBatleCity.setBounds(100, 100, 365, 365);
 		frmBatleCity.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JLabel Backgroundlbl = new JLabel("");
-		Backgroundlbl.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
-		GroupLayout groupLayout = new GroupLayout(frmBatleCity.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(Backgroundlbl)
-					.addContainerGap(398, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(Backgroundlbl)
-					.addContainerGap(257, Short.MAX_VALUE))
-		);
-		frmBatleCity.getContentPane().setLayout(groupLayout);
+		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		frmBatleCity.getContentPane().add(panel, BorderLayout.NORTH);
+		
 		
 		initGame();
 	}
 	
 	private void initGame(){
 		this.ge = new GameEngine(this);
-		this.tk = new ThreadKeyboard(ge);
+		//this.tk = new ThreadKeyboard(ge);
+		//this.tk.listen();
+		addKeyListener(new KeyAdapter(){
+			public void keyPressed(KeyEvent ev){
+				distpach(ev);
+			}
+		});
+	}
+	
+	private void distpach(KeyEvent key){
+		this.ge.movePlayer(key.getKeyCode());
 	}
 }
