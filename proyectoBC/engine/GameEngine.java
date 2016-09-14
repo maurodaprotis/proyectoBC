@@ -1,18 +1,28 @@
 package proyectoBC.engine;
 
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
+import proyectoBC.GUI.SwingWindow;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import java.awt.Toolkit;
+import java.awt.Window.Type;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class GameEngine {
 	
 	private TanqueJugador player;
-	
-	
+
 	public GameEngine() {
 		System.out.println("Game Engine Creado");
 	}
 	
 	public void movePlayer(int dir){
 		player.move(canMove(dir));
+ 
 	}
 	
 	private int canMove(int direccion){

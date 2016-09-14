@@ -17,11 +17,38 @@ public abstract class Tanque {
 		}
 	}
 	
-	public int getX(){
-		return x;
-	}
 	
-	public int getY(){
-		return y;
-	}
+
+public abstract void shoot();
+	
+public abstract void impact();
+	
+ public int getdireccion(){ return direction;}	
+
+ public void setX (int x) {this.x=x;}
+
+ public int getX(){ return x;	}
+	
+ public int getY(){ return y;   }
+
+ public void setY (int y) {this.y=y;}
+ 
+ public int getmovespeed(){ return moveSpeed;}
+
+ public void setmoveSpeed(int ms){moveSpeed=ms;}
+
+ public int getshootspeed(){ return shootSpeed;}
+
+ public void setshootSpeed(int ss){shootSpeed=ss;}
+
+ public int gethp(){return hp;}
+
+ public void sethp(int hp){this.hp=hp;}
+	
 }
+
+	
+
+
+
+
