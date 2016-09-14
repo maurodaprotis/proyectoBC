@@ -8,11 +8,12 @@ import proyectoBC.engine.*;
 
 public class ThreadKeyboard extends Thread implements KeyListener{
 	
-		private GameEngine tablero;
-		protected boolean UPpressed,DOWNpressed,LEFTpressed,RIGHTpressed,SPACEpressed,gameOver;
-	
-		public ThreadKeyboard(GameEngine tablero){
-			this.tablero=tablero;
+		private GameEngine ge;
+		protected boolean pressed, UPpressed,DOWNpressed,LEFTpressed,RIGHTpressed,SPACEpressed,gameOver;
+		
+		public ThreadKeyboard(GameEngine ge){
+			pressed=false;
+			this.ge=ge;
             gameOver=false;
             start();
 		}
@@ -25,13 +26,13 @@ public class ThreadKeyboard extends Thread implements KeyListener{
                      e.printStackTrace();
              	}	
 				if (UPpressed)
-					 tablero.movePlayer(0);
+					 ge.movePlayer(KeyEvent.VK_UP);
 				 if (DOWNpressed)
-					 tablero.movePlayer(2);
+					 ge.movePlayer(KeyEvent.VK_DOWN);
 				 if (RIGHTpressed)
-					 tablero.movePlayer(1);
+					 ge.movePlayer(KeyEvent.VK_RIGHT);
 				 if (LEFTpressed)
-					 tablero.movePlayer(3);
+					 ge.movePlayer(KeyEvent.VK_LEFT);
 			 }
 		 }
 
@@ -43,19 +44,31 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 			int keyCode= ev.getKeyCode();
 			switch(keyCode){
         		case KeyEvent.VK_UP: {
-        			UPpressed=true;
+        			if (!pressed){
+        				pressed= true;
+        				UPpressed=true;
+        			}
         			break;
-        		}
+           		}
         		case KeyEvent.VK_DOWN: {
-        			DOWNpressed=true;
+        			if (!pressed){
+        				pressed= true;
+        				DOWNpressed=true;
+        			}
         			break;
         		}
         		case KeyEvent.VK_LEFT: {
-        			LEFTpressed=true;
+        			if (!pressed){
+        				pressed= true;
+        				LEFTpressed=true;
+        			}
         			break;
         		}
         		case KeyEvent.VK_RIGHT: {
-        			RIGHTpressed=true;
+        			if (!pressed){
+        				pressed= true;
+        				RIGHTpressed=true;
+        			}
         			break;
         		}
         		case KeyEvent.VK_SPACE: {
@@ -68,6 +81,8 @@ public class ThreadKeyboard extends Thread implements KeyListener{
         	int keyCode= event.getKeyCode();
             switch(keyCode){
                     case KeyEvent.VK_UP: {
+                    	
+                    	
                             UPpressed=false;break;
                     }
                     case KeyEvent.VK_DOWN: {
@@ -83,6 +98,10 @@ public class ThreadKeyboard extends Thread implements KeyListener{
                             SPACEpressed=false;break;
                     }
             }
+            if (UPpressed==false &&  DOWNpressed==false && LEFTpressed==false && RIGHTpressed==false )
+            	  pressed=true;
+             
+           
         }
 
 		@Override
