@@ -25,6 +25,7 @@ public class GameEngine {
 
 	public GameEngine(SwingWindow gui) {
 		this.gui = gui;
+		this.player = new TanqueJugador(3,24,24);
 		System.out.println("Game Engine Creado");
 	}
 	
