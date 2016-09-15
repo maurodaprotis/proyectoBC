@@ -16,10 +16,10 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 			pressed=false;
 			this.ge=ge;
             gameOver=false;
-		}
-		public void listen() {
             start();
 		}
+	
+	
 		
 		 public void run(){
 			 

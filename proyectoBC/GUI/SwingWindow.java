@@ -49,6 +49,8 @@ public class SwingWindow extends JFrame {
 	 * Create the application.
 	 */
 	public SwingWindow() {
+		setTitle("Battle City 2016");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
 		//initialize();
 		this.contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
@@ -56,14 +58,8 @@ public class SwingWindow extends JFrame {
 		this.contentPane.setLayout(null);
 		setContentPane(this.contentPane);
 		getContentPane().setLayout(null);
-		
-		
-		//JLabel background = new JLabel("");
-		//background.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
-		//background.setBounds(0, 0, 365, 365);
-		//contentPane.add(background);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,365,365);
+		setBounds(100,100,380,337);
 		
 		initGame();
 	}
@@ -76,13 +72,17 @@ public class SwingWindow extends JFrame {
 		frmBatleCity.setTitle("Battle City");
 		frmBatleCity.setIconImage(Toolkit.getDefaultToolkit().getImage(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
 		frmBatleCity.setResizable(false);
-		frmBatleCity.setBounds(100, 100, 365, 365);
+		frmBatleCity.setBounds(100, 100, 365, 355);
 		frmBatleCity.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		frmBatleCity.getContentPane().add(panel, BorderLayout.NORTH);
-		
+
+		JLabel background = new JLabel("");
+		background.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
+		background.setBounds(0, 0, 365, 365);
+		contentPane.add(background);
 		
 		initGame();
 	}
