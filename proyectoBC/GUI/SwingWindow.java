@@ -49,6 +49,7 @@ public class SwingWindow extends JFrame {
 	 * Create the application.
 	 */
 	public SwingWindow() {
+		setResizable(false);
 		setTitle("Battle City 2016");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
 		//initialize();
@@ -58,8 +59,13 @@ public class SwingWindow extends JFrame {
 		this.contentPane.setLayout(null);
 		setContentPane(this.contentPane);
 		getContentPane().setLayout(null);
+		
+		JLabel labelDashboard = new JLabel("");
+		labelDashboard.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Tablero.png")));
+		labelDashboard.setBounds(328, 0, 48, 340);
+		contentPane.add(labelDashboard);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,380,337);
+		setBounds(100,100,380,340);
 		
 		initGame();
 	}

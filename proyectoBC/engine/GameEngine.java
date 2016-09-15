@@ -32,8 +32,7 @@ public class GameEngine {
 	
 	public void movePlayer(int dir){
 		int distancia = canMove(player,dir);
-		if (distancia > 0)
-			player.move(dir,distancia);
+		player.move(dir,distancia);
 	}
 	
 	private int canMove(Entity entity,int direccion){
