@@ -11,19 +11,13 @@ public abstract class Entity {
 	public static final int MOVE_RIGHT     = 1;
 	public static final int MOVE_DOWN = 2;
 	public static final int MOVE_LEFT   = 3;
-	
-	protected int direction;
-	
-	protected JLabel image;
-	
-	protected Icon images[];
-	protected Icon destroyedImage;
-	
 	protected final int width  = 24;
 	protected final int height = 24;
 	
+	protected JLabel image;
+	protected Icon images[];
+	protected Icon destroyedImage;
 	protected int speed;
-	
 	protected Point position;
 	
 	protected Entity(int speed, int x, int y) {
@@ -60,10 +54,6 @@ public abstract class Entity {
 			this.image.setBounds(this.position.x, this.position.y, this.width, this.height);
 		}
 		return this.image;
-	}
-	
-	public int getDirection() {
-		return this.direction;
 	}
 	
 }

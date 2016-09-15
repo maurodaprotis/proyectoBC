@@ -19,7 +19,7 @@ public class GameEngine {
 	
 	private TanqueJugador player;
 	private SwingWindow gui;
-	private static final int weigth=312;
+	private static final int width=312;
 	private static final int height=312;
 
 

@@ -11,7 +11,6 @@ public class TanqueJugador extends Tanque {
 	
 	public TanqueJugador(int speed,int x,int y){
 		super(speed,x,y);
-		this.direction = this.MOVE_UP;
 		this.shield = false;
 		this.lives = 4;
 		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/0_24x24.png"));

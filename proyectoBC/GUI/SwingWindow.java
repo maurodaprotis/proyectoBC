@@ -95,8 +95,6 @@ public class SwingWindow extends JFrame {
 	
 	private void initGame(){
 		this.ge = new GameEngine(this);
-		//this.tk = new ThreadKeyboard(ge);
-		//this.tk.listen();
 		addKeyListener(new KeyAdapter(){
 			public void keyPressed(KeyEvent ev){
 				distpach(ev);
