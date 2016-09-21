@@ -10,7 +10,8 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	
 	private GameEngine ge;
 	protected boolean pressed, UPpressed,DOWNpressed,LEFTpressed,RIGHTpressed,SPACEpressed,gameOver;
-
+	
+	
 	public ThreadKeyboard(GameEngine ge){
 		UPpressed=DOWNpressed=LEFTpressed=RIGHTpressed=false;
 		pressed=false;
@@ -36,7 +37,8 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 			if (LEFTpressed && !UPpressed && !DOWNpressed)
 				ge.movePlayer(KeyEvent.VK_LEFT);
 			// Agregar lógica de de otras teclas
-		 }
+			
+		 }		
 	 }
 
 	 public void gameOver(){
@@ -60,6 +62,10 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	    		case KeyEvent.VK_SPACE:
 	    			SPACEpressed=true;
 	    			break;
+	    		case KeyEvent.VK_E:{ 	    			
+	    			ge.agregarTanque();
+	    			break;
+	    		}
 			}
 	}
     public void keyReleased(KeyEvent event){
