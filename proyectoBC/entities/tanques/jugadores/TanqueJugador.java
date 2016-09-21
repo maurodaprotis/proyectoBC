@@ -13,10 +13,10 @@ public class TanqueJugador extends Tanque {
 		super(speed,x,y);
 		this.shield = false;
 		this.lives = 4;
-		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/0_24x24.png"));
-		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/0_24x24der.png"));
-		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/0_24x24inv.png"));
-		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/0_24x24izq.png"));
+		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_up_1.gif"));
+		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_right_1.gif"));
+		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_down_1.gif"));
+		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_left_1.gif"));
 		System.out.println("Tanque jugador Creado");
 	}
 	public void move(int dir,int dist){

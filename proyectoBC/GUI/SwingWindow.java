@@ -27,7 +27,9 @@ public class SwingWindow extends JFrame {
 	private JFrame frmBatleCity;
 	private JPanel contentPane;
 	private GameEngine ge;
+	private ImageIcon obstaculos ;
 	private ThreadKeyboard tk;
+	
 
 	/**
 	 * Launch the application.
@@ -62,10 +64,10 @@ public class SwingWindow extends JFrame {
 		
 		JLabel labelDashboard = new JLabel("");
 		labelDashboard.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Tablero.png")));
-		labelDashboard.setBounds(328, 0, 48, 340);
+		labelDashboard.setBounds(316, 0, 48, 313);
 		contentPane.add(labelDashboard);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,380,340);
+		setBounds(100,100,366,338);
 		
 		initGame();
 	}
@@ -89,7 +91,7 @@ public class SwingWindow extends JFrame {
 		background.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
 		background.setBounds(0, 0, 365, 365);
 		contentPane.add(background);
-		
+	
 		initGame();
 	}
 	
