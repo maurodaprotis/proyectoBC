@@ -2,6 +2,7 @@ package proyectoBC.engine;
 
 import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.Celda;
+import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
 import proyectoBC.GUI.SwingWindow;
 import java.awt.event.*;
@@ -23,6 +24,8 @@ public class GameEngine {
 	private ImageIcon ladrillo;
 	private ImageIcon aguila;
 	private ImageIcon acero;
+	private TanqueBasico enemigoBasico;
+	private int score;
 	
 	
 	private static final int width=312;
@@ -34,11 +37,13 @@ public class GameEngine {
 		
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
-		gui.getContentPane().add(this.player.getImage());;
+		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		ladrillo= new ImageIcon((this.getClass().getResource("/proyectoBC/assets/images/obstaculos/ladrillo/ladrillo_1.gif")));
 		aguila= new ImageIcon((this.getClass().getResource("/proyectoBC/assets/images/obstaculos/aguila/aguila.gif")));
 		acero= new ImageIcon((this.getClass().getResource("/proyectoBC/assets/images/obstaculos/acero/acero_1.gif")));
+		gui.setScore(0000);
+		
 		addmaplevel1(gui);
 		
 		
@@ -131,7 +136,24 @@ public class GameEngine {
     }		
 	
 	
+	public void agregarTanque(){
+		if (enemigoBasico==null){
+			enemigoBasico= new TanqueBasico(1,0,0);
+			System.out.println("Agrego tanque enemigo");
+			gui.getContentPane().add(enemigoBasico.getImage());			
+		}
+		else
+			destruirTanque();
+		gui.repaint();
+	}
 	
+	private void destruirTanque(){
+		System.out.println("Destruyo tanque enemigo");
+		gui.remove(enemigoBasico.getImage());
+		score= score + enemigoBasico.getPoints();
+		enemigoBasico=null;
+		gui.setScore(score);
+	}
 	
 	
 	

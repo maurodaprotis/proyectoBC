@@ -47,8 +47,16 @@ public class TanqueJugador extends Tanque {
 			break;
 		}		
 	}
+	
 	public void impact(){		  
+	
 	}
+	
 	public void shoot(){
+	
+	}
+	
+	public void setScore(int points){
+		
 	}
 }
