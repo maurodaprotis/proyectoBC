@@ -13,8 +13,8 @@ public class TanquePoder extends TanqueEnemigo {
 		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquepoder_left_1_02.gif"));
 	}
 	
-	public void impact(){
-		
+	public int impact(){
+		return hp;
 	}
 	
 	public void shoot(){

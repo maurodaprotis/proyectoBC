@@ -149,10 +149,12 @@ public class GameEngine {
 	
 	private void destruirTanque(){
 		System.out.println("Destruyo tanque enemigo");
-		gui.remove(enemigoBasico.getImage());
-		score= score + enemigoBasico.getPoints();
-		enemigoBasico=null;
-		gui.setScore(score);
+		if (enemigoBasico.impact()==0){
+			gui.remove(enemigoBasico.getImage());
+			score= score + enemigoBasico.getPoints();
+			enemigoBasico=null;
+			gui.setScore(score);
+		}
 	}
 	
 	public void levelUp(){

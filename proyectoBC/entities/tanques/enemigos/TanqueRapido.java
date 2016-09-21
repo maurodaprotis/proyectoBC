@@ -15,8 +15,8 @@ public class TanqueRapido extends TanqueEnemigo{
 	}
 	
 	
-	public void impact(){
-		
+	public int impact(){
+		return hp;
 	}
 	
 	public void shoot(){

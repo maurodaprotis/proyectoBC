@@ -13,7 +13,7 @@ public abstract class TanqueEnemigo extends Tanque{
 	
 	public abstract void shoot();
 	
-	public abstract void impact();
+	public abstract int impact();
 	
 	public abstract int getPoints();
 

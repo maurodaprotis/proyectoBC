@@ -13,7 +13,7 @@ public abstract class Tanque extends Entity{
 		
 	public abstract void shoot();
 		
-	public abstract void impact();
+	public abstract int impact();
 		
 }
 

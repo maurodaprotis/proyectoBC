@@ -50,8 +50,8 @@ public class TanqueJugador extends Tanque {
 		}		
 	}
 	
-	public void impact(){		  
-	
+	public int impact(){		  
+		return hp;
 	}
 	
 	public void shoot(){
