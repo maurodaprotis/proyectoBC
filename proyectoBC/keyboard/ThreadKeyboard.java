@@ -62,45 +62,6 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	    			break;
 			}
 	}
-	 /**
-	 public void keyPressed(KeyEvent ev){
-	 	int keyCode= ev.getKeyCode();
-		switch(keyCode){
-    		case KeyEvent.VK_UP: {
-    			if (!pressed){
-    				pressed= true;
-    				UPpressed=true;	
-    			}    			
-    			break;
-       		}
-    		case KeyEvent.VK_DOWN: {
-    			if (!pressed){
-    				pressed= true;
-    				DOWNpressed=true;
-    			}
-    			break;
-    		}
-    		case KeyEvent.VK_LEFT: {
-    			if (!pressed){
-    				pressed= true;
-    				LEFTpressed=true;
-    			}
-    			break;
-    		}
-    		case KeyEvent.VK_RIGHT: {
-    			if (!pressed){
-    				pressed= true;
-    				RIGHTpressed=true;
-    			}
-    			break;
-    		}
-    		case KeyEvent.VK_SPACE: {
-    			SPACEpressed=true;
-    			break;
-    		}        		
-		}
-	}
-	**/
     public void keyReleased(KeyEvent event){
     	int keyCode= event.getKeyCode();
         switch(keyCode){
