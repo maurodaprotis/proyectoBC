@@ -3,24 +3,31 @@ package proyectoBC.entities.tanques.jugadores;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 import proyectoBC.entities.tanques.Tanque;
+import proyectoBC.entities.tanques.jugadores.niveles.*;
 
 public class TanqueJugador extends Tanque {
-	protected int level;
 	protected boolean shield;
 	protected int lives;
+	protected Nivel level;
 	
 	public TanqueJugador(int speed,int x,int y){
 		super(speed,x,y);
 		this.shield = false;
 		this.lives = 4;
-		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_up_1.gif"));
-		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_right_1.gif"));
-		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_down_1.gif"));
-		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel1/tanquejugador_n1_left_1.gif"));
+		this.level = new NivelUno();
+		this.images = level.getImages();
 		System.out.println("Tanque jugador Creado");
 	}
+	public void levelUp(){
+		this.level = level.SubirNivel();
+		this.images = this.level.getImages();
+	}
+	public void resetLevel(){
+		this.level = new NivelUno();
+		this.images = this.level.getImages();
+	}
 	public void move(int dir,int dist){
-		int distance = (dist > this.speed) ? this.speed:dist;
+		int distance = (dist > this.level.getSpeed()) ? this.level.getSpeed():dist;
 		switch (dir){
 		case KeyEvent.VK_UP : 
 			this.position.setLocation(this.position.x, this.position.y - distance);
