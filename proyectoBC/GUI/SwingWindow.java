@@ -21,6 +21,7 @@ import proyectoBC.keyboard.ThreadKeyboard;
 import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 
 public class SwingWindow extends JFrame {
 
@@ -29,6 +30,7 @@ public class SwingWindow extends JFrame {
 	private GameEngine ge;
 	private ImageIcon obstaculos ;
 	private ThreadKeyboard tk;
+	private JLabel labelScore;
 	
 
 	/**
@@ -54,7 +56,7 @@ public class SwingWindow extends JFrame {
 		setResizable(false);
 		setTitle("Battle City 2016");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
-		//initialize();
+
 		this.contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		this.contentPane.setBorder(new EmptyBorder(0,0,0,0));
@@ -66,32 +68,21 @@ public class SwingWindow extends JFrame {
 		labelDashboard.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Tablero.png")));
 		labelDashboard.setBounds(316, 0, 48, 313);
 		contentPane.add(labelDashboard);
+		
+		JLabel lblPuntaje = new JLabel("SCORE:");
+		lblPuntaje.setFont(new Font("Consolas", Font.BOLD, 11));
+		lblPuntaje.setForeground(Color.WHITE);
+		lblPuntaje.setBounds(116, 314, 46, 14);
+		contentPane.add(lblPuntaje);
+		
+		labelScore = new JLabel("0");
+		labelScore.setForeground(Color.WHITE);
+		labelScore.setFont(new Font("Consolas", Font.BOLD, 11));
+		labelScore.setBounds(160, 314, 54, 14);
+		contentPane.add(labelScore);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,366,338);
+		setBounds(100,100,366,368);
 		
-		initGame();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmBatleCity = new JFrame();
-		frmBatleCity.setTitle("Battle City");
-		frmBatleCity.setIconImage(Toolkit.getDefaultToolkit().getImage(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
-		frmBatleCity.setResizable(false);
-		frmBatleCity.setBounds(100, 100, 365, 355);
-		frmBatleCity.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		frmBatleCity.getContentPane().add(panel, BorderLayout.NORTH);
-
-		JLabel background = new JLabel("");
-		background.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Background.png")));
-		background.setBounds(0, 0, 365, 365);
-		contentPane.add(background);
-	
 		initGame();
 	}
 	
@@ -99,16 +90,9 @@ public class SwingWindow extends JFrame {
 		this.ge = new GameEngine(this);
 		this.tk = new ThreadKeyboard(this.ge);
 		this.addKeyListener(tk);
-		/*
-		addKeyListener(new KeyAdapter(){
-			public void keyPressed(KeyEvent ev){
-				distpach(ev);
-			}
-		});
-		*/
 	}
 	
-	private void distpach(KeyEvent key){
-		this.ge.movePlayer(key.getKeyCode());
+	public void setScore(Integer s) {
+		this.labelScore.setText(s.toString());
 	}
 }
