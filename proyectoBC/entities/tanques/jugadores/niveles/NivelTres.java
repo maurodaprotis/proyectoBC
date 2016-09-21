@@ -11,10 +11,10 @@ public class NivelTres implements Nivel {
 	
 	public NivelTres(){
 		this.images = new Icon[4];
-		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_up_1.gif"));
-		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_right_1.gif"));
-		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_down_1.gif"));
-		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_left_1.gif"));
+		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_up_1_02.gif"));
+		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_right_1_02.gif"));
+		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_down_1_02.gif"));
+		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanques/jugador/nivel3/tanquejugadorN3_left_1_02.gif"));
 	}
 	public Nivel SubirNivel() {
 		return new NivelCuatro();

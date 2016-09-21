@@ -155,6 +155,15 @@ public class GameEngine {
 		gui.setScore(score);
 	}
 	
+	public void levelUp(){
+		this.player.levelUp();
+		gui.repaint();
+	}
+	public void levelDown(){
+		this.player.resetLevel();
+		gui.repaint();
+	}
+	
 	
 	
 	

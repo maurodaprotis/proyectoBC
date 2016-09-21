@@ -21,10 +21,12 @@ public class TanqueJugador extends Tanque {
 	public void levelUp(){
 		this.level = level.SubirNivel();
 		this.images = this.level.getImages();
+		this.image.setIcon(this.images[0]);		
 	}
 	public void resetLevel(){
 		this.level = new NivelUno();
 		this.images = this.level.getImages();
+		this.image.setIcon(this.images[0]);
 	}
 	public void move(int dir,int dist){
 		int distance = (dist > this.level.getSpeed()) ? this.level.getSpeed():dist;

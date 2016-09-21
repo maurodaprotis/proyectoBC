@@ -66,6 +66,15 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	    			ge.agregarTanque();
 	    			break;
 	    		}
+	    		case KeyEvent.VK_Q:{
+	    			ge.levelUp();
+	    			break;
+	    		}
+	    		case KeyEvent.VK_W:{
+	    			ge.levelDown();
+	    			break;
+	    		}
+	    			
 			}
 	}
     public void keyReleased(KeyEvent event){
