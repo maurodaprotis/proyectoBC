@@ -8,7 +8,7 @@ public class TanqueBasico extends TanqueEnemigo{
 	
 	public TanqueBasico(int speed, int x, int y) {
 		super(speed,x,y);
-		points=30;
+		points=100;
 		hp=1;
 		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_right_1_02.gif"));
 		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_down_1_02.gif"));

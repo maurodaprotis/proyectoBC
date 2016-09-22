@@ -2,8 +2,10 @@ package proyectoBC.engine;
 
 import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.Celda;
+import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
+import proyectoBC.keyboard.ThreadKeyboard;
 import proyectoBC.GUI.SwingWindow;
 import java.awt.event.*;
 import java.awt.EventQueue;
@@ -20,11 +22,14 @@ import javax.swing.ImageIcon;
 public class GameEngine {
 	
 	private TanqueJugador player;
+	private TanqueBasico enemigoBasico;
+	private ThreadKeyboard keyboard;
+	private Celda celda;
 	private SwingWindow gui;
 	private ImageIcon ladrillo;
 	private ImageIcon aguila;
 	private ImageIcon acero;
-	private TanqueBasico enemigoBasico;
+	
 	private int score;
 	
 	
@@ -166,9 +171,28 @@ public class GameEngine {
 		gui.repaint();
 	}
 	
+	public void addWall(){
+		if (celda==null){
+		celda = new Ladrillo(0,144,120,4);
+		System.out.println("Agrego pared");
+		gui.getContentPane().add(celda.getImage());		}	
+		else 
+		destroyWall();	
+		gui.repaint();
+	}
 	
-	
-	
+	public void destroyWall (){	
+		System.out.println("Se destruyo pared");
+		if (celda.impact()==0 ){
+		System.out.println("Pared Removida");	
+		gui.remove(celda.getImage());
+		celda=null;
+		gui.repaint();
+		}
+
+		
+	}
+		
 	
 	
 	

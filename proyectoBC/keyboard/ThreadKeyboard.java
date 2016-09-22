@@ -73,8 +73,11 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	    		case KeyEvent.VK_W:{
 	    			ge.levelDown();
 	    			break;
-	    		}
-	    			
+	    		}	
+	    		case KeyEvent.VK_Z:{ 	    			
+	    			ge.addWall();
+	    			break;		
+	    		}		
 			}
 	}
     public void keyReleased(KeyEvent event){
