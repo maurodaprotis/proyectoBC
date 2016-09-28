@@ -24,6 +24,7 @@ public class GameEngine {
 	private TanqueJugador player;
 	private TanqueBasico enemigoBasico;
 	private ThreadKeyboard keyboard;
+	private Celda[][] matrix;
 	private Celda celda;
 	private SwingWindow gui;
 	private ImageIcon ladrillo;
@@ -33,13 +34,16 @@ public class GameEngine {
 	private int score;
 	
 	
-	private static final int width=312;
-	private static final int height=312;
+	private static final int width=24;
+	private static final int height=24;
+	private static final int max_X=312;
+	private static final int max_Y=312;
 
 
 	public GameEngine(SwingWindow gui) {
 		this.gui = gui;
-		
+		this.matrix = new Celda[13][13];
+		this.initMatrix();
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
 		gui.getContentPane().add(this.player.getImage());
@@ -49,14 +53,24 @@ public class GameEngine {
 		acero= new ImageIcon((this.getClass().getResource("/proyectoBC/assets/images/obstaculos/acero/acero_1.gif")));
 		gui.setScore(0000);
 		
-		addmaplevel1(gui);
+		//addmaplevel1(gui);
 		
 		
 	}
 	
+	private void initMatrix(){
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0;j < 13; j++) {
+				this.matrix[i][j] = new Celda(i*width,j*height,0,"vacio");
+			}
+		}
+	}
+	
+	
 	
 	public void movePlayer(int dir){
 		int distancia = canMove(player,dir);
+		System.out.println(distancia);
 		player.move(dir,distancia);
 	}
 	
@@ -65,17 +79,87 @@ public class GameEngine {
 		Point point= entity.getPosition();
 		int pointX= (int) point.getX();
 		int pointY= (int) point.getY();
-		int distancia=0;
+		int distancia = 0;
 		switch (direccion){
-			case KeyEvent.VK_UP: distancia= pointY;break;
-			case KeyEvent.VK_RIGHT: distancia= 316 - (pointX + 24);break;
-			case KeyEvent.VK_LEFT: distancia= pointX;break;
-			case KeyEvent.VK_DOWN: distancia= 312 - (pointY + 24);break;
+			case KeyEvent.VK_UP: {
+				int d = 0;
+				boolean multiplo = pointX % width == 0;
+				Celda col1 = matrix[pointX / width][(pointY / height) - d ];
+				Celda col2 = col1;
+				if (!multiplo) {
+					col2 = matrix[(pointX / width) + 1][(pointY / height) - d ];
+				}
+				if (pointY < height) distancia = pointY;
+				while (col1.movein() && col2.movein() && (pointY / height) - d > 0) {
+					distancia += height;
+					d++;
+					col1 = matrix[pointX / width][(pointY / height) - d ];
+					col2 = col1;
+					if (!multiplo) {
+						col2 = matrix[(pointX / width) + 1][(pointY / height) - d ];
+					}
+				}
+			}break;
+			case KeyEvent.VK_RIGHT: {
+				int d = 0;
+				boolean multiplo = pointY % height == 0;
+				Celda col1 = matrix[((pointX+width) / width) + d][pointY / height];
+				Celda col2 = col1;
+				if (!multiplo) {
+					col2 = matrix[((pointX+width)/ width) + d][pointY / height + 1 ];
+				}
+				if (max_X - pointX + width < width) distancia = max_X - pointX ; // ERROR ACA no funciona bien
+				while (col1.movein() && col2.movein() && ((pointX+width) / width) + d < 12) {
+					distancia += width;
+					d++;
+					col1 = matrix[((pointX+width) / width) + d][pointY / height];
+					col2 = col1;
+					if (!multiplo) {
+						col2 = matrix[((pointX+width) / width) + d][pointY / height + 1 ];
+					}
+				}
+			}break;
+			case KeyEvent.VK_LEFT: {
+				int d = 0;
+				boolean multiplo = pointY % height == 0;
+				Celda col1 = matrix[(pointX / width) - d][pointY / height];
+				Celda col2 = col1;
+				if (!multiplo) {
+					col2 = matrix[(pointX / width) - d][pointY / height + 1 ];
+				}
+				if (pointX < width) distancia = pointX;
+				while (col1.movein() && col2.movein() && (pointX / width) - d > 0) {
+					distancia += width;
+					d++;
+					col1 = matrix[(pointX / width) - d][pointY / height];
+					col2 = col1;
+					if (!multiplo) {
+						col2 = matrix[(pointX / width) - d][pointY / height + 1 ];
+					}
+				}
+			}break;
+			case KeyEvent.VK_DOWN: {
+				int d = 0;
+				boolean multiplo = pointX % width == 0;
+				Celda col1 = matrix[pointX / width][(pointY / height) + d ];
+				Celda col2 = col1;
+				if (!multiplo) {
+					col2 = matrix[(pointX / width) + 1][(pointY / height) + d ];
+				}
+				if (pointY < height) distancia = pointY;  // ERROR ACA no funciona bien
+				while (col1.movein() && col2.movein() && (pointY / height) + d < 12) {
+					distancia += height;
+					d++;
+					col1 = matrix[pointX / width][(pointY / height) + d ];
+					col2 = col1;
+					if (!multiplo) {
+						col2 = matrix[(pointX / width) + 1][(pointY / height) + d ];
+					}
+				}
+			}break;
 		}
 		return distancia;	
-	}
-	
-	
+	}	
 	/**
 	 * Armado del mapa nivel 1
 	 * @param gui
@@ -173,7 +257,8 @@ public class GameEngine {
 	
 	public void addWall(){
 		if (celda==null){
-		celda = new Ladrillo(0,144,120,4);
+		celda = new Celda(144,144,4,"ladrillo");
+		this.matrix[6][6] = celda;
 		System.out.println("Agrego pared");
 		gui.getContentPane().add(celda.getImage());		}	
 		else 
@@ -186,7 +271,7 @@ public class GameEngine {
 		if (celda.impact()==0 ){
 		System.out.println("Pared Removida");	
 		gui.remove(celda.getImage());
-		celda=null;
+		celda = null;
 		gui.repaint();
 		}
 

@@ -2,13 +2,12 @@ package proyectoBC.entities.celdas.obstaculos;
 
 import proyectoBC.entities.celdas.Celda;
 
-public abstract class Obstaculo extends Celda {
+public abstract class Obstaculo {
 	
-	public Obstaculo (int speed,int x,int y ,int hp){
-		super (0,x,y,hp);
+	public Obstaculo (){
 	}
 	
 	public abstract int impact ();
-	public abstract void  movein (int e);
+	public abstract boolean  movein ();
 
 }
