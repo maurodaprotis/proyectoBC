@@ -2,6 +2,8 @@ package proyectoBC.entities.tanques.enemigos;
 
 import javax.swing.ImageIcon;
 
+import proyectoBC.entities.proyectiles.Proyectil;
+
 public class TanquePoder extends TanqueEnemigo {
 
 	public TanquePoder(int speed, int x, int y) {
@@ -17,8 +19,8 @@ public class TanquePoder extends TanqueEnemigo {
 		return hp;
 	}
 	
-	public void shoot(){
-		
+	public Proyectil shoot(){
+		return new Proyectil(0,0,0);
 	}
 	
 	public int getPoints(){
