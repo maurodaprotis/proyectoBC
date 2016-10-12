@@ -4,11 +4,15 @@ import proyectoBC.entities.Entity;
 
 public class Proyectil extends Entity{
 
-	public Proyectil(int speed, int x, int y) {
+	protected int direccion;
+	
+	public Proyectil(int direccion,int speed, int x, int y) {
 		super(speed, x, y);
+		this.direccion = direccion;
+		
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	
-
 }

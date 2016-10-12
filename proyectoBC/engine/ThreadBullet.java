@@ -11,9 +11,9 @@ public class ThreadBullet extends Thread {
 	protected GameEngine ge;
 	protected boolean play;
 	protected SwingWindow gui;
-	protected int direccion;
 	
-	public ThreadBullet(GameEngine g,SwingWindow gui,int direccion){
+	
+	public ThreadBullet(GameEngine g,SwingWindow gui){
 		start();
 		vProyectil= new Vector<Proyectil>();
 		ge=g;
@@ -25,6 +25,9 @@ public class ThreadBullet extends Thread {
 		vProyectil.add(p);
 	}
 	
+	public Vector<Proyectil> getvProyectil(){
+		return vProyectil;
+	}
 	public void run(){
 		while (play){
             try {
@@ -44,7 +47,7 @@ public class ThreadBullet extends Thread {
 		 for (int i=0; i<vProyectil.size();i++){
              Proyectil proyectil=vProyectil.get(i);
              Point posicion= proyectil.getPosition();
-             switch (direccion){
+             switch (){
              	//case 1 : proyectil.;
              }
 		 }

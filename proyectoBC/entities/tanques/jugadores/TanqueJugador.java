@@ -11,6 +11,7 @@ public class TanqueJugador extends Tanque {
 	protected boolean shield;
 	protected int lives;
 	protected Nivel level;
+	protected int direccion;
 	
 	
 	public TanqueJugador(int speed,int x,int y){
@@ -19,6 +20,7 @@ public class TanqueJugador extends Tanque {
 		this.lives = 4;
 		this.level = new NivelUno();
 		this.images = level.getImages();
+		direccion=0;
 		System.out.println("Tanque jugador Creado");
 	}
 	public void levelUp(){
@@ -35,19 +37,23 @@ public class TanqueJugador extends Tanque {
 		int distance = (dist > this.level.getSpeed()) ? this.level.getSpeed():dist;
 		switch (dir){
 		case KeyEvent.VK_UP : 
-			this.position.setLocation(this.position.x, this.position.y - distance);
+			this.position.setLocation(this.position.x, this.position.y - distance); 
+			this.direccion=MOVE_UP;
 			super.move(MOVE_UP);
 			break;
 		case KeyEvent.VK_DOWN :
 			this.position.setLocation(this.position.x, this.position.y + distance);
+			this.direccion=MOVE_DOWN;
 			super.move(MOVE_DOWN);
 			break;
 		case KeyEvent.VK_LEFT :
 			this.position.setLocation(this.position.x - distance, this.position.y);
+			this.direccion=MOVE_LEFT;
 			super.move(MOVE_LEFT);
 			break;
 		case KeyEvent.VK_RIGHT :
 			this.position.setLocation(this.position.x + distance, this.position.y);
+			this.direccion=MOVE_RIGHT;
 			super.move(MOVE_RIGHT);
 			break;
 		}		
@@ -57,8 +63,12 @@ public class TanqueJugador extends Tanque {
 		return hp;
 	}
 	
+	public int getDireccion(){
+		return direccion;
+	}
+	
 	public Proyectil shoot(){
-		return new Proyectil(level.getShootSpeed(),(int) position.getX(),(int) position.getY());
+		return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY());
 	}
 	
 	public int shootCount(){
