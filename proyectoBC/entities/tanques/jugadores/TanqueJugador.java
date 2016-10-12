@@ -2,6 +2,8 @@ package proyectoBC.entities.tanques.jugadores;
 
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+
+import proyectoBC.entities.proyectiles.Proyectil;
 import proyectoBC.entities.tanques.Tanque;
 import proyectoBC.entities.tanques.jugadores.niveles.*;
 
@@ -9,6 +11,7 @@ public class TanqueJugador extends Tanque {
 	protected boolean shield;
 	protected int lives;
 	protected Nivel level;
+	
 	
 	public TanqueJugador(int speed,int x,int y){
 		super(speed,x,y);
@@ -54,8 +57,16 @@ public class TanqueJugador extends Tanque {
 		return hp;
 	}
 	
-	public void shoot(){
+	public Proyectil shoot(){
+		return new Proyectil(level.getShootSpeed(),(int) position.getX(),(int) position.getY());
+	}
 	
+	public int shootCount(){
+		return level.getShootCount();
+	}
+	
+	public int getSpeed(){
+		return level.getSpeed();
 	}
 	
 	public void setScore(int points){

@@ -1,6 +1,7 @@
 package proyectoBC.entities.tanques;
 
 import proyectoBC.entities.Entity;
+import proyectoBC.entities.proyectiles.Proyectil;
 
 public abstract class Tanque extends Entity{
 	protected int hp;
@@ -11,7 +12,7 @@ public abstract class Tanque extends Entity{
 		super(speed,x,y);
 	}
 		
-	public abstract void shoot();
+	public abstract Proyectil shoot();
 		
 	public abstract int impact();
 		
