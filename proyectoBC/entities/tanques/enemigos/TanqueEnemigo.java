@@ -1,5 +1,6 @@
 package proyectoBC.entities.tanques.enemigos;
 
+import proyectoBC.entities.proyectiles.Proyectil;
 import proyectoBC.entities.tanques.Tanque;
 
 public abstract class TanqueEnemigo extends Tanque{
@@ -11,7 +12,7 @@ public abstract class TanqueEnemigo extends Tanque{
 		points=0;
 	}
 	
-	public abstract void shoot();
+	public abstract Proyectil shoot();
 	
 	public abstract int impact();
 	
