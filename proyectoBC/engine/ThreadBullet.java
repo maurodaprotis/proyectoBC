@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import proyectoBC.GUI.SwingWindow;
 import proyectoBC.entities.proyectiles.Proyectil;
+import proyectoBC.entities.tanques.Tanque;
 
 public class ThreadBullet extends Thread {
 	protected Vector<Proyectil> vProyectil;
@@ -47,9 +48,7 @@ public class ThreadBullet extends Thread {
 		 for (int i=0; i<vProyectil.size();i++){
              Proyectil proyectil=vProyectil.get(i);
              Point posicion= proyectil.getPosition();
-             switch (){
-             	//case 1 : proyectil.;
-             }
+             
 		 }
 	}
 }
