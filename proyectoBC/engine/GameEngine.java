@@ -54,9 +54,9 @@ public class GameEngine {
 	}	
 	
 	public void movePlayer(int dir){
-		int distancia = canMove(player,dir);
-		player.move(dir,distancia);
-		
+		for (int i = 0;i < player.getSpeed() ; i++){
+			player.move(dir,canMove(player,dir));
+		}	
 	}
 	//Preguntar a la celda siguiente nada más
 	private int canMove(Entity entity,int direccion){		
@@ -77,15 +77,16 @@ public class GameEngine {
 		
 		for (int i = 0; i < vCeldas.size(); i++) {
 			Celda c = vCeldas.get(i);
-			int cWidth = c.getImage().getWidth();
-			int cHeight = c.getImage().getHeight();
-			int xC = (int) c.getPosition().getX();
-			int yC = (int) c.getPosition().getY();
-			Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
-			Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
-			if (rE.intersects(rC)) {
-				System.out.println("intersecto");
-				return 0;
+			if (c.movein() == false) {
+				int cWidth = c.getImage().getWidth();
+				int cHeight = c.getImage().getHeight();
+				int xC = (int) c.getPosition().getX();
+				int yC = (int) c.getPosition().getY();
+				Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+				Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
+				if (rE.intersects(rC)) {
+					return 0;
+				}
 			}
 		}
 		
@@ -99,12 +100,12 @@ public class GameEngine {
 	
 	private void addmaplevel1(){
 		int x = 150;
-		int y = 100;
+		int y = 80;
 		for(int i = 0;i < 4; i++) {
 			Celda c = new Celda(x,y,4,"ladrillo");
 			this.vCeldas.add(c);
 			gui.getContentPane().add(c.getImage());
-			y += 40;
+			y += 50;
 		}
 		gui.repaint();
 	}	
