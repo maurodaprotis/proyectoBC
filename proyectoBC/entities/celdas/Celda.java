@@ -56,7 +56,7 @@ public class Celda extends Entity {
 		if (this.hp == 0) {
 			this.initMatriz("vacio");
 		}
-		return this.hp--;
+		return --hp;
 	}
 	public boolean movein() {
 		//System.out.println("Celda X: "+this.position.getX()+" Y: "+this.position.getY());

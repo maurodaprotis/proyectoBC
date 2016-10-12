@@ -73,7 +73,7 @@ public class GameEngine {
 		System.out.println(distancia);
 		player.move(dir,distancia);
 	}
-	
+	//Preguntar a la celda siguiente nada más
 	private int canMove(Entity entity,int direccion){
 		
 		Point point= entity.getPosition();
@@ -267,8 +267,9 @@ public class GameEngine {
 	}
 	
 	public void destroyWall (){	
-		System.out.println("Se destruyo pared");
-		if (celda.impact()==0 ){
+		System.out.println("Se impacto pared");
+		int hp = celda.impact();
+		if (hp == 0 ){
 		System.out.println("Pared Removida");	
 		gui.remove(celda.getImage());
 		celda = null;
