@@ -59,7 +59,7 @@ public class GameEngine {
 		}	
 	}
 	//Preguntar a la celda siguiente nada más
-	private int canMove(Entity entity,int direccion){		
+	public int canMove(Entity entity,int direccion){		
 		int eWidth = entity.getImage().getWidth();
 		int eHeight = entity.getImage().getHeight();
 		int xE = (int) entity.getPosition().getX();
