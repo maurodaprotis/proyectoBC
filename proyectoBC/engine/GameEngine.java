@@ -10,6 +10,7 @@ import proyectoBC.GUI.SwingWindow;
 import java.awt.event.*;
 import java.awt.EventQueue;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -54,12 +55,42 @@ public class GameEngine {
 	
 	public void movePlayer(int dir){
 		int distancia = canMove(player,dir);
-		System.out.println(distancia);
 		player.move(dir,distancia);
+		
 	}
 	//Preguntar a la celda siguiente nada más
-	private int canMove(Entity entity,int direccion){
-		return 1;	
+	private int canMove(Entity entity,int direccion){		
+		int eWidth = entity.getImage().getWidth();
+		int eHeight = entity.getImage().getHeight();
+		int xE = (int) entity.getPosition().getX();
+		int yE = (int) entity.getPosition().getY();
+		int extraW = 0;
+		int extraH = 0;
+		int extraX = 0;
+		int extraY = 0;
+		switch (direccion) {
+			case KeyEvent.VK_UP: if (yE == 0) return 0;extraY = - 2;extraH = 2;break;
+			case KeyEvent.VK_DOWN: if (yE+eHeight == max_Y) return 0;extraH = 2;break;
+			case KeyEvent.VK_LEFT: if (xE == 0) return 0;extraX = - 2;extraW = 2;break;
+			case KeyEvent.VK_RIGHT: if(xE+eWidth == max_X) return 0;extraW = 2;break;
+		}
+		
+		for (int i = 0; i < vCeldas.size(); i++) {
+			Celda c = vCeldas.get(i);
+			int cWidth = c.getImage().getWidth();
+			int cHeight = c.getImage().getHeight();
+			int xC = (int) c.getPosition().getX();
+			int yC = (int) c.getPosition().getY();
+			Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+			Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
+			if (rE.intersects(rC)) {
+				System.out.println("intersecto");
+				return 0;
+			}
+		}
+		
+		return 1;
+		
 	}	
 	/**
 	 * Armado del mapa nivel 1
