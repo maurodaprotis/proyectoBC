@@ -11,7 +11,7 @@ public class TanqueJugador extends Tanque {
 	protected boolean shield;
 	protected int lives;
 	protected Nivel level;
-	protected int direccion;
+	
 	
 	
 	public TanqueJugador(int speed,int x,int y){
@@ -63,9 +63,6 @@ public class TanqueJugador extends Tanque {
 		return hp;
 	}
 	
-	public int getDireccion(){
-		return direccion;
-	}
 	
 	public Proyectil shoot(){
 		return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY());

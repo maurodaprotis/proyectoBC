@@ -14,5 +14,7 @@ public class Proyectil extends Entity{
 		// TODO Auto-generated constructor stub
 	}
 
-	
+	public int getDireccion(){
+		return direccion;
+	}
 }

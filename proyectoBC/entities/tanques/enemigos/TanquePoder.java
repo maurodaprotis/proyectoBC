@@ -20,7 +20,7 @@ public class TanquePoder extends TanqueEnemigo {
 	}
 	
 	public Proyectil shoot(){
-		return new Proyectil(0,0,0);
+		return new Proyectil(0,0,0,0);
 	}
 	
 	public int getPoints(){
