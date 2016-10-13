@@ -71,13 +71,16 @@ public class Celda extends Entity {
 	}
 
 	public int impact() {
-		if (this.hp == 0) {
-			this.initMatriz("vacio");
+		if (this.impacton()) {
+			if (this.hp == 0) {
+				this.initMatriz("vacio");
+			}
+			return --hp;
 		}
-		return --hp;
+		return 1;
+		
 	}
 	public boolean movein() {
-		//System.out.println("Celda X: "+this.position.getX()+" Y: "+this.position.getY());
 		int i = 0;
 		boolean tr = true;
 		while (i<4 && tr) {
@@ -87,6 +90,17 @@ public class Celda extends Entity {
 			i++;
 		}
 		return tr;			
+	}
+	public boolean impacton() {
+		int i = 0;
+		boolean tr = true;
+		while (i<4 && tr) {
+			if (matriz[i] != null) {
+				tr = matriz[i].impacton();
+			}
+			i++;
+		}
+		return tr;
 	}
 
 }

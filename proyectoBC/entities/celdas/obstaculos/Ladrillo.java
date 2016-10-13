@@ -9,4 +9,5 @@ public class Ladrillo extends Obstaculo{
 	}
 	public boolean  movein (){return false;}
 	public int impact() {return 1;}
+	public boolean impacton  () {return true;}
 }

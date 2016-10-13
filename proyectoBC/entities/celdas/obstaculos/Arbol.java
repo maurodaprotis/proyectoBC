@@ -9,4 +9,5 @@ public class Arbol extends Obstaculo {
 		}
 		public boolean  movein (){return true;}
 		public int impact() {return 1;}
+		public boolean impacton  () {return false;}
 }

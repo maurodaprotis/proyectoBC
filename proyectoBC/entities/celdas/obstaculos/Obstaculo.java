@@ -9,5 +9,6 @@ public abstract class Obstaculo {
 	
 	public abstract int impact ();
 	public abstract boolean  movein ();
+	public abstract boolean impacton();
 
 }

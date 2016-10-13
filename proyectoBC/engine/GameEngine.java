@@ -119,7 +119,12 @@ public class GameEngine {
 		int x = 150;
 		int y = 80;
 		for(int i = 0;i < 4; i++) {
-			Celda c = new Celda(x,y,4,"ladrillo");
+			Celda c = null;
+			if (i == 0) c = new Celda(x,y,4,"ladrillo");
+			if (i == 1) c = new Celda(x,y,4,"agua");
+			if (i == 2) c = new Celda(x,y,4,"arbol");
+			if (i == 3) c = new Celda(x,y,4,"acero");
+			
 			this.vCeldas.add(c);
 			gui.getContentPane().add(c.getImage());
 			y += 50;

@@ -73,21 +73,24 @@ public class ThreadBullet extends Thread {
 				
 				for (int j=0; j<vCeldas.size();j++){
 					celda= vCeldas.get(j);
-					posXCelda= (int) celda.getPosition().getX();
-					posYCelda= (int) celda.getPosition().getY();
-					cWidth= celda.getImage().getWidth();
-					cHeigth= celda.getImage().getHeight();
-					System.out.println("Ancho celda: "+cWidth);
-					System.out.println("Alto celda: "+cHeigth);
-					recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
-					if (recProyectil.intersects(recCelda)){
-						elimProyectil.add(proyectil);
-						gui.remove(proyectil.getImage());
-						if (celda.impact() == 0){
-							elimCelda.add(celda);
-							gui.remove(celda.getImage());
-						}					
+					if (celda.impacton()) {
+						posXCelda= (int) celda.getPosition().getX();
+						posYCelda= (int) celda.getPosition().getY();
+						cWidth= celda.getImage().getWidth();
+						cHeigth= celda.getImage().getHeight();
+						System.out.println("Ancho celda: "+cWidth);
+						System.out.println("Alto celda: "+cHeigth);
+						recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
+						if (recProyectil.intersects(recCelda)){
+							elimProyectil.add(proyectil);
+							gui.remove(proyectil.getImage());
+							if (celda.impact() == 0){
+								elimCelda.add(celda);
+								gui.remove(celda.getImage());
+							}					
+						}
 					}
+					
 				}
 			}
 			else
