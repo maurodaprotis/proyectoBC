@@ -4,6 +4,7 @@ import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.Celda;
 import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
+import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
 import proyectoBC.keyboard.ThreadKeyboard;
 import proyectoBC.GUI.SwingWindow;
@@ -26,6 +27,8 @@ public class GameEngine {
 	private TanqueJugador player;
 	private TanqueBasico enemigoBasico;
 	private ThreadKeyboard keyboard;
+	private Vector<TanqueEnemigo> enemies;
+	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
 	private Celda celda;
 	private SwingWindow gui;
@@ -47,6 +50,8 @@ public class GameEngine {
 		this.vCeldas = new Vector<Celda>();
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
+		// Creo los tanques  y lo agrego el grafico a la gui.
+		threadenemigos();
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
@@ -139,8 +144,15 @@ public class GameEngine {
 		this.player.resetLevel();
 		gui.repaint();
 	}		
-}
 
+public void threadenemigos(){
+	for(int i = 0; i < 4; i++){
+		TanqueEnemigo enemy = new TanqueBasico (3,i+2%12,i*3%12); 
+		enemies.add(enemy);
+		gui.getContentPane().add(enemy.getImage());
+		}
+	}
+}
 	
 
 	
