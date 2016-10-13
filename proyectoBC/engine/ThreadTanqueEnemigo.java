@@ -20,6 +20,7 @@ package proyectoBC.engine;
 			this.venemy=venemy;
 			this.enemy=enemy;
 			this.detener = false;
+			this.start();
 		}
 		
 		@Override
@@ -29,19 +30,46 @@ package proyectoBC.engine;
 				// Duermo el hilo 1 segundo.
 				// De esta manera cada turno se ejecuta cada 1 segundo.
 				try {
-					Thread.sleep(800);
+					Thread.sleep(500);
 				} catch (InterruptedException e) { }
 	
 			for (int i=0;i<venemy.size();i++){
 				TanqueEnemigo enemy =venemy.get(i);
+				int move;
 				for (int j=0;j<enemy.getSpeed();j++){
-					int move = this.ge.canMove(enemy, enemy.getDireccion());
-				    if (move==0)
-				    enemy.girar();
-				    else
-				    enemy.move();	
-					}
+					if(enemy.getDireccion()==3){		
+						move= this.ge.canMove(enemy, 38-1);
+						if (move==0)
+					    enemy.girar();
+						else
+						enemy.move();}
+					else{
+						if(enemy.getDireccion()==2){	
+						move= this.ge.canMove(enemy, 38+2);
+						if (move==0)
+					    enemy.girar();
+						else
+						enemy.move();}
+						
+					else
+						if(enemy.getDireccion()==1){	
+						move= this.ge.canMove(enemy, 38+1);
+						if (move==0)
+					    enemy.girar();
+						else
+						enemy.move();}
+						
+					else{
+						if(enemy.getDireccion()==0){		
+						move= this.ge.canMove(enemy, 38);
+						if (move==0)
+					    enemy.girar();
+						else
+						enemy.move();
+						}}			
+				}
 			}    		    	 
+		}
 		}
 	}
 		

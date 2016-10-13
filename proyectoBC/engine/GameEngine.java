@@ -54,7 +54,6 @@ public class GameEngine {
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
-		enemiesthread.start();
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
@@ -150,7 +149,7 @@ public class GameEngine {
 
 public void threadenemigos(){
 	for(int i = 0; i < 4; i++){
-		TanqueEnemigo enemy = new TanqueBasico (3,i+2%12,i*3%12); 
+		TanqueEnemigo enemy = new TanqueBasico (3,(i*100)+20,(i*30) +40); 
 		enemies.add(enemy);
 		gui.getContentPane().add(enemy.getImage());
 		}
