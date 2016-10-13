@@ -37,7 +37,7 @@ public abstract class Entity {
 	protected void move(int dir) {
 		if(this.image != null){
 			this.image.setIcon(this.images[dir]);
-			this.image.setBounds(this.position.x, this.position.y, this.width, this.height);
+			this.image.setBounds(this.position.x, this.position.y, this.images[dir].getIconWidth(), this.images[dir].getIconHeight());
 		}
 	}
 	

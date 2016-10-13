@@ -65,7 +65,15 @@ public class TanqueJugador extends Tanque {
 	
 	
 	public Proyectil shoot(){
-		return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY());
+		if (this.direccion == 0)
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY());
+		if (this.direccion == 1)
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 23,(int) position.getY() +12);
+		if (this.direccion == 2)
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY() + 23);
+		if (this.direccion == 3)
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY() + 12);
+		return null;
 	}
 	
 	public int shootCount(){

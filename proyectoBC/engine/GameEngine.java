@@ -27,6 +27,7 @@ public class GameEngine {
 	private TanqueJugador player;
 	private TanqueBasico enemigoBasico;
 	private ThreadKeyboard keyboard;
+	private ThreadBullet threadBullet;
 	private Vector<TanqueEnemigo> enemies;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
@@ -54,11 +55,20 @@ public class GameEngine {
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
+		this.threadBullet = new ThreadBullet(this,gui);
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
 		addmaplevel1();
 	}	
+	
+	public Vector<Celda> getCeldas(){
+		return this.vCeldas;
+	}
+	public void removeCelda(Celda c){
+		this.vCeldas.remove(c);
+		this.gui.getContentPane().remove(c.getImage());
+	}
 	
 	public void movePlayer(int dir){
 		for (int i = 0;i < player.getSpeed() ; i++){
@@ -147,11 +157,17 @@ public class GameEngine {
 		gui.repaint();
 	}		
 
-public void threadenemigos(){
-	for(int i = 0; i < 4; i++){
-		TanqueEnemigo enemy = new TanqueBasico (3,(i*50),(i) +40); 
-		enemies.add(enemy);
-		gui.getContentPane().add(enemy.getImage());
+	public void threadenemigos(){
+		for(int i = 0; i < 4; i++){
+			TanqueEnemigo enemy = new TanqueBasico (3,(i*50),(i) +40); 
+			enemies.add(enemy);
+			gui.getContentPane().add(enemy.getImage());
+			}
+	}
+	
+	public void shoot() {
+		if (threadBullet.cantidadProyectiles() < player.shootCount()) {
+			threadBullet.addBullet(player.shoot());
 		}
 	}
 }
