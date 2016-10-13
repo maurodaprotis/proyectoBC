@@ -13,16 +13,14 @@ public abstract class TanqueEnemigo extends Tanque{
 		super(speed,x,y);
 		this.direccion=MOVE_DOWN;
 		Random rnd = new Random();
-		 this.rnd= (rnd.nextInt(100))%2;
+		this.rnd= (rnd.nextInt(100))%2;
 	
 		points=0;
 	}
 	
 	public void move() {
 	
-		
-		   
-			switch (dir) {
+			switch (direccion) {
 			
 			case MOVE_UP : 				
 				this.position.setLocation(this.position.x, this.position.y - 1);	
@@ -38,16 +36,13 @@ public abstract class TanqueEnemigo extends Tanque{
 				break;
 		}
 		
-		super.move(dir);	
+		super.move(direccion);	
 		}
 	public void girar(){
 	if (rnd==1)
 		this.direccion=(this.direccion+1)%2;
 		else
 			this.direccion=(this.direccion-1)%2; 
-			
-	}
-		
 	}
 	
 	public abstract Proyectil shoot();

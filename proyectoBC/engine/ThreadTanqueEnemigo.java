@@ -31,12 +31,16 @@ package proyectoBC.engine;
 				try {
 					Thread.sleep(800);
 				} catch (InterruptedException e) { }
-			int move;
-			for (int i=0;i<enemy.getSpeed();i++){
-				move = this.ge.canMove(enemy, enemy.getDireccion());
-			    if (move==0)
-			    enemy.girar();			    
-			    
+	
+			for (int i=0;i<venemy.size();i++){
+				TanqueEnemigo enemy =venemy.get(i);
+				for (int j=0;j<enemy.getSpeed();j++){
+					int move = this.ge.canMove(enemy, enemy.getDireccion());
+				    if (move==0)
+				    enemy.girar();
+				    else
+				    enemy.move();	
+					}
 			}    		    	 
 		}
 	}

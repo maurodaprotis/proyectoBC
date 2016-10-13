@@ -48,10 +48,13 @@ public class GameEngine {
 	public GameEngine(SwingWindow gui) {
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
+	    this.enemies= new Vector<TanqueEnemigo>();
+	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this);   
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
+		enemiesthread.start();
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
