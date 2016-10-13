@@ -149,7 +149,7 @@ public class GameEngine {
 
 public void threadenemigos(){
 	for(int i = 0; i < 4; i++){
-		TanqueEnemigo enemy = new TanqueBasico (3,(i*100)+20,(i*30) +40); 
+		TanqueEnemigo enemy = new TanqueBasico (3,(i*50),(i) +40); 
 		enemies.add(enemy);
 		gui.getContentPane().add(enemy.getImage());
 		}

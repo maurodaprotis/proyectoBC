@@ -2,6 +2,7 @@ package proyectoBC.entities.tanques.enemigos;
 
 import java.util.Random;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import proyectoBC.entities.proyectiles.Proyectil;
@@ -13,14 +14,13 @@ public abstract class TanqueEnemigo extends Tanque{
 	protected int rnd;
 	public TanqueEnemigo(int speed, int x, int y) {
 		super(speed,x,y);
-		this.direccion=MOVE_DOWN;
 		Random rnd = new Random();
 		this.rnd= (rnd.nextInt(100))%2;
-		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_right_1_02.gif"));
-		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_down_1_02.gif"));
-		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_left_1_02.gif"));
-		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_up_1_02.gif"));
-
+		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_up_1_02.gif"));
+		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_right_1_02.gif"));
+		this.images[2] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_down_1_02.gif"));
+		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_left_1_02.gif"));
+		this.direccion=MOVE_UP;
 		points=0;
 	}
 	
@@ -49,7 +49,10 @@ public abstract class TanqueEnemigo extends Tanque{
 		this.direccion=(this.direccion+1)%4;
 	           }
 		else{
-		this.direccion=(this.direccion-1)%4; 
+			if (direccion == 0) direccion = 3;
+			else {
+				direccion-= 1;
+			}
 		}
 		super.move(direccion);
 	}

@@ -30,7 +30,7 @@ package proyectoBC.engine;
 				// Duermo el hilo 1 segundo.
 				// De esta manera cada turno se ejecuta cada 1 segundo.
 				try {
-					Thread.sleep(500);
+					Thread.sleep(30);
 				} catch (InterruptedException e) { }
 	
 			for (int i=0;i<venemy.size();i++){
