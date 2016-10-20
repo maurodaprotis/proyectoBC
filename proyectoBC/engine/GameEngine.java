@@ -7,8 +7,11 @@ import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
 import proyectoBC.keyboard.ThreadKeyboard;
+import proyectoBC.File.FReader;
 import proyectoBC.GUI.SwingWindow;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.awt.EventQueue;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -36,6 +39,7 @@ public class GameEngine {
 	private ImageIcon ladrillo;
 	private ImageIcon aguila;
 	private ImageIcon acero;
+	private FReader file;
 	
 	private int score;
 	
@@ -59,6 +63,7 @@ public class GameEngine {
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
+		file= new FReader();
 		addmaplevel1();
 	}	
 	
@@ -75,7 +80,7 @@ public class GameEngine {
 			player.move(dir,canMove(player,dir));
 		}	
 	}
-	//Preguntar a la celda siguiente nada más
+	//Preguntar a la celda siguiente nada mï¿½s
 	public int canMove(Entity entity,int direccion){		
 		int eWidth = entity.getImage().getWidth();
 		int eHeight = entity.getImage().getHeight();
@@ -116,20 +121,54 @@ public class GameEngine {
 	 */
 	
 	private void addmaplevel1(){
-		int x = 150;
-		int y = 80;
-		for(int i = 0;i < 4; i++) {
-			Celda c = null;
-			if (i == 0) c = new Celda(x,y,4,"ladrillo");
-			if (i == 1) c = new Celda(x,y,4,"agua");
-			if (i == 2) c = new Celda(x,y,4,"arbol");
-			if (i == 3) c = new Celda(x,y,4,"acero");
+		try {
+			String [][] obs= file.getObstaculos("/home/diego/GitHub/proyectoBC/proyectoBC/File/Mapa1");
+			String o;
+			Celda c=null;
+			int posX=0;
+			int posY=0;
+			for(int i=0;i<obs[0].length;i++){
+				for(int j=0;j<obs.length;j++){
+					o=obs[i][j];
+					if (j!=0){
+						posX=posX + 24;
+					}
+					switch (o){
+						case "ladrillo":c = new Celda(posX,posY,4,"ladrillo");break;
+						case "acero": c = new Celda(posX,posY,4,"acero");break;
+						case "arbol": c = new Celda(posX,posY,4,"arbol");break;
+						case "agua": c = new Celda(posX,posY,4,"agua");break;
+						case "aguila": c = new Celda(posX,posY,4,"aguila");break;
+						case "nada": c = new Celda(posX,posY,4,"nada");break;
+					}
+					this.vCeldas.add(c);
+					gui.getContentPane().add(c.getImage());
+				}
+				posY=posY+24;
+				posX=0;
+			}	
 			
-			this.vCeldas.add(c);
-			gui.getContentPane().add(c.getImage());
-			y += 50;
+			/*int x = 150;
+			int y = 80;
+			for(int i = 0;i < 4; i++) {
+				Celda c = null;
+				if (i == 0) c = new Celda(x,y,4,"ladrillo");
+				if (i == 1) c = new Celda(x,y,4,"agua");
+				if (i == 2) c = new Celda(x,y,4,"arbol");
+				if (i == 3) c = new Celda(x,y,4,"acero");
+			
+				this.vCeldas.add(c);
+				gui.getContentPane().add(c.getImage());
+				y += 50;
+			}*/
+			gui.repaint();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		gui.repaint();
 	}	
 	
 	public void agregarTanque(){

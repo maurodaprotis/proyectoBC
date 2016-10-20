@@ -65,10 +65,7 @@ public class ThreadBullet extends Thread {
 			if (enRango(posXProyectil,posYProyectil,proyectil.getDireccion())){
 				pWidth= proyectil.getImage().getWidth();
 				pHeigth= proyectil.getImage().getHeight();
-				System.out.println("Ancho proyectil: "+pWidth);
-				System.out.println("Alto proyectil: "+pHeigth);
-				recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);
-				
+				recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);				
 				Vector<Celda> vCeldas = ge.getCeldas();
 				
 				for (int j=0; j<vCeldas.size();j++){
@@ -78,8 +75,6 @@ public class ThreadBullet extends Thread {
 						posYCelda= (int) celda.getPosition().getY();
 						cWidth= celda.getImage().getWidth();
 						cHeigth= celda.getImage().getHeight();
-						System.out.println("Ancho celda: "+cWidth);
-						System.out.println("Alto celda: "+cHeigth);
 						recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
 						if (recProyectil.intersects(recCelda)){
 							elimProyectil.add(proyectil);
