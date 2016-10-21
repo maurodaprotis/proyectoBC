@@ -1,6 +1,7 @@
 package proyectoBC.File;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,7 +15,8 @@ public class FReader {
 		
 	public String [][] getObstaculos(String archivo) throws FileNotFoundException, IOException {
 	      String cadena;
-	      FileReader f = new FileReader(archivo);
+	      File file = new File(archivo);
+	      FileReader f = new FileReader(file.getAbsolutePath());
 	      BufferedReader b = new BufferedReader(f);
 	      int fila=0;
 	      while((cadena = b.readLine())!=null) {
@@ -37,7 +39,6 @@ public class FReader {
 				if (c=='l'){
 					i=i+7;
 					obstaculos[fila][col]="ladrillo";
-					System.out.println("["+fila+","+col+","+"Ladrillo]");
 				}
 				else
 					if (c=='a'){
@@ -47,12 +48,10 @@ public class FReader {
 								if (c=='c'){
 									i=i+3;
 									obstaculos[fila][col]="acero";
-									System.out.println("["+fila+","+col+","+"Acero]");
 								}
 								else{
 									i=i+3;
 									obstaculos[fila][col]="arbol";
-									System.out.println("["+fila+","+col+","+"Arbol]");
 								}
 							else
 							{
@@ -61,36 +60,23 @@ public class FReader {
 								if (c=='a')
 								{
 									obstaculos[fila][col]="agua";
-									System.out.println("["+fila+","+col+","+"Agua]");
 								}
 								else{
 									i=i+2;
 									obstaculos[fila][col]="aguila";
-									System.out.println("["+fila+","+col+","+"Aguila]");
 								}
 							}
 					}
-					else 
-						if (c=='n'){
-							i=i+3;
-							obstaculos[fila][col]="nada";
-							System.out.println("["+fila+","+col+","+"Vacio]");
+					else
+						if (c=='v')
+						{
+							i=i+4;
+							obstaculos[fila][col]="vacio";
 						}
-				
 			}
 					
 		}
 	}
 	
-	public static void main(String[]args){
-		try {
-			new FReader().getObstaculos("/home/diego/GitHub/proyectoBC/proyectoBC/File/Mapa1");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 }

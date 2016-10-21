@@ -122,7 +122,7 @@ public class GameEngine {
 	
 	private void addmaplevel1(){
 		try {
-			String [][] obs= file.getObstaculos("/home/diego/GitHub/proyectoBC/proyectoBC/File/Mapa1");
+			String [][] obs= file.getObstaculos("Map1");
 			String o;
 			Celda c=null;
 			int posX=0;
@@ -133,16 +133,11 @@ public class GameEngine {
 					if (j!=0){
 						posX=posX + 24;
 					}
-					switch (o){
-						case "ladrillo":c = new Celda(posX,posY,4,"ladrillo");break;
-						case "acero": c = new Celda(posX,posY,4,"acero");break;
-						case "arbol": c = new Celda(posX,posY,4,"arbol");break;
-						case "agua": c = new Celda(posX,posY,4,"agua");break;
-						case "aguila": c = new Celda(posX,posY,4,"aguila");break;
-						case "nada": c = new Celda(posX,posY,4,"nada");break;
+					if (o=="ladrillo" || o=="acero" || o=="arbol" || o=="agua" || o=="aguila"){
+						c = new Celda(posX,posY,4,o);
+						this.vCeldas.add(c);
+						gui.getContentPane().add(c.getImage());
 					}
-					this.vCeldas.add(c);
-					gui.getContentPane().add(c.getImage());
 				}
 				posY=posY+24;
 				posX=0;
