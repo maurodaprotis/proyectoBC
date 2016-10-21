@@ -1,6 +1,7 @@
 package proyectoBC.engine;
 
-	import java.util.Vector;
+	import java.util.Random;
+import java.util.Vector;
 	import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 
 	public class ThreadTanqueEnemigo extends Thread {
@@ -39,14 +40,16 @@ package proyectoBC.engine;
 				for (int j=0;j<enemy.getSpeed();j++){
 					if(enemy.getDireccion()==3){		
 						move= this.ge.canMove(enemy, 38-1);
-						if (move==0)
+						Random r = new Random();
+						if (move==0 || r.nextInt(140)==enemy.getPosition().x*2)
 					    enemy.girar();
 						else
 						enemy.move();}
 					else{
 						if(enemy.getDireccion()==2){	
 						move= this.ge.canMove(enemy, 38+2);
-						if (move==0)
+						Random r = new Random();
+						if (move==0 || r.nextInt(150)==enemy.getPosition().y)
 					    enemy.girar();
 						else
 						enemy.move();}
@@ -54,22 +57,24 @@ package proyectoBC.engine;
 					else
 						if(enemy.getDireccion()==1){	
 						move= this.ge.canMove(enemy, 38+1);
-						if (move==0)
-					    enemy.girar();
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==enemy.getPosition().x)					    enemy.girar();
 						else
 						enemy.move();}
 						
 					else{
 						if(enemy.getDireccion()==0){		
 						move= this.ge.canMove(enemy, 38);
-						if (move==0)
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==enemy.getPosition().y*2)	
 					    enemy.girar();
 						else
 						enemy.move();
-						}}			
-				}
-			}    		    	 
-		}
+							}
+						}			
+					}
+				}    		    	 
+			}
 		}
 	}
 		

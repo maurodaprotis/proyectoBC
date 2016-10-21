@@ -41,17 +41,26 @@ public abstract class TanqueEnemigo extends Tanque{
 		super.move(direccion);	
 		}
 	public void girar(){
-	if (rnd==1){
-		this.direccion=(this.direccion+1)%4;
-	           }
-		else{
-			if (direccion == 0) direccion = 3;
-			else {
-				direccion-= 1;
-			}
-		}
+		if (rnd==1)
+			this.direccion=(this.direccion+1)%4;         
+			else{
+				if (direccion == 0){
+				Random r = new Random();	
+				this.direccion =r.nextInt()%4;
+				if(direccion<0)
+	    		this.direccion=Math.abs(direccion);
+				}
+			else{ 
+				if (direccion == 3){
+				Random r = new Random();	
+				this.direccion =r.nextInt()%2;
+				if(direccion<0)
+		    	this.direccion=Math.abs(direccion);
+				}
+			else 
+			this.direccion-= 1;}}
 		super.move(direccion);
-	}
+		}
 	
 	public abstract Proyectil shoot();
 	
