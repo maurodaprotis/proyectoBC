@@ -65,6 +65,10 @@ public class GameEngine extends Thread {
 		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
+	    file= new FReader();
+		initBase();
+		addmaplevel1();
+	    
 	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
@@ -74,9 +78,6 @@ public class GameEngine extends Thread {
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
-		file= new FReader();
-		initBase();
-		addmaplevel1();
 		//this.tryPA();
 		
 		this.start();
@@ -136,6 +137,11 @@ public class GameEngine extends Thread {
 			}
 			
 		}
+	}
+	
+	public void gameOver() {
+		this.gameOver = true;
+		this.enemiesthread.detener();
 	}
 	
 	public Vector<Celda> getCeldas(){

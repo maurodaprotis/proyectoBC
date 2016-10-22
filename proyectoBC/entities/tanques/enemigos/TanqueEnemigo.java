@@ -15,7 +15,7 @@ public abstract class TanqueEnemigo extends Tanque{
 	protected boolean shooting;
 	public TanqueEnemigo(int speed, int x, int y) {
 		super(speed,x,y);
-		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/pantalla/gif_explotion.gif"));
+		this.destroyedImage = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/pantalla/gif_explotion.gif"));
 		Random rnd = new Random();
 		this.rnd= (rnd.nextInt(100))%2;
 		this.direccion=rnd.nextInt(4);
