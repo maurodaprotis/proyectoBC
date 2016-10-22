@@ -32,6 +32,8 @@ public class TanqueJugador extends Tanque {
 		this.level = new NivelUno();
 		this.images = this.level.getImages();
 		this.image.setIcon(this.images[0]);
+		this.position.setLocation(96,288);
+		this.direccion = MOVE_UP;
 	}
 	public void move(int dir,int dist){
 		int distance = (dist > this.level.getSpeed()) ? this.level.getSpeed():dist;
@@ -59,8 +61,18 @@ public class TanqueJugador extends Tanque {
 		}		
 	}
 	
-	public int impact(){		  
-		return hp;
+	public int impact(){
+		// Escudo activo ignoro golpes
+		if (shield) return 1;
+		else {
+			// Si me queda más de una vida, re aparezco en el inicio
+			if (lives > 1) {
+				lives--;
+				this.resetLevel();
+				return 1;
+			}
+		}
+		return 0;
 	}
 	
 	
@@ -86,5 +98,9 @@ public class TanqueJugador extends Tanque {
 	
 	public void setScore(int points){
 		
+	}
+	
+	public void ShieldToggle(){
+		this.shield = !this.shield;
 	}
 }

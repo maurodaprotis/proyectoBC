@@ -3,6 +3,7 @@ package proyectoBC.engine;
 import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.Celda;
 import proyectoBC.entities.celdas.obstaculos.Ladrillo;
+import proyectoBC.entities.powerups.*;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
@@ -25,13 +26,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-public class GameEngine {
+public class GameEngine extends Thread {
 	
 	private TanqueJugador player;
 	private TanqueBasico enemigoBasico;
 	private ThreadKeyboard keyboard;
 	private ThreadBullet threadBullet;
 	private Vector<TanqueEnemigo> enemies;
+	private Vector<PowerUp> vPowerUps;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
 	private Celda celda;
@@ -43,6 +45,11 @@ public class GameEngine {
 	
 	private int score;
 	
+	private boolean gameOver;
+	private long showelUp;
+	private long shieldUp;
+	private long timerUp;
+	
 	
 	private static final int width=24;
 	private static final int height=24;
@@ -51,8 +58,10 @@ public class GameEngine {
 
 
 	public GameEngine(SwingWindow gui) {
+		this.gameOver = false;
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
+		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this);   
 		// Creo el jugador y lo agrego el grafico a la gui.
@@ -65,7 +74,24 @@ public class GameEngine {
 		gui.setScore(0000);
 		file= new FReader();
 		addmaplevel1();
+		this.tryPA();
+		
+		this.start();
 	}	
+	
+	public void run() {
+		this.timerUp = System.currentTimeMillis();
+		this.shieldUp = System.currentTimeMillis();
+		this.showelUp = System.currentTimeMillis();
+		while (!gameOver) {
+			try {
+                ThreadKeyboard.sleep(1000);
+			 }catch (InterruptedException e) {
+               e.printStackTrace();
+			 }
+			
+		}
+	}
 	
 	public Vector<Celda> getCeldas(){
 		return this.vCeldas;
@@ -198,7 +224,7 @@ public class GameEngine {
 
 	public void threadenemigos(){
 		for(int i = 0; i < 4; i++){
-			TanqueEnemigo enemy = new TanqueBasico (3,(i*50),(i) +40); 
+			TanqueEnemigo enemy = new TanqueBasico (3,(i*50),0); 
 			enemies.add(enemy);
 			gui.getContentPane().add(enemy.getImage());
 			}
@@ -208,6 +234,59 @@ public class GameEngine {
 		if (threadBullet.cantidadProyectiles() < player.shootCount()) {
 			threadBullet.addBullet(player.shoot());
 		}
+	}
+	
+	public void Star() {
+		this.levelUp();
+	}
+	
+	public void Shield() {
+		this.shieldUp = System.currentTimeMillis() + 10000;
+		this.player.ShieldToggle();
+	}
+	
+	public void Grenade() {
+		
+	}
+	
+	public void Timer() {
+		this.timerUp = System.currentTimeMillis() + 10000;
+	}
+	
+	public void Tank() {
+		
+	}
+	
+	public void Showel() {
+
+	}
+	
+	private void tryPA() {
+		PowerUp p = new Grenade(24,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		p = new Shield(48,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		p = new Showel(72,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		p = new Star(96,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		p = new Tank(120,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		p = new Timer(144,24);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
+		this.vPowerUps.add(p);
+		gui.repaint();		
 	}
 }
 	
