@@ -77,7 +77,7 @@ public class GameEngine extends Thread {
 		file= new FReader();
 		initBase();
 		addmaplevel1();
-		this.tryPA();
+		//this.tryPA();
 		
 		this.start();
 	}	
@@ -123,7 +123,7 @@ public class GameEngine extends Thread {
 			
 			if (showelUp) {
 				if (showelTime < System.currentTimeMillis()) {
-					/*
+					
 					for (int i=0;i<this.vBaseCeldas.size();i++) {
 						Celda c = this.vBaseCeldas.get(i);
 						this.vCeldas.remove(c);
@@ -131,7 +131,7 @@ public class GameEngine extends Thread {
 						this.addCelda(c);
 					}
 					gui.repaint();
-					*/
+					
 				}
 			}
 			
@@ -144,6 +144,7 @@ public class GameEngine extends Thread {
 	public void removeCelda(Celda c){
 		this.vCeldas.remove(c);
 		this.gui.getContentPane().remove(c.getImage());
+		gui.repaint();
 	}
 	
 	public void movePlayer(int dir){
@@ -374,7 +375,7 @@ public class GameEngine extends Thread {
 	public void Showel() {
 		this.showelTime = System.currentTimeMillis() + 10000;
 		this.showelUp = true;
-		/*
+		
 		for (int i=0;i<this.vBaseCeldas.size();i++) {
 			Celda c = this.vBaseCeldas.get(i);
 			this.vCeldas.remove(c);
@@ -382,7 +383,7 @@ public class GameEngine extends Thread {
 			this.addCelda(c);
 		}
 		gui.repaint();
-		*/
+		
 	}
 	
 	private void tryPA() {
