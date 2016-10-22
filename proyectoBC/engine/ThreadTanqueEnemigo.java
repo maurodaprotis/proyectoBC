@@ -1,8 +1,8 @@
 package proyectoBC.engine;
 
-	import java.util.Random;
+import java.util.Random;
 import java.util.Vector;
-	import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
+import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 
 	public class ThreadTanqueEnemigo extends Thread {
 		
@@ -15,7 +15,7 @@ import java.util.Vector;
 		// Flag que indica cuando debe detenerse la ejecución del hilo.
 		// Es volatile porque es accedida desde concurrentemente desde diferentes threads.
 		private volatile boolean detener;
-		
+	// agregar ThreadBullet y gui.
 		public ThreadTanqueEnemigo (Vector<TanqueEnemigo> venemy,GameEngine ge) {
 			this.ge=ge;
 			this.venemy=venemy;
@@ -79,8 +79,13 @@ import java.util.Vector;
 		}
 	}
 	
+	    public void continuar(){
+	    	this.detener=false;
+	    	this.run();
+	    	this.start();	
+	    }	
 		
-		public void detener() {
+	    public void detener() {
 			// Interrumpo el hilo para que no continue con su ejecución.
 			this.interrupt(); 
 			// Seteamos el flag para detener su ejecución.
