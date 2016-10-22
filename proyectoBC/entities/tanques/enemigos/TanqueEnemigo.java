@@ -12,12 +12,15 @@ public abstract class TanqueEnemigo extends Tanque{
 	
 	protected int points;
 	protected int rnd;
+	protected boolean shooting;
 	public TanqueEnemigo(int speed, int x, int y) {
 		super(speed,x,y);
+		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/pantalla/gif_explotion.gif"));
 		Random rnd = new Random();
 		this.rnd= (rnd.nextInt(100))%2;
 		this.direccion=rnd.nextInt(4);
-		points=0;
+		this.shooting=false;
+		this.points=0;
 	}
 	
 	public void move() {
@@ -52,7 +55,21 @@ public abstract class TanqueEnemigo extends Tanque{
 		super.move(direccion);
 		}
 	
-	public abstract Proyectil shoot();
+		public Proyectil shoot(){
+			if(shooting==true){
+			if (this.direccion == 0)
+				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY());
+			if (this.direccion == 1)
+				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 23,(int) position.getY() +12);
+			if (this.direccion == 2)
+				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY() + 23);
+			if (this.direccion == 3)
+				return new Proyectil(direccion,shootSpeed,(int) position.getX(),(int) position.getY() + 12);
+			}
+			else return null;	
+		return null;
+		}
+	
 	
 	public abstract int impact();
 	

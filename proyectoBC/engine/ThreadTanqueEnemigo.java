@@ -2,6 +2,8 @@ package proyectoBC.engine;
 
 import java.util.Random;
 import java.util.Vector;
+
+import proyectoBC.entities.proyectiles.Proyectil;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 
 	public class ThreadTanqueEnemigo extends Thread {
@@ -10,16 +12,17 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 		private TanqueEnemigo enemy;
 		private Vector<TanqueEnemigo> venemy;
 		private GameEngine ge;
-		
+		private ThreadBullet balasEnemigas;
 		
 		// Flag que indica cuando debe detenerse la ejecución del hilo.
 		// Es volatile porque es accedida desde concurrentemente desde diferentes threads.
 		private volatile boolean detener;
 	// agregar ThreadBullet y gui.
-		public ThreadTanqueEnemigo (Vector<TanqueEnemigo> venemy,GameEngine ge) {
+		public ThreadTanqueEnemigo (Vector<TanqueEnemigo> venemy,GameEngine ge,ThreadBullet balasEnemigas) {
 			this.ge=ge;
 			this.venemy=venemy;
 			this.enemy=enemy;
+			this.balasEnemigas=balasEnemigas;
 			this.detener = false;
 			this.start();
 		}
@@ -33,53 +36,66 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 				try {
 					Thread.sleep(30);
 				} catch (InterruptedException e) { }
+					MovimientoEnemigos();
+					DisparoEnemigos();		
+		}
+	}
 	
-			for (int i=0;i<venemy.size();i++){
-				TanqueEnemigo enemy =venemy.get(i);
-				int move;
-				for (int j=0;j<enemy.getSpeed();j++){
-					if(enemy.getDireccion()==3){		
-						move= this.ge.canMove(enemy, 38-1);
-						Random r = new Random();
-						if (move==0 || r.nextInt(313)==enemy.getPosition().x || r.nextInt(140)==r.nextInt(200) || r.nextInt(240)==enemy.getPosition().y)
-					    enemy.girar();
-						else
-						enemy.move();}
-					else{
-						if(enemy.getDireccion()==2){	
-						move= this.ge.canMove(enemy, 38+2);
-						Random r = new Random();
-						if (move==0 || r.nextInt(313)==move|| r.nextInt(313)==r.nextInt(250) ||r.nextInt(250)==r.nextInt(250) || r.nextInt(140)==r.nextInt(140))
-					    enemy.girar();
-						else
-						enemy.move();}
-						
+	    public void MovimientoEnemigos(){
+		for (int i=0;i<venemy.size();i++){
+			TanqueEnemigo enemy =venemy.get(i);
+			int move;
+			for (int j=0;j<enemy.getSpeed();j++){
+				if(enemy.getDireccion()==3){		
+					move= this.ge.canMove(enemy, 38-1);
+					Random r = new Random();
+					if (move==0 || r.nextInt(313)==enemy.getPosition().x || r.nextInt(140)==r.nextInt(200) || r.nextInt(240)==enemy.getPosition().y)
+				    enemy.girar();
 					else
-						if(enemy.getDireccion()==1){	
-						move= this.ge.canMove(enemy, 38+1);
-						Random r = new Random();
-						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(200)==r.nextInt(200)||r.nextInt(140)==r.nextInt(140))					    
-						enemy.girar();
-						else
-						enemy.move();}
-						
-					else{
-						if(enemy.getDireccion()==0){		
-						move= this.ge.canMove(enemy, 38);
-						Random r = new Random();
-						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(140)==enemy.getPosition().y || enemy.getPosition().x==156  )
-					    enemy.girar();
-						else
-						enemy.move();
+					enemy.move();}
+				else{
+					if(enemy.getDireccion()==2){	
+					move= this.ge.canMove(enemy, 38+2);
+					Random r = new Random();
+					if (move==0 || r.nextInt(313)==move|| r.nextInt(313)==r.nextInt(250) ||r.nextInt(250)==r.nextInt(250) || r.nextInt(140)==r.nextInt(140))
+				    enemy.girar();
+					else
+					enemy.move();}
+					
+				else
+					if(enemy.getDireccion()==1){	
+					move= this.ge.canMove(enemy, 38+1);
+					Random r = new Random();
+					if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(200)==r.nextInt(200)||r.nextInt(140)==r.nextInt(140))					    
+					enemy.girar();
+					else
+					enemy.move();}
+					
+				else{
+					if(enemy.getDireccion()==0){		
+					move= this.ge.canMove(enemy, 38);
+					Random r = new Random();
+					if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(140)==enemy.getPosition().y || enemy.getPosition().x==156  )
+				    enemy.girar();
+					else
+					enemy.move();
 							}
 						}			
 					}
 				}    		    	 
 			}
+	   }	
+		
+		public void DisparoEnemigos(){
+			for (int i=0;i<venemy.size();i++){
+			TanqueEnemigo enemy =venemy.get(i);
+			Proyectil p = enemy.shoot();
+			if (p!=null)
+				balasEnemigas.addBullet(p);
+			}
 		}
-	}
-	
-	    public void continuar(){
+		
+		public void continuar(){
 	    	this.detener=false;
 	    	this.run();
 	    }	
@@ -91,4 +107,3 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 			this.detener = true;
 		}		
 }
-

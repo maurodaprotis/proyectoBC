@@ -65,7 +65,7 @@ public class GameEngine extends Thread {
 		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
-	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this);   
+	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.

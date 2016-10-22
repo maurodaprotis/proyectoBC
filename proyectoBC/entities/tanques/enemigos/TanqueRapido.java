@@ -9,6 +9,7 @@ public class TanqueRapido extends TanqueEnemigo{
 	
 	public TanqueRapido(int speed, int x, int y) {
 		super(speed,x,y);
+		shootSpeed=2;
 		points=40;
 		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquerapido_up_1_02.gif"));
 		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquerapido_right_1_02.gif"));
@@ -16,13 +17,8 @@ public class TanqueRapido extends TanqueEnemigo{
 		this.images[3] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquerapido_left_1_02.gif"));
 	}
 	
-	
 	public int impact(){
 		return hp;
-	}
-	
-	public Proyectil shoot(){
-		return new Proyectil(0,0,0,0);
 	}
 
 	public int getPoints(){

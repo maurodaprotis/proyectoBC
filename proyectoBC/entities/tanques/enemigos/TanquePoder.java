@@ -8,6 +8,7 @@ public class TanquePoder extends TanqueEnemigo {
 
 	public TanquePoder(int speed, int x, int y) {
 		super(speed,x,y);
+		shootSpeed=3;
 		points=200;
 		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquepoder_up_1_02.gif"));
 		this.images[1] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquepoder_right_1_02.gif"));
@@ -17,10 +18,6 @@ public class TanquePoder extends TanqueEnemigo {
 	
 	public int impact(){
 		return hp;
-	}
-	
-	public Proyectil shoot(){
-		return new Proyectil(0,0,0,0);
 	}
 	
 	public int getPoints(){
