@@ -20,6 +20,10 @@ public abstract class Tanque extends Entity{
 	public abstract Proyectil shoot();
 		
 	public abstract int impact();
+	
+	public void destroy() {
+		super.destroy();
+	}
 		
 }
 

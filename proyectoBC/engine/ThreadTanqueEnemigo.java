@@ -82,7 +82,6 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 	    public void continuar(){
 	    	this.detener=false;
 	    	this.run();
-	    	this.start();	
 	    }	
 		
 	    public void detener() {

@@ -103,4 +103,8 @@ public class TanqueJugador extends Tanque {
 	public void ShieldToggle(){
 		this.shield = !this.shield;
 	}
+	
+	public void liveUp() {
+		this.lives++;
+	}
 }

@@ -33,22 +33,21 @@ public class GameEngine extends Thread {
 	private ThreadKeyboard keyboard;
 	private ThreadBullet threadBullet;
 	private Vector<TanqueEnemigo> enemies;
+	private Vector<TanqueEnemigo> vDestroyedEnemies;
 	private Vector<PowerUp> vPowerUps;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
-	private Celda celda;
+	private Celda aguila;
 	private SwingWindow gui;
-	private ImageIcon ladrillo;
-	private ImageIcon aguila;
-	private ImageIcon acero;
 	private FReader file;
 	
 	private int score;
 	
-	private boolean gameOver;
-	private long showelUp;
-	private long shieldUp;
-	private long timerUp;
+	private boolean gameOver,grenadeUp,showelUp,shieldUp,timerUp;
+	private long showelTime;
+	private long shieldTime;
+	private long timerTime;
+	private long grenadeTime;
 	
 	
 	private static final int width=24;
@@ -58,11 +57,12 @@ public class GameEngine extends Thread {
 
 
 	public GameEngine(SwingWindow gui) {
-		this.gameOver = false;
+		gameOver = grenadeUp = showelUp = shieldUp = timerUp = false;
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
 		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
+	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
 	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this);   
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);
@@ -73,6 +73,7 @@ public class GameEngine extends Thread {
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
 		file= new FReader();
+		initBase();
 		addmaplevel1();
 		this.tryPA();
 		
@@ -80,15 +81,44 @@ public class GameEngine extends Thread {
 	}	
 	
 	public void run() {
-		this.timerUp = System.currentTimeMillis();
-		this.shieldUp = System.currentTimeMillis();
-		this.showelUp = System.currentTimeMillis();
+		this.timerTime = System.currentTimeMillis();
+		this.shieldTime = System.currentTimeMillis();
+		this.showelTime = System.currentTimeMillis();
+		this.grenadeTime = System.currentTimeMillis();
 		while (!gameOver) {
 			try {
-                ThreadKeyboard.sleep(1000);
+                ThreadKeyboard.sleep(30);
 			 }catch (InterruptedException e) {
                e.printStackTrace();
 			 }
+			
+			// Si se activo power up grenade
+			if (grenadeUp) {
+				// Si ya paso el tiempo de las explosiones
+				if (grenadeTime < System.currentTimeMillis()) {
+					for (int i = 0; i < vDestroyedEnemies.size(); i++) {
+						this.gui.getContentPane().remove(vDestroyedEnemies.get(i).getImage());
+					}
+					vDestroyedEnemies.clear();
+				}
+			}
+			
+			//Si se activo powerUp shield
+			if (shieldUp) {
+				//Si ya paso el tiempo del shield
+				if (shieldTime < System.currentTimeMillis()) {
+					this.player.ShieldToggle();
+				}
+			}
+			
+			//Si se activo timer
+			if (timerUp) {
+				// Si ya paso el tiempo del timer
+				if (timerTime < System.currentTimeMillis()) {
+					this.enemiesthread.continuar();
+				}
+				
+			}
 			
 		}
 	}
@@ -141,6 +171,14 @@ public class GameEngine extends Thread {
 		return 1;
 		
 	}	
+	
+	private void initBase() {
+		Celda c = new Celda(6*24,12*24,1,"aguila");
+		this.vCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+	}
+	
 	/**
 	 * Armado del mapa nivel 1
 	 * @param gui
@@ -213,6 +251,14 @@ public class GameEngine extends Thread {
 		}
 	}
 	
+	public Vector<TanqueEnemigo> getVectorEnemigos() {
+		return this.enemies;
+	}
+	
+	public Celda getAguila() {
+		return this.aguila;
+	}
+	
 	public void levelUp(){
 		this.player.levelUp();
 		gui.repaint();
@@ -241,20 +287,30 @@ public class GameEngine extends Thread {
 	}
 	
 	public void Shield() {
-		this.shieldUp = System.currentTimeMillis() + 10000;
+		this.shieldTime = System.currentTimeMillis() + 10000;
+		this.shieldUp = true;
 		this.player.ShieldToggle();
 	}
 	
 	public void Grenade() {
-		
+		this.grenadeTime = System.currentTimeMillis() + 1000;
+		this.grenadeUp = true;
+		for (int i = 0; i < enemies.size(); i++) {
+			TanqueEnemigo te = enemies.get(i);
+			te.destroy();
+			vDestroyedEnemies.add(te);
+		}
+		enemies.clear();		
 	}
 	
 	public void Timer() {
-		this.timerUp = System.currentTimeMillis() + 10000;
+		this.timerTime = System.currentTimeMillis() + 10000;
+		this.timerUp = true;
+		this.enemiesthread.detener();		
 	}
 	
 	public void Tank() {
-		
+		this.player.levelUp();
 	}
 	
 	public void Showel() {

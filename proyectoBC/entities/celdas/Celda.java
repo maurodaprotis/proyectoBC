@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.obstaculos.Acero;
 import proyectoBC.entities.celdas.obstaculos.Agua;
+import proyectoBC.entities.celdas.obstaculos.Aguila;
 import proyectoBC.entities.celdas.obstaculos.Arbol;
 import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.celdas.obstaculos.Obstaculo;
@@ -54,6 +55,11 @@ public class Celda extends Entity {
 				this.images[0]=new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/obstaculos/acero/acero_1.gif"));
 				for (int i=0;i<4;i++){
 					this.matriz[i] = new Acero(0,0,0,0);
+				};break;
+			case "aguila":
+				this.images[0]=new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/obstaculos/aguila/aguila.gif"));
+				for (int i=0;i<4;i++){
+					this.matriz[i] = new Aguila(0,0,0,0);
 				};break;
 			default: 
 				for (int i=0;i<4;i++){
