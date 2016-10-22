@@ -16,7 +16,7 @@ public abstract class TanqueEnemigo extends Tanque{
 		super(speed,x,y);
 		Random rnd = new Random();
 		this.rnd= (rnd.nextInt(100))%2;
-		this.direccion=MOVE_UP;
+		this.direccion=rnd.nextInt(4);
 		points=0;
 	}
 	
@@ -41,24 +41,14 @@ public abstract class TanqueEnemigo extends Tanque{
 		super.move(direccion);	
 		}
 	public void girar(){
-		if (rnd==1)
-			this.direccion=(this.direccion+1)%4;         
-			else{
-				if (direccion == 0){
-				Random r = new Random();	
-				this.direccion =r.nextInt()%4;
-				if(direccion<0)
-	    		this.direccion=Math.abs(direccion);
-				}
-			else{ 
-				if (direccion == 3){
-				Random r = new Random();	
-				this.direccion =r.nextInt()%2;
-				if(direccion<0)
-		    	this.direccion=Math.abs(direccion);
-				}
-			else 
-			this.direccion-= 1;}}
+		Random r= new Random();
+		if (rnd==0)       
+			this.direccion=(this.direccion+1)%4;  
+		else
+			{if (direccion == 0 )
+			this.direccion=r.nextInt(4);
+			else	
+			this.direccion-= 1;}	
 		super.move(direccion);
 		}
 	

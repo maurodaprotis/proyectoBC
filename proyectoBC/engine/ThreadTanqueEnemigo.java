@@ -41,7 +41,7 @@ import java.util.Vector;
 					if(enemy.getDireccion()==3){		
 						move= this.ge.canMove(enemy, 38-1);
 						Random r = new Random();
-						if (move==0 || r.nextInt(140)==enemy.getPosition().x*2)
+						if (move==0 || r.nextInt(313)==enemy.getPosition().x || r.nextInt(140)==r.nextInt(200) || r.nextInt(240)==enemy.getPosition().y)
 					    enemy.girar();
 						else
 						enemy.move();}
@@ -49,7 +49,7 @@ import java.util.Vector;
 						if(enemy.getDireccion()==2){	
 						move= this.ge.canMove(enemy, 38+2);
 						Random r = new Random();
-						if (move==0 || r.nextInt(150)==enemy.getPosition().y)
+						if (move==0 || r.nextInt(313)==move|| r.nextInt(313)==r.nextInt(250) ||r.nextInt(250)==r.nextInt(250) || r.nextInt(140)==r.nextInt(140))
 					    enemy.girar();
 						else
 						enemy.move();}
@@ -58,7 +58,8 @@ import java.util.Vector;
 						if(enemy.getDireccion()==1){	
 						move= this.ge.canMove(enemy, 38+1);
 						Random r = new Random();
-						if (move==0 || r.nextInt(313)==enemy.getPosition().x)					    enemy.girar();
+						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(200)==r.nextInt(200)||r.nextInt(140)==r.nextInt(140))					    
+						enemy.girar();
 						else
 						enemy.move();}
 						
@@ -66,7 +67,7 @@ import java.util.Vector;
 						if(enemy.getDireccion()==0){		
 						move= this.ge.canMove(enemy, 38);
 						Random r = new Random();
-						if (move==0 || r.nextInt(313)==enemy.getPosition().y*2)	
+						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(140)==enemy.getPosition().y || enemy.getPosition().x==156  )
 					    enemy.girar();
 						else
 						enemy.move();
@@ -77,6 +78,7 @@ import java.util.Vector;
 			}
 		}
 	}
+	
 		
 		public void detener() {
 			// Interrumpo el hilo para que no continue con su ejecución.
@@ -86,4 +88,3 @@ import java.util.Vector;
 		}		
 }
 
-	
