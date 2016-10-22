@@ -93,6 +93,9 @@ public class SwingWindow extends JFrame {
 	}
 	
 	public void setScore(Integer s) {
-		this.labelScore.setText(s.toString());
+		String st =this.labelScore.getText();
+		int sc= Integer.parseInt(st);
+		int newScore= sc + s;
+		this.labelScore.setText(new Integer(newScore).toString());
 	}
 }
