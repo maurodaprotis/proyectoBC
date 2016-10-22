@@ -73,7 +73,7 @@ public class ThreadKeyboard extends Thread implements KeyListener{
 	    			break;
 	    		}
 	    		case KeyEvent.VK_B: {
-	    			ge.Timer();
+	    			ge.Showel();
 	    		}
 			}
 	}

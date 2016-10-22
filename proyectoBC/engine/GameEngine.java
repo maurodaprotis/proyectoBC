@@ -37,6 +37,7 @@ public class GameEngine extends Thread {
 	private Vector<PowerUp> vPowerUps;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
+	private Vector<Celda> vBaseCeldas;
 	private Celda aguila;
 	private SwingWindow gui;
 	private FReader file;
@@ -60,6 +61,7 @@ public class GameEngine extends Thread {
 		gameOver = grenadeUp = showelUp = shieldUp = timerUp = false;
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
+		this.vBaseCeldas = new Vector<Celda>();
 		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
@@ -117,7 +119,20 @@ public class GameEngine extends Thread {
 				if (timerTime < System.currentTimeMillis()) {
 					this.enemiesthread.continuar();
 				}
-				
+			}
+			
+			if (showelUp) {
+				if (showelTime < System.currentTimeMillis()) {
+					/*
+					for (int i=0;i<this.vBaseCeldas.size();i++) {
+						Celda c = this.vBaseCeldas.get(i);
+						this.vCeldas.remove(c);
+						c.set("ladrillo");
+						this.addCelda(c);
+					}
+					gui.repaint();
+					*/
+				}
 			}
 			
 		}
@@ -172,9 +187,47 @@ public class GameEngine extends Thread {
 		
 	}	
 	
+	private void addCelda(Celda c) {
+		this.vCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		gui.repaint();
+	}
+	
 	private void initBase() {
 		Celda c = new Celda(6*24,12*24,1,"aguila");
+		this.aguila = c;
 		this.vCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		
+		c = new Celda(5*24,12*24,4,"ladrillo");
+		this.vCeldas.add(c);
+		this.vBaseCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		
+		c = new Celda(7*24,12*24,4,"ladrillo");
+		this.vCeldas.add(c);
+		this.vBaseCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		
+		c = new Celda(5*24,11*24,4,"ladrillo");
+		this.vCeldas.add(c);
+		this.vBaseCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		
+		c = new Celda(6*24,11*24,4,"ladrillo");
+		this.vCeldas.add(c);
+		this.vBaseCeldas.add(c);
+		gui.getContentPane().add(c.getImage());
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		
+		c = new Celda(7*24,11*24,4,"ladrillo");
+		this.vCeldas.add(c);
+		this.vBaseCeldas.add(c);
 		gui.getContentPane().add(c.getImage());
 		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
 	}
@@ -201,6 +254,7 @@ public class GameEngine extends Thread {
 						c = new Celda(posX,posY,4,o);
 						this.vCeldas.add(c);
 						gui.getContentPane().add(c.getImage());
+						gui.getContentPane().setComponentZOrder(c.getImage(), 1);
 					}
 				}
 				posY=posY+24;
@@ -253,6 +307,10 @@ public class GameEngine extends Thread {
 	
 	public Vector<TanqueEnemigo> getVectorEnemigos() {
 		return this.enemies;
+	}
+	
+	public TanqueJugador getPlayer(){
+		return player;
 	}
 	
 	public Celda getAguila() {
@@ -314,7 +372,17 @@ public class GameEngine extends Thread {
 	}
 	
 	public void Showel() {
-
+		this.showelTime = System.currentTimeMillis() + 10000;
+		this.showelUp = true;
+		/*
+		for (int i=0;i<this.vBaseCeldas.size();i++) {
+			Celda c = this.vBaseCeldas.get(i);
+			this.vCeldas.remove(c);
+			c.set("acero");
+			this.addCelda(c);
+		}
+		gui.repaint();
+		*/
 	}
 	
 	private void tryPA() {

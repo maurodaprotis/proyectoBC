@@ -67,13 +67,24 @@ public class Celda extends Entity {
 				};break;
 		}
 	}
-
-	public Point getceldaposition() {
-		return this.position;
-	}
-
-	public void setceldaposition(Point p) {
-		position = p;
+	
+	public void set(String s) {
+		switch (s) {
+		case "ladrillo": 
+			this.images[0]=new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/obstaculos/ladrillo/ladrillo_1.gif"));
+			this.image.setIcon(this.images[0]);
+			this.hp = 4;
+			for (int i=0;i<4;i++){
+				this.matriz[i] = new Ladrillo(0,0,0,0);
+			};break;
+		case "acero":
+			this.images[0]=new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/obstaculos/acero/acero_1.gif"));
+			this.image.setIcon(this.images[0]);
+			this.hp = 4;
+			for (int i=0;i<4;i++){
+				this.matriz[i] = new Acero(0,0,0,0);
+			};break;
+		}
 	}
 
 	public int impact() {
