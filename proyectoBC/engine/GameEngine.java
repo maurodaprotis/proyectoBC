@@ -4,6 +4,7 @@ import proyectoBC.entities.Entity;
 import proyectoBC.entities.celdas.Celda;
 import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.powerups.*;
+import proyectoBC.entities.proyectiles.Proyectil;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
@@ -35,6 +36,8 @@ public class GameEngine extends Thread {
 	private Vector<TanqueEnemigo> enemies;
 	private Vector<TanqueEnemigo> vDestroyedEnemies;
 	private Vector<PowerUp> vPowerUps;
+	private Vector<Proyectil> vBulletsPlayer;
+	private Vector<Proyectil> vBulletsEnemies;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
 	private Vector<Celda> vBaseCeldas;
@@ -74,7 +77,7 @@ public class GameEngine extends Thread {
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
-		this.threadBullet = new ThreadBullet(this,gui);
+		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
@@ -147,12 +150,37 @@ public class GameEngine extends Thread {
 	public Vector<Celda> getCeldas(){
 		return this.vCeldas;
 	}
+	
 	public void removeCelda(Celda c){
 		this.vCeldas.remove(c);
 		this.gui.getContentPane().remove(c.getImage());
 		gui.repaint();
 	}
 	
+	public void removeBulletPlayer(Proyectil p){
+		this.vBulletsPlayer.remove(p);
+		this.gui.getContentPane().remove(p.getImage());
+		gui.repaint();
+	}
+	
+	public void removeBulletEnemies(Proyectil p){
+		this.vBulletsEnemies.remove(p);
+		this.gui.getContentPane().remove(p.getImage());
+		gui.repaint();
+	}
+	
+	public void removeEntity(TanqueEnemigo te){
+		this.enemies.remove(te);
+		this.gui.getContentPane().remove(te.getImage());
+		gui.repaint();
+	}
+	
+	public void removeEntity(PowerUp p){
+		this.vPowerUps.remove(p);
+		this.gui.getContentPane().remove(p.getImage());
+		gui.repaint();
+	}
+
 	public void movePlayer(int dir){
 		for (int i = 0;i < player.getSpeed() ; i++){
 			player.move(dir,canMove(player,dir));
