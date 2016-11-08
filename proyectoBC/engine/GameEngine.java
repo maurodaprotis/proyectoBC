@@ -166,23 +166,44 @@ public class GameEngine extends Thread {
 	}
 	
 	public void removeEntity(){
-		for (Celda c: vRemoveCeldas)
+		for (Celda c: vRemoveCeldas){
 			this.vCeldas.remove(c);
-		for (Proyectil p: vRemoveBulletsPlayer)
+			this.gui.getContentPane().remove(c.getImage());
+			gui.repaint();
+		}
+		for (Proyectil p: vRemoveBulletsPlayer){
 			this.vBulletsPlayer.remove(p);
-		for (Proyectil p: vRemoveBulletsEnemies)
+			this.gui.getContentPane().remove(p.getImage());
+			gui.repaint();
+		}
+		for (Proyectil p: vRemoveBulletsEnemies){
 			this.vBulletsEnemies.remove(p);
-		for (TanqueEnemigo te: vDestroyedEnemies)
+			this.gui.getContentPane().remove(p.getImage());
+			gui.repaint();
+		}
+		for (TanqueEnemigo te: vDestroyedEnemies){
 			this.enemies.remove(te);
-		for (PowerUp p: vRemovePowerUps)
+			this.gui.getContentPane().remove(te.getImage());
+			gui.repaint();
+		}
+		for (PowerUp p: vRemovePowerUps){
 			this.vPowerUps.remove(p);
+			this.gui.getContentPane().remove(p.getImage());
+			gui.repaint();
+		}
+		for (Celda c: vRemoveBaseCeldas){
+			this.vBaseCeldas.remove(c);
+			this.gui.getContentPane().remove(c.getImage());
+			gui.repaint();
+		}
 	}
 	
 	public void removeCelda(Celda c){
 		vRemoveCeldas.add(c);
-		//this.vCeldas.remove(c);
-		//this.gui.getContentPane().remove(c.getImage());
-		//gui.repaint();
+	}
+	
+	public void removeBase(Celda c){
+		this.vRemoveBaseCeldas.add(c);
 	}
 	
 	public void removeBulletPlayer(Proyectil p){
