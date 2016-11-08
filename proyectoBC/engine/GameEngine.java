@@ -36,11 +36,16 @@ public class GameEngine extends Thread {
 	private Vector<TanqueEnemigo> enemies;
 	private Vector<TanqueEnemigo> vDestroyedEnemies;
 	private Vector<PowerUp> vPowerUps;
+	private Vector<PowerUp> vRemovePowerUps; 
 	private Vector<Proyectil> vBulletsPlayer;
+	private Vector<Proyectil> vRemoveBulletsPlayer;
 	private Vector<Proyectil> vBulletsEnemies;
+	private Vector<Proyectil> vRemoveBulletsEnemies;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
+	private Vector<Celda> vRemoveCeldas;
 	private Vector<Celda> vBaseCeldas;
+	private Vector<Celda> vRemoveBaseCeldas;
 	private Celda aguila;
 	private SwingWindow gui;
 	private FReader file;
@@ -64,12 +69,17 @@ public class GameEngine extends Thread {
 		gameOver = grenadeUp = showelUp = shieldUp = timerUp = false;
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
+		this.vRemoveCeldas = new Vector<Celda>();
 		this.vBaseCeldas = new Vector<Celda>();
+		this.vRemoveBaseCeldas = new Vector<Celda>();
 		this.vPowerUps = new Vector<PowerUp>();
+		this.vRemovePowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
 	    this.vBulletsPlayer= new Vector<Proyectil>();
+	    this.vRemoveBulletsPlayer = new Vector<Proyectil>();
 	    this.vBulletsEnemies= new  Vector<Proyectil>();
+	    this.vRemoveBulletsEnemies = new Vector<Proyectil>();
 	    file= new FReader();
 		initBase();
 		addmaplevel1();
@@ -79,7 +89,8 @@ public class GameEngine extends Thread {
 		this.player = new TanqueJugador(3,96,288);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
-		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
+		//this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
+		this.threadBullet = new ThreadBullet(this,gui);
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
@@ -140,6 +151,7 @@ public class GameEngine extends Thread {
 					
 				}
 			}
+			removeEntity();
 			checkColisionEnemy();
 		}
 	}
@@ -153,34 +165,40 @@ public class GameEngine extends Thread {
 		return this.vCeldas;
 	}
 	
+	public void removeEntity(){
+		for (Celda c: vRemoveCeldas)
+			this.vCeldas.remove(c);
+		for (Proyectil p: vRemoveBulletsPlayer)
+			this.vBulletsPlayer.remove(p);
+		for (Proyectil p: vRemoveBulletsEnemies)
+			this.vBulletsEnemies.remove(p);
+		for (TanqueEnemigo te: vDestroyedEnemies)
+			this.enemies.remove(te);
+		for (PowerUp p: vRemovePowerUps)
+			this.vPowerUps.remove(p);
+	}
+	
 	public void removeCelda(Celda c){
-		this.vCeldas.remove(c);
-		this.gui.getContentPane().remove(c.getImage());
-		gui.repaint();
+		vRemoveCeldas.add(c);
+		//this.vCeldas.remove(c);
+		//this.gui.getContentPane().remove(c.getImage());
+		//gui.repaint();
 	}
 	
 	public void removeBulletPlayer(Proyectil p){
-		this.vBulletsPlayer.remove(p);
-		this.gui.getContentPane().remove(p.getImage());
-		gui.repaint();
+		vRemoveBulletsPlayer.add(p);
 	}
 	
 	public void removeBulletEnemies(Proyectil p){
-		this.vBulletsEnemies.remove(p);
-		this.gui.getContentPane().remove(p.getImage());
-		gui.repaint();
+		vRemoveBulletsEnemies.add(p);
 	}
 	
 	public void removeEntity(TanqueEnemigo te){
-		this.enemies.remove(te);
-		this.gui.getContentPane().remove(te.getImage());
-		gui.repaint();
+		this.vDestroyedEnemies.add(te);
 	}
 	
 	public void removeEntity(PowerUp p){
-		this.vPowerUps.remove(p);
-		this.gui.getContentPane().remove(p.getImage());
-		gui.repaint();
+		vRemovePowerUps.add(p);
 	}
 	
 	public void removeEntity(TanqueJugador player){
@@ -456,7 +474,6 @@ public class GameEngine extends Thread {
 	}
 	
 	private void checkColisionEnemy(){
-		Vector<TanqueEnemigo> elimTanqueEnemigo = new Vector<TanqueEnemigo>();
 		int posXPlayer,posYPlayer,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
 		Rectangle recEnemy,recPlayer;
 		posXPlayer= (int) player.getPosition().getX();
