@@ -90,7 +90,7 @@ public class GameEngine extends Thread {
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
 		//this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
-		this.threadBullet = new ThreadBullet(this,gui);
+		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 		gui.getContentPane().add(this.player.getImage());
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
