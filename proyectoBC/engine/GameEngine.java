@@ -68,6 +68,8 @@ public class GameEngine extends Thread {
 		this.vPowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
+	    this.vBulletsPlayer= new Vector<Proyectil>();
+	    this.vBulletsEnemies= new  Vector<Proyectil>();
 	    file= new FReader();
 		initBase();
 		addmaplevel1();
@@ -138,7 +140,7 @@ public class GameEngine extends Thread {
 					
 				}
 			}
-			
+			checkColisionEnemy();
 		}
 	}
 	
@@ -178,6 +180,11 @@ public class GameEngine extends Thread {
 	public void removeEntity(PowerUp p){
 		this.vPowerUps.remove(p);
 		this.gui.getContentPane().remove(p.getImage());
+		gui.repaint();
+	}
+	
+	public void removeEntity(TanqueJugador player){
+		this.gui.getContentPane().remove(player.getImage());
 		gui.repaint();
 	}
 
@@ -446,6 +453,29 @@ public class GameEngine extends Thread {
 		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
 		this.vPowerUps.add(p);
 		gui.repaint();		
+	}
+	
+	private void checkColisionEnemy(){
+		Vector<TanqueEnemigo> elimTanqueEnemigo = new Vector<TanqueEnemigo>();
+		int posXPlayer,posYPlayer,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
+		Rectangle recEnemy,recPlayer;
+		posXPlayer= (int) player.getPosition().getX();
+		posYPlayer= (int) player.getPosition().getY();
+		pWidth= player.getImage().getWidth();
+		pHeigth= player.getImage().getHeight();
+		recPlayer= new Rectangle(posXPlayer,posYPlayer,pWidth,pHeigth);		
+		for (TanqueEnemigo te: enemies){
+				posXCelda= (int) te.getPosition().getX();
+				posYCelda= (int) te.getPosition().getY();
+				cWidth= te.getImage().getWidth();
+				cHeigth= te.getImage().getHeight();
+				recEnemy= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
+				if (recPlayer.intersects(recEnemy)){
+					this.removeEntity(te);
+					this.removeEntity(player);
+					this.gameOver();
+				}					
+		}
 	}
 }
 	
