@@ -19,10 +19,10 @@ public class ThreadBullet extends Thread {
 	protected SwingWindow gui;
 	
 	
-	public ThreadBullet(GameEngine g,SwingWindow gui){
+	public ThreadBullet(Vector<Proyectil> vProyectil,Vector<Proyectil> vProyectilEnemy,GameEngine g,SwingWindow gui){
 		start();
-		vProyectil= new Vector<Proyectil>();
-		vProyectil= new Vector<Proyectil>();
+		this.vProyectil= vProyectil;
+		this.vProyectilEnemy= vProyectilEnemy;
 		ge=g;
 		this.gui=gui;
 		play=true;
@@ -59,8 +59,6 @@ public class ThreadBullet extends Thread {
 	}
 	
 	private void moveBullets(){
-		
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
 		Proyectil proyectil;		
 		for (int i=0; i<vProyectil.size();i++){
 			proyectil= vProyectil.get(i);
@@ -70,35 +68,24 @@ public class ThreadBullet extends Thread {
 				checkColisionEnemy(proyectil);
 				checkColisionAguila(proyectil);
 			}
-			else{
-				elimProyectil.add(proyectil);				
+			else{ ge.removeBulletPlayer(proyectil);
 			}
-		}
-		for (int i=0;i<elimProyectil.size();i++){
-			vProyectil.remove(elimProyectil.get(i));
-			gui.getContentPane().remove(elimProyectil.get(i).getImage());
 		}
 		
 	}
 	
 	private void moveBulletsEnemies(){
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
-		Proyectil proyectil;		
-		for (int i=0; i<vProyectil.size();i++){
-			proyectil= vProyectil.get(i);
+		Proyectil proyectil;	
+		for (int i=0; i<vProyectilEnemy.size();i++){
+			proyectil= vProyectilEnemy.get(i);
 			if (enRango((int)proyectil.getPosition().getX(),(int)proyectil.getPosition().getY(),proyectil.getDireccion())){
 				proyectil.move();											
 				checkColisionCelda(proyectil);
 				checkColisionPlayer(proyectil);
 				checkColisionAguila(proyectil);
 			}
-			else{
-				elimProyectil.add(proyectil);				
+			else{	ge.removeBulletEnemies(proyectil);			
 			}
-		}
-		for (int i=0;i<elimProyectil.size();i++){
-			vProyectil.remove(elimProyectil.get(i));
-			gui.getContentPane().remove(elimProyectil.get(i).getImage());
 		}
 	}
 	
@@ -113,8 +100,6 @@ public class ThreadBullet extends Thread {
 	}
 	
 	private void checkColisionCelda(Proyectil proyectil){
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
-		Vector<Celda> elimCelda = new Vector<Celda>();
 		int posXProyectil,posYProyectil,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
 		Rectangle recCelda,recProyectil;
 		Celda celda;
@@ -133,27 +118,18 @@ public class ThreadBullet extends Thread {
 				cHeigth= celda.getImage().getHeight();
 				recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
 				if (recProyectil.intersects(recCelda)){
-					elimProyectil.add(proyectil);
+					ge.removeBulletPlayer(proyectil);
 					gui.remove(proyectil.getImage());
 					if (celda.impact() == 0){
-						elimCelda.add(celda);
+						ge.removeCelda(celda);
 						gui.remove(celda.getImage());
 					}					
 				}
 			}			
 		}
-		for (int k=0;k<elimProyectil.size();k++){
-			vProyectil.remove(elimProyectil.get(k));
-			gui.getContentPane().remove(elimProyectil.get(k).getImage());
-		}
-			
-		for (int j=0;j<elimCelda.size();j++)
-			ge.removeCelda(elimCelda.get(j));
 	}
 	
 	private void checkColisionEnemy(Proyectil proyectil){
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
-		Vector<TanqueEnemigo> elimTanqueEnemigo = new Vector<TanqueEnemigo>();
 		int posXProyectil,posYProyectil,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
 		Rectangle recCelda,recProyectil;
 		TanqueEnemigo te;
@@ -171,28 +147,18 @@ public class ThreadBullet extends Thread {
 				cHeigth= te.getImage().getHeight();
 				recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
 				if (recProyectil.intersects(recCelda)){
-					elimProyectil.add(proyectil);
+					ge.removeBulletEnemies(proyectil);
 					gui.remove(proyectil.getImage());
 					if (te.impact() == 0){
-						elimTanqueEnemigo.add(te);
+						ge.removeEntity(te);
 						gui.remove(te.getImage());
 						gui.setScore(30);
 					}					
 				}
 		}
-		for (int k=0;k<elimProyectil.size();k++){
-			vProyectil.remove(elimProyectil.get(k));
-			gui.getContentPane().remove(elimProyectil.get(k).getImage());
-		}
-			
-		for (int j=0;j<elimTanqueEnemigo.size();j++){
-			vTanquesEnemigos.remove(elimTanqueEnemigo.get(j));
-			gui.getContentPane().remove(elimTanqueEnemigo.get(j).getImage());
-		}
 	}
 	
 	private void checkColisionPlayer(Proyectil proyectil){
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
 		int posXProyectil,posYProyectil,posXPlayer, posYPlayer, playerWidth, playerHeigth, pWidth, pHeigth;
 		Rectangle recPlayer,recProyectil;
 		TanqueJugador player=ge.getPlayer();
@@ -207,18 +173,12 @@ public class ThreadBullet extends Thread {
 		playerHeigth= player.getImage().getHeight();
 		recPlayer= new Rectangle(posXPlayer,posYPlayer,playerWidth,playerHeigth);
 		if (recProyectil.intersects(recPlayer)){
-			elimProyectil.add(proyectil);
+			ge.removeBulletPlayer(proyectil);
 			gui.remove(proyectil.getImage());			
-		}
-		
-		for (int k=0;k<elimProyectil.size();k++){
-			vProyectil.remove(elimProyectil.get(k));
-			gui.getContentPane().remove(elimProyectil.get(k).getImage());
 		}
 	}
 	
 	private void checkColisionAguila(Proyectil proyectil){
-		Vector<Proyectil> elimProyectil = new Vector<Proyectil>();
 		int posXProyectil,posYProyectil,posXAguila, posYAguila, aguilaWidth, aguilaHeight, pWidth, pHeigth;
 		Rectangle recAguila,recProyectil;
 		posXProyectil= (int) proyectil.getPosition().getX();
@@ -233,13 +193,10 @@ public class ThreadBullet extends Thread {
 		aguilaHeight= aguila.getImage().getHeight();
 		recAguila= new Rectangle(posXAguila,posYAguila,aguilaWidth,aguilaHeight);
 		if (recProyectil.intersects(recAguila)){
-			elimProyectil.add(proyectil);
+			ge.removeBulletPlayer(proyectil);
 			gui.getContentPane().remove(proyectil.getImage());
 			ge.removeCelda(aguila);
 			ge.gameOver();
-		}
-		for (int i=0;i<elimProyectil.size();i++){
-			vProyectil.remove(elimProyectil.get(i));
 		}
 		
 	}

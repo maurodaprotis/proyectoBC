@@ -91,7 +91,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 			TanqueEnemigo enemy =venemy.get(i);
 			Proyectil p = enemy.shoot();
 			if (p!=null)
-				balasEnemigas.addBullet(p);
+				balasEnemigas.addBulletEnemy(p);
 			}
 		}
 		
