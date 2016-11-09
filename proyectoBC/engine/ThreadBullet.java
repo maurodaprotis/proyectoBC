@@ -20,7 +20,7 @@ public class ThreadBullet extends Thread {
 	protected GameEngine ge;
 	protected boolean play;
 	protected SwingWindow gui;
-	
+	private volatile boolean detener;
 	
 	public ThreadBullet(Vector<Proyectil> vProyectil,Vector<Proyectil> vProyectilEnemy,GameEngine g,SwingWindow gui){
 		start();
@@ -33,6 +33,7 @@ public class ThreadBullet extends Thread {
 		ge=g;
 		this.gui=gui;
 		play=true;
+		this.detener = false;
 	}
 	
 	public void addBullet(Proyectil proyectil){
@@ -52,7 +53,7 @@ public class ThreadBullet extends Thread {
 	}
 	
 	public void run(){
-		while (play){
+		while (!this.detener){
             try {
                     ThreadBullet.sleep(20) ;
             } catch (InterruptedException e) {
@@ -223,13 +224,15 @@ public class ThreadBullet extends Thread {
 					if (te.impact() == 0){
 						vRemoveTanques.add(te);
 						gui.remove(te.getImage());
-						ge.spawnEnemy();
+						
 						gui.setScore(30);
 					}					
 				}
 		}
-		for (TanqueEnemigo t: vRemoveTanques)
+		for (TanqueEnemigo t: vRemoveTanques){
 			vTanquesEnemigos.remove(t);
+			ge.spawnEnemy();
+		}
 		vRemoveTanques.removeAllElements();
 	}
 	
@@ -276,4 +279,11 @@ public class ThreadBullet extends Thread {
 			ge.gameOver();
 		}		
 	}
+	
+	public void detener() {
+		// Interrumpo el hilo para que no continue con su ejecución.
+		this.interrupt(); 
+		// Seteamos el flag para detener su ejecución.
+		this.detener = true;
+	}		
 }
