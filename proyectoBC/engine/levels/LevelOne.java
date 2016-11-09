@@ -52,13 +52,13 @@ public class LevelOne extends Level {
 		for (int i = 0; i < 16; i++) {
 			m = i % 4;
 			if(m==0)
-				this.vEnemies.add(new TanquePoder(3,(i*50),0)); 
+				this.vEnemies.add(new TanquePoder(3,(m*50),0)); 
 			if(m==1)
-				this.vEnemies.add(new TanqueBlindado (2,(i*50),0)); 
+				this.vEnemies.add(new TanqueBlindado (2,(m*50),0)); 
 			if(m==2)	
-				this.vEnemies.add(new TanqueRapido (4,(i*50),0)); 
+				this.vEnemies.add(new TanqueRapido (4,(m*50),0)); 
 			if(m==3)	
-				this.vEnemies.add(new TanqueBasico (2,(i*50),0));
+				this.vEnemies.add(new TanqueBasico (2,(m*50),0));
 		}
 	}
 	
