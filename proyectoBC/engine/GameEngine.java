@@ -131,6 +131,11 @@ public class GameEngine extends Thread {
 						this.gui.getContentPane().remove(vDestroyedEnemies.get(i).getImage());
 					}
 					vDestroyedEnemies.clear();
+					this.spawnEnemy();
+					this.spawnEnemy();
+					this.spawnEnemy();
+					this.spawnEnemy();
+					grenadeUp = false;
 				}
 			}
 			
@@ -147,7 +152,9 @@ public class GameEngine extends Thread {
 				// Si ya paso el tiempo del timer
 				if (timerTime < System.currentTimeMillis()) {
 					this.enemiesthread.continuar();
+					timerUp = false;
 				}
+				
 			}
 			
 			if (showelUp) {
@@ -162,12 +169,10 @@ public class GameEngine extends Thread {
 					gui.repaint();
 					
 				}
+				showelUp = false;
 			}
-			if (!vRemoveCeldas.isEmpty() || !vRemoveBulletsPlayer.isEmpty() || 
-					!vRemoveBulletsEnemies.isEmpty() || !vDestroyedEnemies.isEmpty() ||
-					!vRemovePowerUps.isEmpty() || !vRemoveBaseCeldas.isEmpty())
-				removeEntity();
-			checkColisionEnemy();
+			
+			this.checkPowerUpColision();
 		}
 	}
 	
@@ -252,9 +257,14 @@ public class GameEngine extends Thread {
 
 	public void movePlayer(int dir){
 		for (int i = 0;i < player.getSpeed() ; i++){
-			player.move(dir,canMove(player,dir));
+			int d = 0;
+			if (checkColisionEnemy(player,dir) == 1 && canMove(player,dir) == 1 ) {
+				d = 1;
+			}
+			player.move(dir,d);
 		}	
 	}
+	
 	//Preguntar a la celda siguiente nada m�s
 	public int canMove(Entity entity,int direccion){		
 		int eWidth = entity.getImage().getWidth();
@@ -287,22 +297,7 @@ public class GameEngine extends Thread {
 				}
 			}
 		}
-		/**
-		for (int i = 0; i < vCeldas.size(); i++) {
-			Celda c = vCeldas.get(i);
-			if (c.movein() == false) {
-				int cWidth = c.getImage().getWidth();
-				int cHeight = c.getImage().getHeight();
-				int xC = (int) c.getPosition().getX();
-				int yC = (int) c.getPosition().getY();
-				Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
-				Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
-				if (rE.intersects(rC)) {
-					return 0;
-				}
-			}
-		}
-		**/
+		
 		return 1;
 		
 	}	
@@ -491,12 +486,20 @@ public class GameEngine extends Thread {
 	public void Grenade() {
 		this.grenadeTime = System.currentTimeMillis() + 1000;
 		this.grenadeUp = true;
-		for (int i = 0; i < enemies.size(); i++) {
-			TanqueEnemigo te = enemies.get(i);
+		Iterator<TanqueEnemigo> iEnemies = enemies.iterator();
+		while(iEnemies.hasNext()) {
+			TanqueEnemigo te = iEnemies.next();
 			te.destroy();
 			vDestroyedEnemies.add(te);
+			iEnemies.remove();
 		}
-		enemies.clear();		
+		
+		//enemiesthread.detener();
+		for (int i = 0; i < vDestroyedEnemies.size(); i++) {
+			//enemies.remove(vDestroyedEnemies.get(i));
+		}
+		//enemiesthread.continuar();
+				
 	}
 	
 	public void Timer() {
@@ -551,26 +554,94 @@ public class GameEngine extends Thread {
 		gui.repaint();		
 	}
 	
-	private void checkColisionEnemy(){
-		int posXPlayer,posYPlayer,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
-		Rectangle recEnemy,recPlayer;
-		posXPlayer= (int) player.getPosition().getX();
-		posYPlayer= (int) player.getPosition().getY();
-		pWidth= player.getImage().getWidth();
-		pHeigth= player.getImage().getHeight();
-		recPlayer= new Rectangle(posXPlayer,posYPlayer,pWidth,pHeigth);		
-		for (TanqueEnemigo te: enemies){
-				posXCelda= (int) te.getPosition().getX();
-				posYCelda= (int) te.getPosition().getY();
-				cWidth= te.getImage().getWidth();
-				cHeigth= te.getImage().getHeight();
-				recEnemy= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
-				if (recPlayer.intersects(recEnemy)){
-					this.removeEntity(te);
-					this.removeEntity(player);
-					this.gameOver();
-				}					
+	private void checkPowerUpColision() {
+		Vector<PowerUp> toRemove = new Vector<PowerUp>();
+		int eWidth = player.getImage().getWidth();
+		int eHeight = player.getImage().getHeight();
+		int xE = (int) player.getPosition().getX();
+		int yE = (int) player.getPosition().getY();
+		int extraW = 0;
+		int extraH = 0;
+		int extraX = 0;
+		int extraY = 0;
+		
+		Iterator<PowerUp> iPowerUp = vPowerUps.iterator();
+		while (iPowerUp.hasNext()) {
+			PowerUp t = iPowerUp.next();
+			int tWidth = t.getImage().getWidth();
+			int tHeight = t.getImage().getHeight();
+			int xT = (int) t.getPosition().getX();
+			int yT = (int) t.getPosition().getY();
+			Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+			Rectangle rT = new Rectangle(xT,yT,tWidth,tHeight);
+			if (rE.intersects(rT)) {
+				t.activate(this);
+				toRemove.add(t);
+			}
 		}
+		for(int i = 0;i < toRemove.size();i++) {
+			this.vPowerUps.remove(toRemove.get(i));
+			this.gui.remove(toRemove.get(i).getImage());
+		}
+	}
+	
+	private int checkColisionEnemy(Entity entity,int direccion){
+		int eWidth = entity.getImage().getWidth();
+		int eHeight = entity.getImage().getHeight();
+		int xE = (int) entity.getPosition().getX();
+		int yE = (int) entity.getPosition().getY();
+		int extraW = 0;
+		int extraH = 0;
+		int extraX = 0;
+		int extraY = 0;
+		switch (direccion) {
+			case KeyEvent.VK_UP: if (yE == 0) return 0;extraY = - 2;extraH = 2;break;
+			case KeyEvent.VK_DOWN: if (yE+eHeight == max_Y) return 0;extraH = 2;break;
+			case KeyEvent.VK_LEFT: if (xE == 0) return 0;extraX = - 2;extraW = 2;break;
+			case KeyEvent.VK_RIGHT: if(xE+eWidth == max_X) return 0;extraW = 2;break;
+		}
+		Iterator<TanqueEnemigo> iEnemy = enemies.iterator();
+		while (iEnemy.hasNext()) {
+			TanqueEnemigo t = iEnemy.next();
+			int tWidth = t.getImage().getWidth();
+			int tHeight = t.getImage().getHeight();
+			int xT = (int) t.getPosition().getX();
+			int yT = (int) t.getPosition().getY();
+			Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+			Rectangle rT = new Rectangle(xT,yT,tWidth,tHeight);
+			if (rE.intersects(rT)) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	public int checkColisionPlayer(Entity entity,int direccion){
+		int eWidth = entity.getImage().getWidth();
+		int eHeight = entity.getImage().getHeight();
+		int xE = (int) entity.getPosition().getX();
+		int yE = (int) entity.getPosition().getY();
+		int extraW = 0;
+		int extraH = 0;
+		int extraX = 0;
+		int extraY = 0;
+		switch (direccion) {
+			case KeyEvent.VK_UP: if (yE == 0) return 0;extraY = - 2;extraH = 2;break;
+			case KeyEvent.VK_DOWN: if (yE+eHeight == max_Y) return 0;extraH = 2;break;
+			case KeyEvent.VK_LEFT: if (xE == 0) return 0;extraX = - 2;extraW = 2;break;
+			case KeyEvent.VK_RIGHT: if(xE+eWidth == max_X) return 0;extraW = 2;break;
+		}
+		
+		int tWidth = player.getImage().getWidth();
+		int tHeight = player.getImage().getHeight();
+		int xT = (int) player.getPosition().getX();
+		int yT = (int) player.getPosition().getY();
+		Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+		Rectangle rT = new Rectangle(xT,yT,tWidth,tHeight);
+		if (rE.intersects(rT)) {
+			return 0;
+		}
+		return 1;
 	}
 }
 	
