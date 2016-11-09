@@ -89,14 +89,13 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 		
 		public void DisparoEnemigos(){
 			Iterator<TanqueEnemigo> i= vEnemy.iterator();
-			//while (i.hasNext()){
-				//enemy =i.next();
-				enemy=vEnemy.get(0);
+			while (i.hasNext()){
+				enemy =i.next();
 				Proyectil p = enemy.shoot();
 				if (p!=null){
 					balasEnemigas.addBulletEnemy(p);
 				}
-			//}
+			}
 		}
 		
 		public void continuar(){
