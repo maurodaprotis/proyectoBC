@@ -24,7 +24,4 @@ public class TanqueBlindado extends TanqueEnemigo {
 		return points;
 	}
 	
-	public void setShooting(boolean shoot){
-		shooting=shoot;
-	}
 }

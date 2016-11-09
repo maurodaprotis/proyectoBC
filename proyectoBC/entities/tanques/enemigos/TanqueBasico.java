@@ -27,7 +27,4 @@ public class TanqueBasico extends TanqueEnemigo{
 		return points;
 	}
 	
-	public void setShooting(boolean shoot){
-		shooting=shoot;
-	}
 }

@@ -58,7 +58,7 @@ public abstract class TanqueEnemigo extends Tanque{
 		public Proyectil shoot(){
 
 			if(shooting==false){
-				
+				this.shooting = true;
 				if (this.direccion == 0)
 					return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY(),this);
 				if (this.direccion == 1)
@@ -78,4 +78,7 @@ public abstract class TanqueEnemigo extends Tanque{
 	
 	public abstract int getPoints();
 	
+	public void setShooting(boolean value) {
+		this.shooting = value;
+	}
 }

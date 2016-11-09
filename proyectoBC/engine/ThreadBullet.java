@@ -95,6 +95,7 @@ public class ThreadBullet extends Thread {
 				//i.remove();
 				System.out.println("Fuera de rango");
 				vRemoveBulletsEnemies.add(proyectil);
+				proyectil.getTanque().setShooting(false);
 				//vProyectilEnemy.remove(proyectil);
 				gui.remove(proyectil.getImage());
 			}
@@ -102,6 +103,7 @@ public class ThreadBullet extends Thread {
 		for (Proyectil p: vRemoveBulletsEnemies){
 			vProyectilEnemy.remove(p);
 		}
+		vRemoveBulletsEnemies.removeAllElements();
 	}
 	
 	private boolean enRango(int x, int y,int dir){

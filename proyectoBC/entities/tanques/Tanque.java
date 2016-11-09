@@ -26,7 +26,7 @@ public abstract class Tanque extends Entity{
 		super.destroy();
 	}
 		
-	public abstract void setShooting(boolean shoot);
+	public abstract void setShooting(boolean value);
 }
 
 	
