@@ -23,7 +23,7 @@ public class LevelOne extends Level {
 		if (tankCount != 0) {
 			tankCount --;
 			switch (tankCount) {
-			case 12: ge.addPowerUp(this.getPowerUp());break;
+			case 11: ge.addPowerUp(this.getPowerUp());break;
 			case 9: ge.addPowerUp(this.getPowerUp());break;
 			case 5: ge.addPowerUp(this.getPowerUp());break;
 			case 3: ge.addPowerUp(this.getPowerUp());break;
