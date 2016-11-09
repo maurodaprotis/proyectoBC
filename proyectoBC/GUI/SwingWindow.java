@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JSeparator;
 
 public class SwingWindow extends JFrame {
 
@@ -66,22 +67,28 @@ public class SwingWindow extends JFrame {
 		
 		JLabel labelDashboard = new JLabel("");
 		labelDashboard.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/interfaz/Tablero.png")));
-		labelDashboard.setBounds(316, 0, 48, 313);
+		labelDashboard.setBounds(312, 0, 48, 314);
 		contentPane.add(labelDashboard);
 		
-		JLabel lblPuntaje = new JLabel("SCORE:");
-		lblPuntaje.setFont(new Font("Consolas", Font.BOLD, 11));
-		lblPuntaje.setForeground(Color.WHITE);
-		lblPuntaje.setBounds(116, 314, 46, 14);
-		contentPane.add(lblPuntaje);
-		
 		labelScore = new JLabel("0");
+		labelScore.setFocusCycleRoot(true);
+		labelScore.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
 		labelScore.setForeground(Color.WHITE);
-		labelScore.setFont(new Font("Consolas", Font.BOLD, 11));
-		labelScore.setBounds(160, 314, 54, 14);
+		labelScore.setFont(new Font("Arial Black", labelScore.getFont().getStyle() & ~Font.BOLD, labelScore.getFont().getSize() + 2));
+		labelScore.setBounds(202, 325, 48, 14);
 		contentPane.add(labelScore);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/CartelScore.gif")));
+		lblNewLabel.setBounds(126, 325, 60, 14);
+		contentPane.add(lblNewLabel);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.GRAY);
+		separator.setBounds(0, 312, 316, 2);
+		contentPane.add(separator);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,366,368);
+		setBounds(100,100,366,385);
 		
 		initGame();
 	}

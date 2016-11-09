@@ -6,7 +6,10 @@ import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.powerups.*;
 import proyectoBC.entities.proyectiles.Proyectil;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
+import proyectoBC.entities.tanques.enemigos.TanqueBlindado;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
+import proyectoBC.entities.tanques.enemigos.TanquePoder;
+import proyectoBC.entities.tanques.enemigos.TanqueRapido;
 import proyectoBC.entities.tanques.jugadores.TanqueJugador;
 import proyectoBC.keyboard.ThreadKeyboard;
 import proyectoBC.File.FReader;
@@ -410,7 +413,15 @@ public class GameEngine extends Thread {
 
 	public void threadenemigos(){
 		for(int i = 0; i < 4; i++){
-			TanqueEnemigo enemy = new TanqueBasico (3,(i*50),0); 
+			TanqueEnemigo enemy=null;
+			if(i==0)
+				enemy = new TanquePoder(3,(i*50),0); 
+			if(i==1)
+				enemy = new TanqueBlindado (2,(i*50),0); 
+			if(i==2)	
+				enemy = new TanqueRapido (4,(i*50),0); 
+			if(i==3)	
+				enemy = new TanqueBasico (2,(i*50),0); 
 			enemies.add(enemy);
 			gui.getContentPane().add(enemy.getImage());
 			}
