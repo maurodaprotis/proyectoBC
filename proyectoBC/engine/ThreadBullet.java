@@ -2,6 +2,8 @@ package proyectoBC.engine;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import proyectoBC.GUI.SwingWindow;
@@ -13,7 +15,8 @@ import proyectoBC.entities.tanques.jugadores.TanqueJugador;
 
 public class ThreadBullet extends Thread {
 	protected Vector<Proyectil> vProyectil;
-	protected Vector<Proyectil> vProyectilEnemy; 
+	protected Vector<Proyectil> vProyectilEnemy;
+	private Vector<Proyectil> vRemoveBulletsEnemies;
 	protected GameEngine ge;
 	protected boolean play;
 	protected SwingWindow gui;
@@ -23,14 +26,15 @@ public class ThreadBullet extends Thread {
 		start();
 		this.vProyectil= vProyectil;
 		this.vProyectilEnemy= vProyectilEnemy;
+		this.vRemoveBulletsEnemies= new Vector<Proyectil>();
 		ge=g;
 		this.gui=gui;
 		play=true;
 	}
 	
-	public void addBullet(Proyectil p){
-		vProyectil.add(p);
-		gui.getContentPane().add(p.getImage());
+	public void addBullet(Proyectil proyectil){
+		vProyectil.add(proyectil);
+		gui.getContentPane().add(proyectil.getImage());
 		gui.repaint();
 	}
 	
@@ -59,28 +63,44 @@ public class ThreadBullet extends Thread {
 	}
 	
 	private void moveBullets(){
-		for (Proyectil proyectil : vProyectil){
+		Iterator<Proyectil> i=vProyectil.iterator();
+		Proyectil proyectil;
+		while (i.hasNext()){
+			proyectil = i.next();
 			if (enRango((int)proyectil.getPosition().getX(),(int)proyectil.getPosition().getY(),proyectil.getDireccion())){
 				proyectil.move();											
-				checkColisionCelda(proyectil);
-				checkColisionEnemy(proyectil);
-				checkColisionAguila(proyectil);
+				checkColisionCelda(proyectil,i);
+				checkColisionEnemy(proyectil,i);
+				checkColisionAguila(proyectil,i);
 			}
-			else{ ge.removeBulletPlayer(proyectil);
+			else{ //ge.removeBulletPlayer(proyectil);
+				i.remove();
+				gui.remove(proyectil.getImage());
 			}
 		}
 	}
 	
 	private void moveBulletsEnemies(){
-		for (Proyectil proyectil: vProyectilEnemy){
+		Iterator<Proyectil> i= vProyectilEnemy.iterator();
+		Proyectil proyectil;
+		while (i.hasNext()){
+			proyectil= i.next();
 			if (enRango((int)proyectil.getPosition().getX(),(int)proyectil.getPosition().getY(),proyectil.getDireccion())){
 				proyectil.move();											
-				checkColisionCelda(proyectil);
-				checkColisionPlayer(proyectil);
-				checkColisionAguila(proyectil);
+				checkColisionCelda(proyectil,i);
+				checkColisionPlayer(proyectil,i);
+				checkColisionAguila(proyectil,i);
 			}
-			else{ge.removeBulletEnemies(proyectil);			
+			else{//ge.removeBulletEnemies(proyectil);
+				//i.remove();
+				System.out.println("Fuera de rango");
+				vRemoveBulletsEnemies.add(proyectil);
+				//vProyectilEnemy.remove(proyectil);
+				gui.remove(proyectil.getImage());
 			}
+		}
+		for (Proyectil p: vRemoveBulletsEnemies){
+			vProyectilEnemy.remove(p);
 		}
 	}
 	
@@ -94,7 +114,8 @@ public class ThreadBullet extends Thread {
 		}
 	}
 	
-	private void checkColisionCelda(Proyectil proyectil){
+	private void checkColisionCelda(Proyectil proyectil,Iterator<Proyectil> iProyectil){
+		System.out.println("Checkcolision con celda");
 		int posXProyectil,posYProyectil,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
 		Rectangle recCelda,recProyectil;
 		Vector<Celda> vCeldas = ge.getCeldas();
@@ -102,8 +123,11 @@ public class ThreadBullet extends Thread {
 		posYProyectil= (int) proyectil.getPosition().getY();
 		pWidth= proyectil.getImage().getWidth();
 		pHeigth= proyectil.getImage().getHeight();
-		recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);		
-		for (Celda celda:vCeldas) {
+		recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);
+		Iterator<Celda> iCelda= vCeldas.iterator();
+		Celda celda;
+		while (iCelda.hasNext()) {
+			celda= iCelda.next();
 			if (celda.impacton()) {
 				posXCelda= (int) celda.getPosition().getX();
 				posYCelda= (int) celda.getPosition().getY();
@@ -111,10 +135,17 @@ public class ThreadBullet extends Thread {
 				cHeigth= celda.getImage().getHeight();
 				recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
 				if (recProyectil.intersects(recCelda)){
-					ge.removeBulletPlayer(proyectil);
+					System.out.println("Impacto proyectil con celda");
+					//iProyectil.remove();
+					//vProyectilEnemy.remove(proyectil);
+					vRemoveBulletsEnemies.add(proyectil);
+					proyectil.getTanque().setShooting(false);
+					//ge.removeBulletPlayer(proyectil);
 					gui.remove(proyectil.getImage());
 					if (celda.impact() == 0){
-						ge.removeCelda(celda);
+						iCelda.remove();
+						//ge.removeCelda(celda);
+						vCeldas.remove(celda);
 						gui.remove(celda.getImage());
 					}					
 				}
@@ -122,7 +153,7 @@ public class ThreadBullet extends Thread {
 		}
 	}
 	
-	private void checkColisionEnemy(Proyectil proyectil){
+	private void checkColisionEnemy(Proyectil proyectil,Iterator<Proyectil> iProyectil){
 		int posXProyectil,posYProyectil,posXCelda, posYCelda, cWidth, cHeigth, pWidth, pHeigth;
 		Rectangle recCelda,recProyectil;
 		Vector<TanqueEnemigo> vTanquesEnemigos = ge.getVectorEnemigos();
@@ -130,18 +161,24 @@ public class ThreadBullet extends Thread {
 		posYProyectil= (int) proyectil.getPosition().getY();
 		pWidth= proyectil.getImage().getWidth();
 		pHeigth= proyectil.getImage().getHeight();
-		recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);		
-		for (TanqueEnemigo te : vTanquesEnemigos){
+		recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);
+		Iterator<TanqueEnemigo> iTanqueEnemigo= vTanquesEnemigos.iterator();
+		TanqueEnemigo te;
+		while (iTanqueEnemigo.hasNext()){
+			te= iTanqueEnemigo.next();
 			posXCelda= (int) te.getPosition().getX();
 			posYCelda= (int) te.getPosition().getY();
 			cWidth= te.getImage().getWidth();
 			cHeigth= te.getImage().getHeight();
 			recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
 				if (recProyectil.intersects(recCelda)){
-					ge.removeBulletEnemies(proyectil);
+					//ge.removeBulletEnemies(proyectil);
+					iProyectil.remove();
+					proyectil.getTanque().setShooting(false);
 					gui.remove(proyectil.getImage());
 					if (te.impact() == 0){
-						ge.removeEntity(te);
+						//ge.removeEntity(te);
+						iTanqueEnemigo.remove();
 						gui.remove(te.getImage());
 						gui.setScore(30);
 					}					
@@ -149,7 +186,7 @@ public class ThreadBullet extends Thread {
 		}
 	}
 	
-	private void checkColisionPlayer(Proyectil proyectil){
+	private void checkColisionPlayer(Proyectil proyectil,Iterator<Proyectil> iProyectil){
 		int posXProyectil,posYProyectil,posXPlayer, posYPlayer, playerWidth, playerHeigth, pWidth, pHeigth;
 		Rectangle recPlayer,recProyectil;
 		TanqueJugador player=ge.getPlayer();
@@ -164,12 +201,14 @@ public class ThreadBullet extends Thread {
 		playerHeigth= player.getImage().getHeight();
 		recPlayer= new Rectangle(posXPlayer,posYPlayer,playerWidth,playerHeigth);
 		if (recProyectil.intersects(recPlayer)){
-			ge.removeBulletPlayer(proyectil);
+			//ge.removeBulletPlayer(proyectil);
+			iProyectil.remove();
+			proyectil.getTanque().setShooting(false);
 			gui.remove(proyectil.getImage());			
 		}
 	}
 	
-	private void checkColisionAguila(Proyectil proyectil){
+	private void checkColisionAguila(Proyectil proyectil,Iterator<Proyectil> iProyectil){
 		int posXProyectil,posYProyectil,posXAguila, posYAguila, aguilaWidth, aguilaHeight, pWidth, pHeigth;
 		Rectangle recAguila,recProyectil;
 		posXProyectil= (int) proyectil.getPosition().getX();
@@ -184,11 +223,12 @@ public class ThreadBullet extends Thread {
 		aguilaHeight= aguila.getImage().getHeight();
 		recAguila= new Rectangle(posXAguila,posYAguila,aguilaWidth,aguilaHeight);
 		if (recProyectil.intersects(recAguila)){
-			ge.removeBulletPlayer(proyectil);
+			//ge.removeBulletPlayer(proyectil);
+			//iProyectil.remove();
+			proyectil.getTanque().setShooting(false);
 			gui.getContentPane().remove(proyectil.getImage());
 			ge.removeCelda(aguila);
 			ge.gameOver();
-		}
-		
+		}		
 	}
 }

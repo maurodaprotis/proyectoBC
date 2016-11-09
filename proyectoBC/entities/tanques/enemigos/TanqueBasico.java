@@ -7,7 +7,7 @@ public class TanqueBasico extends TanqueEnemigo{
 	
 	public TanqueBasico(int speed, int x, int y) {
 		super(speed,x,y);
-		shootSpeed=1;
+		shootSpeed=3;
 		points=100;
 		hp=1;
 		this.images[0] = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/tanquesenemigos/tanquebasico/tanquebasico_up_1_02.gif"));
@@ -25,5 +25,9 @@ public class TanqueBasico extends TanqueEnemigo{
 	
 	public int getPoints(){
 		return points;
+	}
+	
+	public void setShooting(boolean shoot){
+		shooting=shoot;
 	}
 }

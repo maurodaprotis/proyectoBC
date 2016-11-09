@@ -24,4 +24,8 @@ public class TanqueRapido extends TanqueEnemigo{
 	public int getPoints(){
 		return points;
 	}
+	
+	public void setShooting(boolean shoot){
+		shooting=shoot;
+	}
 }

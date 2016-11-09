@@ -83,15 +83,13 @@ public class GameEngine extends Thread {
 	    file= new FReader();
 		initBase();
 		addmaplevel1();
-	    
-	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		// Creo el jugador y lo agrego el grafico a la gui.
-		this.player = new TanqueJugador(3,96,288);
+		this.player = new TanqueJugador(3,96,288);		
+		gui.getContentPane().add(this.player.getImage());
+		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 		// Creo los tanques  y lo agrego el grafico a la gui.
 		threadenemigos();
-		//this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
-		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
-		gui.getContentPane().add(this.player.getImage());
+	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
 		//this.tryPA();
@@ -151,7 +149,10 @@ public class GameEngine extends Thread {
 					
 				}
 			}
-			removeEntity();
+			if (!vRemoveCeldas.isEmpty() || !vRemoveBulletsPlayer.isEmpty() || 
+					!vRemoveBulletsEnemies.isEmpty() || !vDestroyedEnemies.isEmpty() ||
+					!vRemovePowerUps.isEmpty() || !vRemoveBaseCeldas.isEmpty())
+				removeEntity();
 			checkColisionEnemy();
 		}
 	}
@@ -417,7 +418,8 @@ public class GameEngine extends Thread {
 	
 	public void shoot() {
 		if (threadBullet.cantidadProyectiles() < player.shootCount()) {
-			threadBullet.addBullet(player.shoot());
+			Proyectil proyectil= player.shoot();
+			threadBullet.addBullet(proyectil);
 		}
 	}
 	

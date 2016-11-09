@@ -78,13 +78,13 @@ public class TanqueJugador extends Tanque {
 	
 	public Proyectil shoot(){
 		if (this.direccion == 0)
-			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY());
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY(),this);
 		if (this.direccion == 1)
-			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 23,(int) position.getY() +12);
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 23,(int) position.getY() +12,this);
 		if (this.direccion == 2)
-			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY() + 23);
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX() + 10,(int) position.getY() + 23,this);
 		if (this.direccion == 3)
-			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY() + 12);
+			return new Proyectil(direccion,level.getShootSpeed(),(int) position.getX(),(int) position.getY() + 12,this);
 		return null;
 	}
 	
@@ -107,4 +107,6 @@ public class TanqueJugador extends Tanque {
 	public void liveUp() {
 		this.lives++;
 	}
+	
+	public void setShooting(boolean shoot){}
 }

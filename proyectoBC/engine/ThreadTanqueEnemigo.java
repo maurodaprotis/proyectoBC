@@ -1,5 +1,6 @@
 package proyectoBC.engine;
 
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
@@ -10,7 +11,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 		
 	// Logica que implementa al tanque enemigo.
 		private TanqueEnemigo enemy;
-		private Vector<TanqueEnemigo> venemy;
+		private Vector<TanqueEnemigo> vEnemy;
 		private GameEngine ge;
 		private ThreadBullet balasEnemigas;
 		
@@ -20,8 +21,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 	// agregar ThreadBullet y gui.
 		public ThreadTanqueEnemigo (Vector<TanqueEnemigo> venemy,GameEngine ge,ThreadBullet balasEnemigas) {
 			this.ge=ge;
-			this.venemy=venemy;
-			this.enemy=enemy;
+			this.vEnemy=venemy;
 			this.balasEnemigas=balasEnemigas;
 			this.detener = false;
 			this.start();
@@ -38,12 +38,13 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 				} catch (InterruptedException e) { }
 					MovimientoEnemigos();
 					DisparoEnemigos();		
-		}
+			}
 	}
 	
 	    public void MovimientoEnemigos(){
-		for (int i=0;i<venemy.size();i++){
-			TanqueEnemigo enemy =venemy.get(i);
+	    	Iterator<TanqueEnemigo> i= vEnemy.iterator();
+	    	while (i.hasNext()){
+			enemy =i.next();
 			int move;
 			for (int j=0;j<enemy.getSpeed();j++){
 				if(enemy.getDireccion()==3){		
@@ -87,12 +88,16 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 	   }	
 		
 		public void DisparoEnemigos(){
-			for (int i=0;i<venemy.size();i++){
-			TanqueEnemigo enemy =venemy.get(i);
-			Proyectil p = enemy.shoot();
-			if (p!=null)
-				balasEnemigas.addBulletEnemy(p);
-			}
+			Iterator<TanqueEnemigo> i= vEnemy.iterator();
+			//while (i.hasNext()){
+				//enemy =i.next();
+				enemy=vEnemy.get(0);
+				Proyectil p = enemy.shoot();
+				if (p!=null){
+					enemy.setShooting(true);
+					balasEnemigas.addBulletEnemy(p);
+				}
+			//}
 		}
 		
 		public void continuar(){

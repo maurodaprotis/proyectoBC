@@ -12,7 +12,7 @@ public abstract class TanqueEnemigo extends Tanque{
 	
 	protected int points;
 	protected int rnd;
-	protected boolean shooting;
+
 	public TanqueEnemigo(int speed, int x, int y) {
 		super(speed,x,y);
 		this.destroyedImage = new ImageIcon(this.getClass().getResource("/proyectoBC/assets/images/pantalla/gif_explotion.gif"));
@@ -56,17 +56,20 @@ public abstract class TanqueEnemigo extends Tanque{
 		}
 	
 		public Proyectil shoot(){
-			if(shooting==true){
-			if (this.direccion == 0)
-				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY());
-			if (this.direccion == 1)
-				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 23,(int) position.getY() +12);
-			if (this.direccion == 2)
-				return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY() + 23);
-			if (this.direccion == 3)
-				return new Proyectil(direccion,shootSpeed,(int) position.getX(),(int) position.getY() + 12);
+
+			if(shooting==false){
+				
+				if (this.direccion == 0)
+					return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY(),this);
+				if (this.direccion == 1)
+					return new Proyectil(direccion,shootSpeed,(int) position.getX() + 23,(int) position.getY() +12,this);
+				if (this.direccion == 2)
+					return new Proyectil(direccion,shootSpeed,(int) position.getX() + 10,(int) position.getY() + 23,this);
+				if (this.direccion == 3)
+					return new Proyectil(direccion,shootSpeed,(int) position.getX(),(int) position.getY() + 12,this);
 			}
-			else return null;	
+			else 
+				return null;	
 		return null;
 		}
 	
@@ -74,5 +77,5 @@ public abstract class TanqueEnemigo extends Tanque{
 	public abstract int impact();
 	
 	public abstract int getPoints();
-
+	
 }
