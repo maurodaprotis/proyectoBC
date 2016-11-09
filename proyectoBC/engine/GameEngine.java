@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.awt.EventQueue;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -179,6 +180,14 @@ public class GameEngine extends Thread {
 		return this.vCeldas;
 	}
 	
+	public int getLeftEnemies() {
+		return level.leftEnemies();
+	}
+	
+	public int getLeftLives() {
+		return player.lives();
+	}
+	
 	public void removeEntity(){
 		for (Celda c: vRemoveCeldas){
 			this.vCeldas.remove(c);
@@ -263,6 +272,22 @@ public class GameEngine extends Thread {
 			case KeyEvent.VK_RIGHT: if(xE+eWidth == max_X) return 0;extraW = 2;break;
 		}
 		
+		Iterator<Celda> iCeldas = vCeldas.iterator();
+		while (iCeldas.hasNext()) {
+			Celda c = iCeldas.next();
+			if (c.movein() == false) {
+				int cWidth = c.getImage().getWidth();
+				int cHeight = c.getImage().getHeight();
+				int xC = (int) c.getPosition().getX();
+				int yC = (int) c.getPosition().getY();
+				Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+				Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
+				if (rE.intersects(rC)) {
+					return 0;
+				}
+			}
+		}
+		/**
 		for (int i = 0; i < vCeldas.size(); i++) {
 			Celda c = vCeldas.get(i);
 			if (c.movein() == false) {
@@ -277,13 +302,19 @@ public class GameEngine extends Thread {
 				}
 			}
 		}
-		
+		**/
 		return 1;
 		
 	}	
 	
 	public void spawnEnemy() {
-		this.addEnemy(this.level.getTanque());
+		TanqueEnemigo t = this.level.getTanque();
+		if (t != null) {
+			this.addEnemy(t);
+		}
+		else {
+			this.gameOver();
+		}
 	}
 	
 	public void addCelda(Celda c) {

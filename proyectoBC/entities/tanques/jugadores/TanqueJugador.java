@@ -108,5 +108,9 @@ public class TanqueJugador extends Tanque {
 		this.lives++;
 	}
 	
+	public int lives() {
+		return lives;
+	}
+	
 	public void setShooting(boolean shoot){}
 }

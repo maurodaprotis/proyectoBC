@@ -26,5 +26,9 @@ public abstract class Level {
 		file= new FReader();
 	}
 	
+	public int leftEnemies() {
+		return tankCount;
+	}
+	
 	public abstract TanqueEnemigo getTanque();
 }
