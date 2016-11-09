@@ -30,6 +30,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
+import proyectoBC.engine.levels.*;
+
 public class GameEngine extends Thread {
 	
 	private TanqueJugador player;
@@ -52,6 +54,8 @@ public class GameEngine extends Thread {
 	private Celda aguila;
 	private SwingWindow gui;
 	private FReader file;
+	
+	private Level level;
 	
 	private int score;
 	
@@ -83,15 +87,21 @@ public class GameEngine extends Thread {
 	    this.vRemoveBulletsPlayer = new Vector<Proyectil>();
 	    this.vBulletsEnemies= new  Vector<Proyectil>();
 	    this.vRemoveBulletsEnemies = new Vector<Proyectil>();
-	    file= new FReader();
+	    //file= new FReader();
 		initBase();
-		addmaplevel1();
+		this.level = new LevelOne(this);
+		//addmaplevel1();
 		// Creo el jugador y lo agrego el grafico a la gui.
 		this.player = new TanqueJugador(3,96,288);		
 		gui.getContentPane().add(this.player.getImage());
 		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 		// Creo los tanques  y lo agrego el grafico a la gui.
-		threadenemigos();
+		//threadenemigos();
+		
+		for (int i = 0; i < 4; i++) {
+			spawnEnemy();
+		}
+		
 	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
@@ -272,10 +282,27 @@ public class GameEngine extends Thread {
 		
 	}	
 	
-	private void addCelda(Celda c) {
+	public void spawnEnemy() {
+		this.addEnemy(this.level.getTanque());
+	}
+	
+	public void addCelda(Celda c) {
 		this.vCeldas.add(c);
 		gui.getContentPane().add(c.getImage());
 		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		gui.repaint();
+	}
+	
+	public void addPowerUp(PowerUp p) {
+		this.vPowerUps.add(p);
+		gui.getContentPane().add(p.getImage());
+		gui.getContentPane().setComponentZOrder(p.getImage(), 1);
+		gui.repaint();
+	}
+	
+	public void addEnemy(TanqueEnemigo t) {
+		this.enemies.add(t);
+		gui.getContentPane().add(t.getImage());
 		gui.repaint();
 	}
 	
@@ -345,20 +372,6 @@ public class GameEngine extends Thread {
 				posY=posY+24;
 				posX=0;
 			}	
-			
-			/*int x = 150;
-			int y = 80;
-			for(int i = 0;i < 4; i++) {
-				Celda c = null;
-				if (i == 0) c = new Celda(x,y,4,"ladrillo");
-				if (i == 1) c = new Celda(x,y,4,"agua");
-				if (i == 2) c = new Celda(x,y,4,"arbol");
-				if (i == 3) c = new Celda(x,y,4,"acero");
-			
-				this.vCeldas.add(c);
-				gui.getContentPane().add(c.getImage());
-				y += 50;
-			}*/
 			gui.repaint();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
