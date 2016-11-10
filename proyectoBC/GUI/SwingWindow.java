@@ -32,6 +32,9 @@ public class SwingWindow extends JFrame {
 	private ImageIcon obstaculos ;
 	private ThreadKeyboard tk;
 	private JLabel label_cantScore;
+	private JLabel label_cantEnemies;
+	private JLabel label_cantLives;
+	
 	
 
 	/**
@@ -65,18 +68,14 @@ public class SwingWindow extends JFrame {
 		setContentPane(this.contentPane);
 		getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(196, 194, 46, 14);
-		contentPane.add(lblNewLabel);
-		
-		JLabel label_cantLifes = new JLabel("3");
-		label_cantLifes.setBackground(Color.BLACK);
-		label_cantLifes.setFont(new Font("Arial Black", Font.BOLD, 13));
-		label_cantLifes.setForeground(Color.YELLOW);
-		label_cantLifes.setFocusCycleRoot(true);
-		label_cantLifes.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
-		label_cantLifes.setBounds(338, 227, 22, 14);
-		contentPane.add(label_cantLifes);
+		JLabel label_cantLives = new JLabel("4");
+		label_cantLives.setBackground(Color.BLACK);
+		label_cantLives.setFont(new Font("Arial Black", Font.BOLD, 13));
+		label_cantLives.setForeground(Color.BLACK);
+		label_cantLives.setFocusCycleRoot(true);
+		label_cantLives.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
+		label_cantLives.setBounds(338, 192, 22, 14);
+		contentPane.add(label_cantLives);
 		
 		JLabel label_Enemies = new JLabel("New label");
 		label_Enemies.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/tanque_enemigo.gif")));
@@ -98,8 +97,8 @@ public class SwingWindow extends JFrame {
 		contentPane.add(label_Stage);
 		
 		JLabel label_Player = new JLabel("New label");
-		label_Player.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/lifes.gif")));
-		label_Player.setBounds(326, 228, 13, 17);
+		label_Player.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/icon.png")));
+		label_Player.setBounds(320, 193, 13, 17);
 		contentPane.add(label_Player);
 		
 		label_cantScore = new JLabel("0");
@@ -125,8 +124,8 @@ public class SwingWindow extends JFrame {
 		separator.setBounds(0, 312, 316, 2);
 		contentPane.add(separator);
 		
-		JLabel label_cant_Enemies = new JLabel("0");
-		label_cant_Enemies.setForeground(Color.ORANGE);
+		JLabel label_cant_Enemies = new JLabel("16");
+		label_cant_Enemies.setForeground(Color.YELLOW);
 		label_cant_Enemies.setFont(new Font("Arial Black", Font.BOLD, 13));
 		label_cant_Enemies.setFocusCycleRoot(true);
 		label_cant_Enemies.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
@@ -150,4 +149,20 @@ public class SwingWindow extends JFrame {
 		int newScore= sc + s;
 		this.label_cantScore.setText(new Integer(newScore).toString());
 	}
-}
+	
+	public void setCantEnemies (){
+		String ce =this.label_cantEnemies.getText();
+		int cantEnemies= Integer.parseInt(ce);
+		int cantEnemiesLeft =ge.getLeftEnemies();
+		int newcantEnemies= cantEnemies-cantEnemiesLeft;
+		this.label_cantEnemies.setText(new Integer(newcantEnemies).toString());	
+	}
+	
+	public void setCantLives (){
+		String cl =this.label_cantLives.getText();
+		int cantLivesActual= Integer.parseInt(cl);
+		int cantLives =ge.getLeftLives();
+		cantLivesActual=cantLives;
+		this.label_cantLives.setText(new Integer(cantLivesActual).toString());	
+	}
+}	
