@@ -2,6 +2,7 @@ package proyectoBC.entities.tanques;
 
 import proyectoBC.entities.Entity;
 import proyectoBC.entities.proyectiles.Proyectil;
+import proyectoBC.entities.tanques.jugadores.niveles.Nivel;
 
 public abstract class Tanque extends Entity{
 	protected int hp;
@@ -27,6 +28,8 @@ public abstract class Tanque extends Entity{
 	}
 		
 	public abstract void setShooting(boolean value);
+	
+	public abstract Nivel getLevel();
 }
 
 	

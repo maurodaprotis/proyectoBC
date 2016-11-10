@@ -2,6 +2,7 @@ package proyectoBC.entities.tanques.enemigos;
 import javax.swing.ImageIcon;
 
 import proyectoBC.entities.proyectiles.Proyectil;
+import proyectoBC.entities.tanques.jugadores.niveles.Nivel;
 
 public class TanqueBasico extends TanqueEnemigo{
 	
@@ -25,6 +26,11 @@ public class TanqueBasico extends TanqueEnemigo{
 	
 	public int getPoints(){
 		return points;
+	}
+
+	@Override
+	public Nivel getLevel() {
+		return null;
 	}
 	
 }

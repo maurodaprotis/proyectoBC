@@ -152,7 +152,7 @@ public class ThreadBullet extends Thread {
 					vRemoveBulletsEnemies.add(proyectil);
 					proyectil.getTanque().setShooting(false);
 					gui.remove(proyectil.getImage());
-					if (celda.impact() == 0){
+					if (celda.impact(proyectil.getTanque()) == 0){
 						vRemoveCeldas.add(celda);
 						gui.remove(celda.getImage());
 					}					
@@ -187,7 +187,7 @@ public class ThreadBullet extends Thread {
 				if (recProyectil.intersects(recCelda)){
 					vRemoveBulletsPlayer.add(proyectil);
 					gui.remove(proyectil.getImage());
-					if (celda.impact() == 0){
+					if (celda.impact(ge.getPlayer()) == 0){
 						vRemoveCeldas.add(celda);
 						gui.remove(celda.getImage());
 					}					
@@ -223,9 +223,10 @@ public class ThreadBullet extends Thread {
 					gui.remove(proyectil.getImage());
 					if (te.impact() == 0){
 						vRemoveTanques.add(te);
+						iTanqueEnemigo.remove();
 						gui.remove(te.getImage());
 						
-						gui.setScore(30);
+						gui.setScore(te.getPoints());
 					}					
 				}
 		}
@@ -254,6 +255,7 @@ public class ThreadBullet extends Thread {
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
 			if (player.impact() == 0)
+				
 				ge.gameOver();						
 		}
 	}

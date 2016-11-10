@@ -9,4 +9,5 @@ public interface Nivel {
 	public int getSpeed();
 	public int getShootSpeed();
 	public int getShootCount();
+	public int getNivel();
 }

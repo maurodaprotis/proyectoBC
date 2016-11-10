@@ -3,6 +3,7 @@ package proyectoBC.entities.tanques.enemigos;
 import javax.swing.ImageIcon;
 
 import proyectoBC.entities.proyectiles.Proyectil;
+import proyectoBC.entities.tanques.jugadores.niveles.Nivel;
 
 public class TanqueRapido extends TanqueEnemigo{
 	
@@ -23,6 +24,12 @@ public class TanqueRapido extends TanqueEnemigo{
 
 	public int getPoints(){
 		return points;
+	}
+
+	@Override
+	public Nivel getLevel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

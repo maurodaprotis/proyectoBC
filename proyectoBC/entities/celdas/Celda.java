@@ -11,6 +11,7 @@ import proyectoBC.entities.celdas.obstaculos.Aguila;
 import proyectoBC.entities.celdas.obstaculos.Arbol;
 import proyectoBC.entities.celdas.obstaculos.Ladrillo;
 import proyectoBC.entities.celdas.obstaculos.Obstaculo;
+import proyectoBC.entities.tanques.Tanque;
 
 /**
  * Clase Celda
@@ -87,14 +88,26 @@ public class Celda extends Entity {
 		}
 	}
 
-	public int impact() {
+	public int impact(Tanque t) {
+		
 		if (this.impacton()) {
-			if (this.hp == 0) {
-				this.initMatriz("vacio");
+			int i = 0;
+			boolean imp = true;
+			while (i<4 && imp){
+				if (matriz[i] != null) {
+					 if (matriz[i].impact(t) == 0)
+						 imp = false;
+				}
+				i++;
 			}
-			return --hp;
+			if (imp) {
+				--hp;
+				if (hp==0)
+					this.initMatriz("vacio");
+				return hp;
+			}
 		}
-		return 1;
+		return hp;
 		
 	}
 	public boolean movein() {

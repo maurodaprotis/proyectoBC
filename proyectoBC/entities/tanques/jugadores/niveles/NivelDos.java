@@ -31,4 +31,8 @@ public class NivelDos implements Nivel {
 	public int getShootCount(){
 		return shootCant;
 	}
+	@Override
+	public int getNivel() {
+		return 2;
+	}
 }

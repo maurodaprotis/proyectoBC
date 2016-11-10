@@ -113,4 +113,8 @@ public class TanqueJugador extends Tanque {
 	}
 	
 	public void setShooting(boolean shoot){}
+	
+	public Nivel getLevel(){
+		return level;
+	}
 }
