@@ -162,10 +162,7 @@ public class GameEngine extends Thread {
 					Iterator<Celda> iCelda = vBaseCeldas.iterator();
 					while(iCelda.hasNext()) {
 						Celda c = iCelda.next();
-						vCeldas.remove(c);
-						iCelda.remove();
 						c.set("ladrillo");
-						this.addCelda(c);
 					}
 					gui.repaint();
 					showelUp = false;
