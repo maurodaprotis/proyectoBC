@@ -225,7 +225,7 @@ public class ThreadBullet extends Thread {
 						vRemoveTanques.add(te);
 						iTanqueEnemigo.remove();
 						gui.remove(te.getImage());
-						
+						gui.setCantEnemies();
 						gui.setScore(te.getPoints());
 					}					
 				}
@@ -254,6 +254,7 @@ public class ThreadBullet extends Thread {
 		if (recProyectil.intersects(recPlayer)){
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
+			gui.setCantLives();
 			if (player.impact() == 0)
 				
 				ge.gameOver();						
