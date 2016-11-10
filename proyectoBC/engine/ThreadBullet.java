@@ -254,6 +254,7 @@ public class ThreadBullet extends Thread {
 		if (recProyectil.intersects(recPlayer)){
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
+			gui.setCantLives();
 			if (player.impact() == 0)
 				gui.setCantLives();
 				ge.gameOver();						

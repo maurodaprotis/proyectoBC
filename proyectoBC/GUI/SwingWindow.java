@@ -32,9 +32,9 @@ public class SwingWindow extends JFrame {
 	private ImageIcon obstaculos ;
 	private ThreadKeyboard tk;
 	private JLabel label_cantScore;
-	private JLabel label_cantEnemies;
+	private JLabel label_cant_Enemies;
 	private JLabel label_cantLives;
-	
+	private JLabel label_cantStage;
 	
 
 	/**
@@ -68,7 +68,7 @@ public class SwingWindow extends JFrame {
 		setContentPane(this.contentPane);
 		getContentPane().setLayout(null);
 		
-		JLabel label_cantLives = new JLabel("4");
+		label_cantLives = new JLabel("4");
 		label_cantLives.setBackground(Color.BLACK);
 		label_cantLives.setFont(new Font("Arial Black", Font.BOLD, 13));
 		label_cantLives.setForeground(Color.BLACK);
@@ -82,15 +82,15 @@ public class SwingWindow extends JFrame {
 		label_Enemies.setBounds(10, 327, 22, 14);
 		contentPane.add(label_Enemies);
 		
-		JLabel label_cantStage = new JLabel("1");
+		label_cantStage = new JLabel("1");
 		label_cantStage.setFont(new Font("Arial Black", Font.BOLD, 11));
 		label_cantStage.setForeground(Color.WHITE);
 		label_cantStage.setFocusCycleRoot(true);
 		label_cantStage.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
-		label_cantStage.setBounds(326, 276, 48, 14);
+		label_cantStage.setBounds(336, 276, 24, 14);
 		contentPane.add(label_cantStage);
 		
-		JLabel label_Stage = new JLabel("New label");
+	    JLabel label_Stage = new JLabel("New label");
 		label_Stage.setForeground(Color.WHITE);
 		label_Stage.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/stage.gif")));
 		label_Stage.setBounds(314, 290, 46, 14);
@@ -124,7 +124,7 @@ public class SwingWindow extends JFrame {
 		separator.setBounds(0, 312, 316, 2);
 		contentPane.add(separator);
 		
-		JLabel label_cant_Enemies = new JLabel("16");
+		label_cant_Enemies = new JLabel("16");
 		label_cant_Enemies.setForeground(Color.YELLOW);
 		label_cant_Enemies.setFont(new Font("Arial Black", Font.BOLD, 13));
 		label_cant_Enemies.setFocusCycleRoot(true);
@@ -151,18 +151,25 @@ public class SwingWindow extends JFrame {
 	}
 	
 	public void setCantEnemies (){
-		String ce =this.label_cantEnemies.getText();
+		String ce =this.label_cant_Enemies.getText();
 		int cantEnemies= Integer.parseInt(ce);
-		int cantEnemiesLeft =ge.getLeftEnemies();
-		int newcantEnemies= cantEnemies-cantEnemiesLeft;
-		this.label_cantEnemies.setText(new Integer(newcantEnemies).toString());	
+		int newcantEnemies= cantEnemies-1;
+		if (newcantEnemies==0){
+			newcantEnemies=16;
+			String cs =this.label_cantStage.getText();
+			int nextLevel= Integer.parseInt(cs);
+			nextLevel++;
+			this.label_cantStage.setText(new Integer(nextLevel).toString());	
+		}    
+		this.label_cant_Enemies.setText(new Integer(newcantEnemies).toString());	
 	}
 	
 	public void setCantLives (){
 		String cl =this.label_cantLives.getText();
-		int cantLivesActual= Integer.parseInt(cl);
-		int cantLives =ge.getLeftLives();
-		cantLivesActual=cantLives;
-		this.label_cantLives.setText(new Integer(cantLivesActual).toString());	
+		int cantLives= Integer.parseInt(cl);
+		cantLives-=1;
+		if(cantLives==0)
+			cantLives=0;
+		this.label_cantLives.setText(new Integer(cantLives).toString());	
 	}
 }	
