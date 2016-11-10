@@ -159,17 +159,17 @@ public class GameEngine extends Thread {
 			
 			if (showelUp) {
 				if (showelTime < System.currentTimeMillis()) {
-					
-					for (int i=0;i<this.vBaseCeldas.size();i++) {
-						Celda c = this.vBaseCeldas.get(i);
-						this.vCeldas.remove(c);
+					Iterator<Celda> iCelda = vBaseCeldas.iterator();
+					while(iCelda.hasNext()) {
+						Celda c = iCelda.next();
+						vCeldas.remove(c);
+						iCelda.remove();
 						c.set("ladrillo");
 						this.addCelda(c);
 					}
 					gui.repaint();
-					
+					showelUp = false;
 				}
-				showelUp = false;
 			}
 			
 			this.checkPowerUpColision();
@@ -490,16 +490,10 @@ public class GameEngine extends Thread {
 		while(iEnemies.hasNext()) {
 			TanqueEnemigo te = iEnemies.next();
 			te.destroy();
+			gui.setScore(te.getPoints());
 			vDestroyedEnemies.add(te);
 			iEnemies.remove();
-		}
-		
-		//enemiesthread.detener();
-		for (int i = 0; i < vDestroyedEnemies.size(); i++) {
-			//enemies.remove(vDestroyedEnemies.get(i));
-		}
-		//enemiesthread.continuar();
-				
+		}		
 	}
 	
 	public void Timer() {
@@ -515,10 +509,10 @@ public class GameEngine extends Thread {
 	public void Showel() {
 		this.showelTime = System.currentTimeMillis() + 10000;
 		this.showelUp = true;
-		
-		for (int i=0;i<this.vBaseCeldas.size();i++) {
-			Celda c = this.vBaseCeldas.get(i);
-			this.vCeldas.remove(c);
+		Iterator<Celda> iCelda = vBaseCeldas.iterator();
+		while(iCelda.hasNext()) {
+			Celda c = iCelda.next();
+			iCelda.remove();
 			c.set("acero");
 			this.addCelda(c);
 		}
