@@ -139,6 +139,11 @@ public class SwingWindow extends JFrame {
 		label_cant_Enemies.setDisplayedMnemonic(KeyEvent.VK_KATAKANA);
 		label_cant_Enemies.setBounds(33, 327, 22, 14);
 		contentPane.add(label_cant_Enemies);
+		
+		lblGameOver = new JLabel();
+		lblGameOver.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/gameover.gif")));
+		lblGameOver.setBounds(0, 0, 312, 314);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100,100,366,385);
 		
@@ -153,13 +158,10 @@ public class SwingWindow extends JFrame {
 	
 	
 	public void SwingGameOver() {
-		lblGameOver = new JLabel("New label");
-		lblGameOver.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/gameover.gif")));
-		lblGameOver.setBounds(0, 0, 328, 316);
+		this.tk.stop();
 		contentPane.add(lblGameOver);
 		contentPane.setComponentZOrder(lblGameOver, 1);
-		
-		}
+	}
 	
 	public void setScore(Integer s) {
 		String st =this.label_cantScore.getText();
@@ -205,8 +207,5 @@ public class SwingWindow extends JFrame {
 		this.label_cantLives.setText(new Integer(cantLives).toString());
 	}
 	
-	public void gameOver(){
-		this.tk.stop();
-	}
 }	
 
