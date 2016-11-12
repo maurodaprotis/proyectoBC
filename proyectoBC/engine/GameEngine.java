@@ -42,29 +42,25 @@ public class GameEngine extends Thread {
 	private Vector<TanqueEnemigo> enemies;
 	private Vector<TanqueEnemigo> vDestroyedEnemies;
 	private Vector<PowerUp> vPowerUps;
-	private Vector<PowerUp> vRemovePowerUps; 
 	private Vector<Proyectil> vBulletsPlayer;
-	private Vector<Proyectil> vRemoveBulletsPlayer;
 	private Vector<Proyectil> vBulletsEnemies;
-	private Vector<Proyectil> vRemoveBulletsEnemies;
 	private ThreadTanqueEnemigo enemiesthread;
 	private Vector<Celda> vCeldas;
-	private Vector<Celda> vRemoveCeldas;
 	private Vector<Celda> vBaseCeldas;
-	private Vector<Celda> vRemoveBaseCeldas;
 	private Celda aguila;
 	private SwingWindow gui;
 	private FReader file;
-	
+	private int enemiesLives;
 	private Level level;
 	
 	private int score;
 	
-	private boolean gameOver,grenadeUp,showelUp,shieldUp,timerUp;
+	private boolean gameOver,grenadeUp,showelUp,shieldUp,timerUp,addLive,upLevel;
 	private long showelTime;
 	private long shieldTime;
 	private long timerTime;
 	private long grenadeTime;
+	private long timeChangeLevel;
 	
 	
 	private static final int width=24;
@@ -74,20 +70,15 @@ public class GameEngine extends Thread {
 
 
 	public GameEngine(SwingWindow gui) {
-		gameOver = grenadeUp = showelUp = shieldUp = timerUp = false;
+		gameOver = grenadeUp = showelUp = shieldUp = timerUp = addLive = upLevel= false;
 		this.gui = gui;
 		this.vCeldas = new Vector<Celda>();
-		this.vRemoveCeldas = new Vector<Celda>();
 		this.vBaseCeldas = new Vector<Celda>();
-		this.vRemoveBaseCeldas = new Vector<Celda>();
 		this.vPowerUps = new Vector<PowerUp>();
-		this.vRemovePowerUps = new Vector<PowerUp>();
 	    this.enemies= new Vector<TanqueEnemigo>();
 	    this.vDestroyedEnemies = new Vector<TanqueEnemigo>();
 	    this.vBulletsPlayer= new Vector<Proyectil>();
-	    this.vRemoveBulletsPlayer = new Vector<Proyectil>();
 	    this.vBulletsEnemies= new  Vector<Proyectil>();
-	    this.vRemoveBulletsEnemies = new Vector<Proyectil>();
 	    //file= new FReader();
 		initBase();
 		this.level = new LevelOne(this);
@@ -97,17 +88,12 @@ public class GameEngine extends Thread {
 		gui.getContentPane().add(this.player.getImage());
 		this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 		// Creo los tanques  y lo agrego el grafico a la gui.
-		//threadenemigos();
-		
-		for (int i = 0; i < 4; i++) {
-			spawnEnemy();
-		}
-		
+		threadenemigos();		
 	    this.enemiesthread= new ThreadTanqueEnemigo(enemies,this,threadBullet);   
 		System.out.println("Game Engine Creado");
 		gui.setScore(0000);
 		//this.tryPA();
-		
+		enemiesLives=16;
 		this.start();
 	}	
 	
@@ -157,18 +143,31 @@ public class GameEngine extends Thread {
 				
 			}
 			
-			if (showelUp) {
-				if (showelTime < System.currentTimeMillis()) {
+			if (showelUp) 
+				if (showelTime < System.currentTimeMillis()){
 					Iterator<Celda> iCelda = vBaseCeldas.iterator();
 					while(iCelda.hasNext()) {
 						Celda c = iCelda.next();
 						c.set("ladrillo");
-					}
-					gui.repaint();
-					showelUp = false;
+					}						
+					showelUp=false;
+					gui.repaint();	
+				}
+			if ((gui.getScore() >= 20000) && (!addLive)){
+				addLive= false;
+				player.addLives();
+				gui.addLive();
+			}
+			if (upLevel){
+				if (timeChangeLevel < System.currentTimeMillis()){
+					gui.getContentPane().remove(player.getImage());
+					initBase();		
+					this.level= this.level.upLevel();
+					player.setPoint(96,288);
+					gui.getContentPane().add(this.player.getImage());
+					upLevel=false;
 				}
 			}
-			
 			this.checkPowerUpColision();
 		}
 	}
@@ -176,6 +175,21 @@ public class GameEngine extends Thread {
 	public void gameOver() {
 		this.gameOver = true;
 		this.enemiesthread.detener();
+		this.threadBullet.detener();
+		this.gui.gameOver();
+	}
+	
+	public void subEnemies(){
+		enemiesLives=enemiesLives - 1 ;
+	}
+	
+	public int getEnemies(){
+		return enemiesLives;
+	}
+	
+	public void upLevelGame(){
+		timeChangeLevel= System.currentTimeMillis() + 3000;
+		upLevel= true;
 	}
 	
 	public Vector<Celda> getCeldas(){
@@ -190,68 +204,6 @@ public class GameEngine extends Thread {
 		return player.lives();
 	}
 	
-	public void removeEntity(){
-		for (Celda c: vRemoveCeldas){
-			this.vCeldas.remove(c);
-			this.gui.getContentPane().remove(c.getImage());
-			gui.repaint();
-		}
-		for (Proyectil p: vRemoveBulletsPlayer){
-			this.vBulletsPlayer.remove(p);
-			this.gui.getContentPane().remove(p.getImage());
-			gui.repaint();
-		}
-		for (Proyectil p: vRemoveBulletsEnemies){
-			this.vBulletsEnemies.remove(p);
-			this.gui.getContentPane().remove(p.getImage());
-			gui.repaint();
-		}
-		for (TanqueEnemigo te: vDestroyedEnemies){
-			this.enemies.remove(te);
-			this.gui.getContentPane().remove(te.getImage());
-			gui.repaint();
-		}
-		for (PowerUp p: vRemovePowerUps){
-			this.vPowerUps.remove(p);
-			this.gui.getContentPane().remove(p.getImage());
-			gui.repaint();
-		}
-		for (Celda c: vRemoveBaseCeldas){
-			this.vBaseCeldas.remove(c);
-			this.gui.getContentPane().remove(c.getImage());
-			gui.repaint();
-		}
-	}
-	
-	public void removeCelda(Celda c){
-		vRemoveCeldas.add(c);
-	}
-	
-	public void removeBase(Celda c){
-		this.vRemoveBaseCeldas.add(c);
-	}
-	
-	public void removeBulletPlayer(Proyectil p){
-		vRemoveBulletsPlayer.add(p);
-	}
-	
-	public void removeBulletEnemies(Proyectil p){
-		vRemoveBulletsEnemies.add(p);
-	}
-	
-	public void removeEntity(TanqueEnemigo te){
-		this.vDestroyedEnemies.add(te);
-	}
-	
-	public void removeEntity(PowerUp p){
-		vRemovePowerUps.add(p);
-	}
-	
-	public void removeEntity(TanqueJugador player){
-		this.gui.getContentPane().remove(player.getImage());
-		gui.repaint();
-	}
-
 	public void movePlayer(int dir){
 		for (int i = 0;i < player.getSpeed() ; i++){
 			int d = 0;
@@ -278,19 +230,20 @@ public class GameEngine extends Thread {
 			case KeyEvent.VK_LEFT: if (xE == 0) return 0;extraX = - 2;extraW = 2;break;
 			case KeyEvent.VK_RIGHT: if(xE+eWidth == max_X) return 0;extraW = 2;break;
 		}
-		
-		Iterator<Celda> iCeldas = vCeldas.iterator();
-		while (iCeldas.hasNext()) {
-			Celda c = iCeldas.next();
-			if (c.movein() == false) {
-				int cWidth = c.getImage().getWidth();
-				int cHeight = c.getImage().getHeight();
-				int xC = (int) c.getPosition().getX();
-				int yC = (int) c.getPosition().getY();
-				Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
-				Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
-				if (rE.intersects(rC)) {
-					return 0;
+		synchronized (vCeldas){
+			Iterator<Celda> iCeldas = vCeldas.iterator();
+			while (iCeldas.hasNext()) {
+				Celda c = iCeldas.next();
+				if (c.movein() == false) {
+					int cWidth = c.getImage().getWidth();
+					int cHeight = c.getImage().getHeight();
+					int xC = (int) c.getPosition().getX();
+					int yC = (int) c.getPosition().getY();
+					Rectangle rE = new Rectangle(xE + extraX,yE + extraY,eWidth + extraW,eHeight + extraH);
+					Rectangle rC = new Rectangle(xC,yC,cWidth,cHeight);
+					if (rE.intersects(rC)) {
+						return 0;
+					}
 				}
 			}
 		}
@@ -301,38 +254,49 @@ public class GameEngine extends Thread {
 	
 	public void spawnEnemy() {
 		TanqueEnemigo t = this.level.getTanque();
-		if (t != null) {
-			this.addEnemy(t);
-		}
-		else {
-			this.gameOver();
-		}
+		if (this.getLeftEnemies() > 3)
+			if (t != null) {
+				this.addEnemy(t);
+			}
 	}
 	
 	public void addCelda(Celda c) {
 		this.vCeldas.add(c);
+		try{
 		gui.getContentPane().add(c.getImage());
 		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
-		gui.repaint();
+		gui.repaint();}
+		catch(Exception ex){
+			System.out.println("addCelda");
+		}
 	}
 	
 	public void addPowerUp(PowerUp p) {
 		this.vPowerUps.add(p);
+		try{
 		gui.getContentPane().add(p.getImage());
 		gui.getContentPane().setComponentZOrder(p.getImage(), 1);
-		gui.repaint();
+		gui.repaint();}
+		catch(Exception e){
+			System.out.println("addPowerUp");
+		}
 	}
 	
 	public void addEnemy(TanqueEnemigo t) {
 		this.enemies.add(t);
+		try{
 		gui.getContentPane().add(t.getImage());
-		gui.repaint();
+		gui.repaint();}
+		catch(Exception e){
+			System.out.println("addEnemy");
+		}
 	}
 	
 	private void initBase() {
 		Celda c = new Celda(6*24,12*24,1,"aguila");
 		this.aguila = c;
 		this.vCeldas.add(c);
+		try{
 		gui.getContentPane().add(c.getImage());
 		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
 		
@@ -364,7 +328,10 @@ public class GameEngine extends Thread {
 		this.vCeldas.add(c);
 		this.vBaseCeldas.add(c);
 		gui.getContentPane().add(c.getImage());
-		gui.getContentPane().setComponentZOrder(c.getImage(), 1);
+		gui.getContentPane().setComponentZOrder(c.getImage(), 1);}
+		catch(Exception e){
+			System.out.println("initbase");
+		}
 	}
 	
 	/**
@@ -403,6 +370,9 @@ public class GameEngine extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		catch(Exception e){
+			System.out.println("addMap");
+		}
 	}	
 	
 	public void agregarTanque(){
@@ -440,14 +410,23 @@ public class GameEngine extends Thread {
 	
 	public void levelUp(){
 		this.player.levelUp();
-		gui.repaint();
+		try{
+		gui.repaint();}
+		catch(Exception e){
+			System.out.println("levelUp");
+		}
 	}
 	public void levelDown(){
 		this.player.resetLevel();
-		gui.repaint();
+		try{
+		gui.repaint();}
+		catch(Exception e){
+			System.out.println("levelDown");
+		}
 	}		
 
 	public void threadenemigos(){
+		try{
 		for(int i = 0; i < 4; i++){
 			TanqueEnemigo enemy=null;
 			if(i==0)
@@ -461,6 +440,9 @@ public class GameEngine extends Thread {
 			enemies.add(enemy);
 			gui.getContentPane().add(enemy.getImage());
 			}
+		}catch(Exception e){
+			System.out.println("threadenemigos");
+		}
 	}
 	
 	public void shoot() {
@@ -511,11 +493,13 @@ public class GameEngine extends Thread {
 		Iterator<Celda> iCelda = vBaseCeldas.iterator();
 		while(iCelda.hasNext()) {
 			Celda c = iCelda.next();
-			iCelda.remove();
 			c.set("acero");
-			this.addCelda(c);
 		}
-		gui.repaint();
+		try{
+		gui.repaint();}
+		catch(Exception e){
+			System.out.println("Showel");
+		}
 		
 	}
 	
@@ -570,12 +554,18 @@ public class GameEngine extends Thread {
 			if (rE.intersects(rT)) {
 				t.activate(this);
 				toRemove.add(t);
+				gui.setScore(500);
 			}
 		}
 		for(int i = 0;i < toRemove.size();i++) {
 			this.vPowerUps.remove(toRemove.get(i));
-			this.gui.remove(toRemove.get(i).getImage());
+			try{
+			this.gui.remove(toRemove.get(i).getImage());}
+			catch (Exception e){
+				System.out.println("checkPowerUpColision");
+			}
 		}
+		toRemove.removeAllElements();
 	}
 	
 	private int checkColisionEnemy(Entity entity,int direccion){

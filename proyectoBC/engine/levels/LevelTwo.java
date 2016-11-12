@@ -1,18 +1,24 @@
 package proyectoBC.engine.levels;
 
-import proyectoBC.engine.GameEngine;
-import java.util.Vector;
-import proyectoBC.File.FReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import proyectoBC.engine.GameEngine;
 import proyectoBC.entities.celdas.Celda;
-import proyectoBC.entities.tanques.enemigos.*;
-import proyectoBC.entities.powerups.*;
+import proyectoBC.entities.powerups.PowerUp;
+import proyectoBC.entities.powerups.Shield;
+import proyectoBC.entities.powerups.Showel;
+import proyectoBC.entities.powerups.Star;
+import proyectoBC.entities.powerups.Timer;
+import proyectoBC.entities.tanques.enemigos.TanqueBasico;
+import proyectoBC.entities.tanques.enemigos.TanqueBlindado;
+import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
+import proyectoBC.entities.tanques.enemigos.TanquePoder;
+import proyectoBC.entities.tanques.enemigos.TanqueRapido;
 
-public class LevelOne extends Level {
+public class LevelTwo extends Level{
 	
-	public LevelOne(GameEngine ge) {
+	public LevelTwo(GameEngine ge) {
 		super(ge);
 		initCeldas();
 		initEnemies();
@@ -64,7 +70,7 @@ public class LevelOne extends Level {
 	
 	private void initCeldas() {
 		try {
-			String [][] obs= file.getObstaculos("Map1");
+			String [][] obs= file.getObstaculos("Map2");
 			String o;
 			Celda c=null;
 			int posX=0;
@@ -93,6 +99,6 @@ public class LevelOne extends Level {
 	}
 	
 	public Level upLevel(){
-		return new LevelTwo(ge);
+		return new LevelThree(ge);
 	}
 }

@@ -31,4 +31,6 @@ public abstract class Level {
 	}
 	
 	public abstract TanqueEnemigo getTanque();
+	
+	public abstract Level upLevel();
 }

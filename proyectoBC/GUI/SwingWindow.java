@@ -42,6 +42,7 @@ public class SwingWindow extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -167,7 +168,15 @@ public class SwingWindow extends JFrame {
 		this.label_cantScore.setText(new Integer(newScore).toString());
 	}
 	
+<<<<<<< HEAD
+	public int getScore(){
+		return Integer.parseInt(label_cantScore.getText());
+	}
+	
+	public void setCantEnemies (){
+=======
 	public void setCantEnemies (int enemiesleft){
+>>>>>>> 9e7ebe3a9365e8f702b5d1fa422a7e975f5914c7
 		String ce =this.label_cant_Enemies.getText();
 		int cantEnemies= Integer.parseInt(ce);
 		int newcantEnemies= cantEnemies-enemiesleft;
@@ -189,4 +198,19 @@ public class SwingWindow extends JFrame {
 			cantLives=0;
 		this.label_cantLives.setText(new Integer(cantLives).toString());	
 	}
+<<<<<<< HEAD
+	
+	public void addLive(){
+		String cl =this.label_cantLives.getText();
+		int cantLives= Integer.parseInt(cl);
+		cantLives+=1;
+		this.label_cantLives.setText(new Integer(cantLives).toString());
+	}
+	
+	public void gameOver(){
+		this.tk.stop();
+	}
+}	
+=======
 }
+>>>>>>> 9e7ebe3a9365e8f702b5d1fa422a7e975f5914c7

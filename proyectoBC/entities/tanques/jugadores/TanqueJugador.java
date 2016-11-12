@@ -112,9 +112,17 @@ public class TanqueJugador extends Tanque {
 		return lives;
 	}
 	
+	public void addLives(){
+		lives++;
+	}
+	
 	public void setShooting(boolean shoot){}
 	
 	public Nivel getLevel(){
 		return level;
+	}
+	
+	public void setPoint(int x, int y){
+		this.position.setLocation(x, y);
 	}
 }

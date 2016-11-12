@@ -1,5 +1,6 @@
 package proyectoBC.engine;
 
+import java.awt.EventQueue;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
@@ -42,68 +43,72 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 	}
 	
 	    public void MovimientoEnemigos(){
-	    	Iterator<TanqueEnemigo> i= vEnemy.iterator();
-	    	while (i.hasNext()){
-			enemy =i.next();
-			int move;
-			for (int j=0;j<enemy.getSpeed();j++){
-				if(enemy.getDireccion()==3){		
-					move= this.ge.canMove(enemy, 38-1);
-					Random r = new Random();
-					if (move==0 || r.nextInt(313)==enemy.getPosition().x || r.nextInt(140)==r.nextInt(200) || r.nextInt(240)==enemy.getPosition().y)
-				    enemy.girar();
-					else {
-						if (ge.checkColisionPlayer(enemy, 38-1) == 1)
-						enemy.move();}
-					}
-				else{
-					if(enemy.getDireccion()==2){	
-					move= this.ge.canMove(enemy, 38+2);
-					Random r = new Random();
-					if (move==0 || r.nextInt(313)==move|| r.nextInt(313)==r.nextInt(250) ||r.nextInt(250)==r.nextInt(250) || r.nextInt(140)==r.nextInt(140))
-				    enemy.girar();
-					else {
-						if (ge.checkColisionPlayer(enemy, 38+2) == 1) enemy.move();
-					}
-					}
-					
-				else
-					if(enemy.getDireccion()==1){	
-					move= this.ge.canMove(enemy, 38+1);
-					Random r = new Random();
-					if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(200)==r.nextInt(200)||r.nextInt(140)==r.nextInt(140))					    
-					enemy.girar();
-					else {
-						if (ge.checkColisionPlayer(enemy, 38+1) == 1) enemy.move();
-					}
-					}
-					
-				else{
-					if(enemy.getDireccion()==0){		
-					move= this.ge.canMove(enemy, 38);
-					Random r = new Random();
-					if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(140)==enemy.getPosition().y || enemy.getPosition().x==156  )
-				    enemy.girar();
-					else {
-						if (ge.checkColisionPlayer(enemy, 38) == 1) enemy.move();
-					}
-					
-							}
-						}			
-					}
-				}    		    	 
-			}
+	    	synchronized (vEnemy){
+		    	Iterator<TanqueEnemigo> i= vEnemy.iterator();
+		    	while (i.hasNext()){
+				enemy =i.next();
+				int move;
+				for (int j=0;j<enemy.getSpeed();j++){
+					if(enemy.getDireccion()==3){		
+						move= this.ge.canMove(enemy, 38-1);
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==enemy.getPosition().x || r.nextInt(140)==r.nextInt(200) || r.nextInt(240)==enemy.getPosition().y)
+					    enemy.girar();
+						else {
+							if (ge.checkColisionPlayer(enemy, 38-1) == 1)
+							enemy.move();}
+						}
+					else{
+						if(enemy.getDireccion()==2){	
+						move= this.ge.canMove(enemy, 38+2);
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==move|| r.nextInt(313)==r.nextInt(250) ||r.nextInt(250)==r.nextInt(250) || r.nextInt(140)==r.nextInt(140))
+					    enemy.girar();
+						else {
+							if (ge.checkColisionPlayer(enemy, 38+2) == 1) enemy.move();
+						}
+						}
+						
+					else
+						if(enemy.getDireccion()==1){	
+						move= this.ge.canMove(enemy, 38+1);
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(200)==r.nextInt(200)||r.nextInt(140)==r.nextInt(140))					    
+						enemy.girar();
+						else {
+							if (ge.checkColisionPlayer(enemy, 38+1) == 1) enemy.move();
+						}
+						}
+						
+					else{
+						if(enemy.getDireccion()==0){		
+						move= this.ge.canMove(enemy, 38);
+						Random r = new Random();
+						if (move==0 || r.nextInt(313)==75|| r.nextInt(313)==156 || r.nextInt(140)==enemy.getPosition().y || enemy.getPosition().x==156  )
+					    enemy.girar();
+						else {
+							if (ge.checkColisionPlayer(enemy, 38) == 1) enemy.move();
+						}
+						
+								}
+							}			
+						}
+					}    		    	 
+				}
+	    	}	
 	   }	
 		
 		public void DisparoEnemigos(){
-			Iterator<TanqueEnemigo> i= vEnemy.iterator();
-			while (i.hasNext()){
-				enemy =i.next();
-				Proyectil p = enemy.shoot();
-				if (p!=null){
-					balasEnemigas.addBulletEnemy(p);
+			synchronized (vEnemy){
+				Iterator<TanqueEnemigo> i= vEnemy.iterator();
+				while (i.hasNext()){
+					enemy =i.next();
+					Proyectil p = enemy.shoot();
+					if (p!=null){
+						balasEnemigas.addBulletEnemy(p);
+					}
 				}
-			}
+			}	
 		}
 		
 		public void continuar(){
