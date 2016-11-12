@@ -25,7 +25,7 @@ public abstract class Tanque extends Entity{
 	public abstract int impact();
 	
 	public void destroy() {
-		timer= System.currentTimeMillis() + 1000;
+		timer = System.currentTimeMillis() + 1000;
 		super.destroy();
 	}
 	

@@ -34,6 +34,7 @@ public class TanqueJugador extends Tanque {
 		this.image.setIcon(this.images[0]);
 		this.position.setLocation(96,288);
 		this.direccion = MOVE_UP;
+		this.move(MOVE_UP,0);
 	}
 	public void move(int dir,int dist){
 		int distance = (dist > this.level.getSpeed()) ? this.level.getSpeed():dist;

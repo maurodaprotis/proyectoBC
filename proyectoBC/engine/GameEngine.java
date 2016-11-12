@@ -160,11 +160,26 @@ public class GameEngine extends Thread {
 			}
 			if (upLevel){
 				if (timeChangeLevel < System.currentTimeMillis()){
-					gui.getContentPane().remove(player.getImage());
+					for(Celda c : vCeldas) {
+						gui.remove(c.getImage());
+					}
+					this.vCeldas.removeAllElements();
+					for(PowerUp p : vPowerUps) {
+						gui.remove(p.getImage());
+					}
+					this.vPowerUps.removeAllElements();
+					for(TanqueEnemigo t : enemies) {
+						gui.remove(t.getImage());
+					}
+					this.enemies.removeAllElements();
 					initBase();		
 					this.level= this.level.upLevel();
+					this.threadenemigos();
 					player.setPoint(96,288);
 					gui.getContentPane().add(this.player.getImage());
+					player.move(0,0);
+					this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
+					this.enemiesthread = new ThreadTanqueEnemigo(this.enemies,this,this.threadBullet);
 					upLevel=false;
 				}
 			}
@@ -189,6 +204,8 @@ public class GameEngine extends Thread {
 	
 	public void upLevelGame(){
 		timeChangeLevel= System.currentTimeMillis() + 3000;
+		this.enemiesthread.detener();
+		this.threadBullet.detener();
 		upLevel= true;
 	}
 	
@@ -502,35 +519,7 @@ public class GameEngine extends Thread {
 		}
 		
 	}
-	
-	private void tryPA() {
-		PowerUp p = new Grenade(24,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		p = new Shield(48,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		p = new Showel(72,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		p = new Star(96,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		p = new Tank(120,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		p = new Timer(144,24);
-		gui.getContentPane().add(p.getImage());
-		gui.getContentPane().setComponentZOrder(p.getImage(), 0);
-		this.vPowerUps.add(p);
-		gui.repaint();		
-	}
-	
+		
 	private void checkPowerUpColision() {
 		Vector<PowerUp> toRemove = new Vector<PowerUp>();
 		int eWidth = player.getImage().getWidth();

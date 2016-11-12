@@ -67,8 +67,19 @@ public class ThreadBullet extends Thread {
             moveBullets();
             moveBulletsEnemies();
             if (death){
-            	if (timeExplosion < System.currentTimeMillis()){
-            		
+            	if (!vRemoveTanques.isEmpty()){
+            		Iterator<TanqueEnemigo> iRt = vRemoveTanques.iterator();
+            		while (iRt.hasNext()) {
+            			TanqueEnemigo t = iRt.next();
+            			if (System.currentTimeMillis() > t.getExplosion()) {            				
+            				gui.remove(t.getImage());
+            				ge.spawnEnemy();
+            				iRt.remove();
+            			}	
+        			}
+        			if (vRemoveTanques.isEmpty() && ge.getEnemies()==0){
+						ge.upLevelGame();
+					}
             	}
             }
 			gui.repaint();
@@ -243,23 +254,13 @@ public class ThreadBullet extends Thread {
 							ge.subEnemies();
 							vRemoveTanques.add(te);
 							iTanqueEnemigo.remove();
-							gui.remove(te.getImage());
 							death=true;
 							te.destroy();
-							timeExplosion= te.getExplosion();
 							gui.setCantEnemies(1);
 							gui.setScore(te.getPoints());
-							if (ge.getEnemies()==0){
-								ge.upLevelGame();
-							}
 						}					
 					}
 			}
-			for (TanqueEnemigo t: vRemoveTanques){
-				vTanquesEnemigos.remove(t);
-				ge.spawnEnemy();
-			}
-			vRemoveTanques.removeAllElements();
 		}
 	}
 	
