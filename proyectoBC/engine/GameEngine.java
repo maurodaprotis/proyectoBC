@@ -191,7 +191,7 @@ public class GameEngine extends Thread {
 		this.gameOver = true;
 		this.enemiesthread.detener();
 		this.threadBullet.detener();
-		this.gui.gameOver();
+		this.gui.SwingGameOver();
 	}
 	
 	public void subEnemies(){
