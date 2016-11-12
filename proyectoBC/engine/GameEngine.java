@@ -172,8 +172,13 @@ public class GameEngine extends Thread {
 						gui.remove(t.getImage());
 					}
 					this.enemies.removeAllElements();
+					this.gui.remove(player.getImage());
+					this.level = this.level.upLevel();
+					if (this.level == null) {
+						gameWin();
+						break;
+					}
 					initBase();		
-					this.level= this.level.upLevel();
 					this.threadenemigos();
 					player.setPoint(96,288);
 					gui.getContentPane().add(this.player.getImage());
@@ -185,6 +190,12 @@ public class GameEngine extends Thread {
 			}
 			this.checkPowerUpColision();
 		}
+	}
+	
+	public void gameWin() {
+		this.gui.gameWin();
+		gui.repaint();
+		this.interrupt();
 	}
 	
 	public void gameOver() {

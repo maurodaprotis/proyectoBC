@@ -23,6 +23,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JSeparator;
+import javax.swing.UIManager;
 
 public class SwingWindow extends JFrame {
 
@@ -36,6 +37,7 @@ public class SwingWindow extends JFrame {
 	private JLabel label_cantLives;
 	private JLabel label_cantStage;
 	private JLabel lblGameOver;
+	private JLabel lblWin;
 	
 
 	/**
@@ -140,6 +142,12 @@ public class SwingWindow extends JFrame {
 		label_cant_Enemies.setBounds(33, 327, 22, 14);
 		contentPane.add(label_cant_Enemies);
 		
+		lblWin = new JLabel("       Victoria");
+		lblWin.setBackground(Color.BLACK);
+		lblWin.setFont(new Font("Monospaced", Font.PLAIN, 24));
+		lblWin.setForeground(Color.YELLOW);
+		lblWin.setBounds(0, 0, 310, 316);
+		
 		lblGameOver = new JLabel();
 		lblGameOver.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/gameover.gif")));
 		lblGameOver.setBounds(0, 0, 312, 314);
@@ -161,6 +169,13 @@ public class SwingWindow extends JFrame {
 		this.tk.stop();
 		contentPane.add(lblGameOver);
 		contentPane.setComponentZOrder(lblGameOver, 1);
+	}
+	
+	public void gameWin() {
+		this.tk.stop();
+		contentPane.add(lblWin);
+		this.label_cant_Enemies.setText("0");
+		contentPane.setComponentZOrder(lblWin, 1);
 	}
 	
 	public void setScore(Integer s) {
@@ -206,6 +221,5 @@ public class SwingWindow extends JFrame {
 		cantLives+=1;
 		this.label_cantLives.setText(new Integer(cantLives).toString());
 	}
-	
 }	
 

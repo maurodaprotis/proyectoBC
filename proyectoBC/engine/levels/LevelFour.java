@@ -18,7 +18,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueRapido;
 
 public class LevelFour extends Level{
 
-	protected LevelFour(GameEngine ge) {
+	public LevelFour(GameEngine ge) {
 		super(ge);
 		initCeldas();
 		initEnemies();
