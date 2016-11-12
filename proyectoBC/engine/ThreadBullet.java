@@ -226,7 +226,6 @@ public class ThreadBullet extends Thread {
 		pWidth= proyectil.getImage().getWidth();
 		pHeigth= proyectil.getImage().getHeight();
 		recProyectil= new Rectangle(posXProyectil,posYProyectil,pWidth,pHeigth);
-<<<<<<< HEAD
 		synchronized (vTanquesEnemigos){
 			Iterator<TanqueEnemigo> iTanqueEnemigo= vTanquesEnemigos.iterator();
 			TanqueEnemigo te;
@@ -248,7 +247,7 @@ public class ThreadBullet extends Thread {
 							death=true;
 							te.destroy();
 							timeExplosion= te.getExplosion();
-							gui.setCantEnemies();
+							gui.setCantEnemies(1);
 							gui.setScore(te.getPoints());
 							if (ge.getEnemies()==0){
 								ge.upLevelGame();
@@ -261,32 +260,6 @@ public class ThreadBullet extends Thread {
 				ge.spawnEnemy();
 			}
 			vRemoveTanques.removeAllElements();
-=======
-		Iterator<TanqueEnemigo> iTanqueEnemigo= vTanquesEnemigos.iterator();
-		TanqueEnemigo te;
-		while (iTanqueEnemigo.hasNext()){
-			te= iTanqueEnemigo.next();
-			posXCelda= (int) te.getPosition().getX();
-			posYCelda= (int) te.getPosition().getY();
-			cWidth= te.getImage().getWidth();
-			cHeigth= te.getImage().getHeight();
-			recCelda= new Rectangle(posXCelda,posYCelda,cWidth,cHeigth);
-				if (recProyectil.intersects(recCelda)){
-					vRemoveBulletsPlayer.add(proyectil);
-					gui.remove(proyectil.getImage());
-					if (te.impact() == 0){
-						vRemoveTanques.add(te);
-						iTanqueEnemigo.remove();
-						gui.remove(te.getImage());
-						gui.setCantEnemies(1);
-						gui.setScore(te.getPoints());
-					}					
-				}
-		}
-		for (TanqueEnemigo t: vRemoveTanques){
-			vTanquesEnemigos.remove(t);
-			ge.spawnEnemy();
->>>>>>> 9e7ebe3a9365e8f702b5d1fa422a7e975f5914c7
 		}
 	}
 	
@@ -307,13 +280,11 @@ public class ThreadBullet extends Thread {
 		if (recProyectil.intersects(recPlayer)){
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
-<<<<<<< HEAD
-			gui.setCantLives();
+			gui.setCantLives(1);
 			if (player.impact() == 0)
-				gui.setCantLives();
+				gui.setCantLives(ge.getLeftLives());
 				if (ge.getLeftLives() == 0)
 					ge.gameOver();						
-=======
 			int lives =player.lives();
 			--lives;
 			gui.setCantLives(lives);
@@ -321,8 +292,6 @@ public class ThreadBullet extends Thread {
 				ge.gameOver();
 				gui.SwingGameOver();
 			}
-			
->>>>>>> 9e7ebe3a9365e8f702b5d1fa422a7e975f5914c7
 		}
 	}
 	
