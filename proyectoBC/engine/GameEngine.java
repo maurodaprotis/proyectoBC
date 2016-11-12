@@ -486,11 +486,12 @@ public class GameEngine extends Thread {
 		Iterator<TanqueEnemigo> iEnemies = enemies.iterator();
 		while(iEnemies.hasNext()) {
 			TanqueEnemigo te = iEnemies.next();
-			te.destroy();
+			te.destroy();;	
 			gui.setScore(te.getPoints());
 			vDestroyedEnemies.add(te);
 			iEnemies.remove();
-		}		
+		}
+		gui.setCantEnemies(vDestroyedEnemies.size());
 	}
 	
 	public void Timer() {
@@ -500,7 +501,8 @@ public class GameEngine extends Thread {
 	}
 	
 	public void Tank() {
-		this.player.levelUp();
+		this.player.liveUp();
+		gui.setCantLives(player.lives());
 	}
 	
 	public void Showel() {

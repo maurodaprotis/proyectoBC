@@ -35,6 +35,7 @@ public class SwingWindow extends JFrame {
 	private JLabel label_cant_Enemies;
 	private JLabel label_cantLives;
 	private JLabel label_cantStage;
+	private JLabel lblGameOver;
 	
 
 	/**
@@ -68,6 +69,12 @@ public class SwingWindow extends JFrame {
 		setContentPane(this.contentPane);
 		getContentPane().setLayout(null);
 		
+		JLabel label_player2 = new JLabel("New label");
+		label_player2.setBackground(Color.WHITE);
+		label_player2.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/icon_jugador_2.gif")));
+		label_player2.setBounds(320, 228, 13, 14);
+		contentPane.add(label_player2);
+		
 		label_cantLives = new JLabel("4");
 		label_cantLives.setBackground(Color.BLACK);
 		label_cantLives.setFont(new Font("Arial Black", Font.BOLD, 13));
@@ -93,7 +100,7 @@ public class SwingWindow extends JFrame {
 	    JLabel label_Stage = new JLabel("New label");
 		label_Stage.setForeground(Color.WHITE);
 		label_Stage.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/stage.gif")));
-		label_Stage.setBounds(314, 290, 46, 14);
+		label_Stage.setBounds(320, 289, 46, 14);
 		contentPane.add(label_Stage);
 		
 		JLabel label_Player = new JLabel("New label");
@@ -143,6 +150,16 @@ public class SwingWindow extends JFrame {
 		this.addKeyListener(tk);
 	}
 	
+	
+	public void SwingGameOver() {
+		lblGameOver = new JLabel("New label");
+		lblGameOver.setIcon(new ImageIcon(SwingWindow.class.getResource("/proyectoBC/assets/images/pantalla/gameover.gif")));
+		lblGameOver.setBounds(0, 0, 328, 316);
+		contentPane.add(lblGameOver);
+		contentPane.setComponentZOrder(lblGameOver, 1);
+		
+		}
+	
 	public void setScore(Integer s) {
 		String st =this.label_cantScore.getText();
 		int sc= Integer.parseInt(st);
@@ -150,10 +167,10 @@ public class SwingWindow extends JFrame {
 		this.label_cantScore.setText(new Integer(newScore).toString());
 	}
 	
-	public void setCantEnemies (){
+	public void setCantEnemies (int enemiesleft){
 		String ce =this.label_cant_Enemies.getText();
 		int cantEnemies= Integer.parseInt(ce);
-		int newcantEnemies= cantEnemies-1;
+		int newcantEnemies= cantEnemies-enemiesleft;
 		if (newcantEnemies==0){
 			newcantEnemies=16;
 			String cs =this.label_cantStage.getText();
@@ -164,12 +181,12 @@ public class SwingWindow extends JFrame {
 		this.label_cant_Enemies.setText(new Integer(newcantEnemies).toString());	
 	}
 	
-	public void setCantLives (){
+	public void setCantLives (int leftlives){
 		String cl =this.label_cantLives.getText();
 		int cantLives= Integer.parseInt(cl);
-		cantLives-=1;
+		cantLives=leftlives;
 		if(cantLives==0)
 			cantLives=0;
 		this.label_cantLives.setText(new Integer(cantLives).toString());	
 	}
-}	
+}

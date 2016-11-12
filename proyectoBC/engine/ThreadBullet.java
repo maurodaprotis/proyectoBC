@@ -225,7 +225,7 @@ public class ThreadBullet extends Thread {
 						vRemoveTanques.add(te);
 						iTanqueEnemigo.remove();
 						gui.remove(te.getImage());
-						gui.setCantEnemies();
+						gui.setCantEnemies(1);
 						gui.setScore(te.getPoints());
 					}					
 				}
@@ -254,10 +254,14 @@ public class ThreadBullet extends Thread {
 		if (recProyectil.intersects(recPlayer)){
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
-			gui.setCantLives();
-			if (player.impact() == 0)
-				gui.setCantLives();
-				ge.gameOver();						
+			int lives =player.lives();
+			--lives;
+			gui.setCantLives(lives);
+			if (player.impact() == 0){
+				ge.gameOver();
+				gui.SwingGameOver();
+			}
+			
 		}
 	}
 	
@@ -280,6 +284,7 @@ public class ThreadBullet extends Thread {
 			gui.getContentPane().remove(aguila.getImage());
 			gui.getContentPane().remove(proyectil.getImage());
 			ge.gameOver();
+			gui.SwingGameOver();
 		}		
 	}
 	
