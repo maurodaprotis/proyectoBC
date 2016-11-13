@@ -27,6 +27,7 @@ import javax.swing.UIManager;
 
 public class SwingWindow extends JFrame {
 
+	private static SwingWindow window;
 	private JFrame frmBatleCity;
 	private JPanel contentPane;
 	private GameEngine ge;
@@ -48,7 +49,7 @@ public class SwingWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SwingWindow window = new SwingWindow();
+					window = new SwingWindow();
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -155,15 +156,15 @@ public class SwingWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100,100,366,385);
 		
+		
 		initGame();
 	}
 	
-	private void initGame(){
+	public void initGame(){
 		this.ge = new GameEngine(this);
 		this.tk = new ThreadKeyboard(this.ge);
-		this.addKeyListener(tk);
+		this.addKeyListener(tk);		
 	}
-	
 	
 	public void SwingGameOver() {
 		this.tk.stop();
