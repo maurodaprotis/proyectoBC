@@ -154,7 +154,7 @@ public class GameEngine extends Thread {
 					gui.repaint();	
 				}
 			if ((gui.getScore() >= 20000) && (!addLive)){
-				addLive= false;
+				addLive= true;
 				player.addLives();
 				gui.addLive();
 			}
