@@ -281,20 +281,15 @@ public class ThreadBullet extends Thread {
 		if (recProyectil.intersects(recPlayer)){
 			vRemoveBulletsEnemies.add(proyectil);
 			gui.remove(proyectil.getImage());
-			gui.setCantLives(1);
-			if (player.impact() == 0)
-				gui.setCantLives(ge.getLeftLives());
-				if (ge.getLeftLives() == 0)
-					ge.gameOver();						
-			int lives =player.lives();
-			--lives;
-			gui.setCantLives(lives);
-			if (player.impact() == 0){
-				ge.gameOver();
-				gui.SwingGameOver();
+			gui.setCantLives(ge.getLeftLives()-1);
+			if(player.impact() == 0){
+					ge.gameOver();	
+					gui.SwingGameOver();
+				}	
+
 			}
 		}
-	}
+	
 	
 	private void checkColisionAguila(Proyectil proyectil){
 		int posXProyectil,posYProyectil,posXAguila, posYAguila, aguilaWidth, aguilaHeight, pWidth, pHeigth;
