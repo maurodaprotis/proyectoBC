@@ -175,9 +175,11 @@ public class GameEngine extends Thread {
 					this.gui.remove(player.getImage());
 					this.level = this.level.upLevel();
 					if (this.level == null) {
+						upLevel = false;
 						gameWin();
 						break;
 					}
+					this.enemiesLives = 16;
 					initBase();		
 					this.threadenemigos();
 					player.setPoint(96,288);
@@ -281,10 +283,9 @@ public class GameEngine extends Thread {
 	
 	public void spawnEnemy() {
 		TanqueEnemigo t = this.level.getTanque();
-		if (this.getLeftEnemies() > 3)
-			if (t != null) {
-				this.addEnemy(t);
-			}
+		if (t != null) {
+			this.addEnemy(t);
+		}
 	}
 	
 	public void addCelda(Celda c) {
@@ -455,17 +456,7 @@ public class GameEngine extends Thread {
 	public void threadenemigos(){
 		try{
 		for(int i = 0; i < 4; i++){
-			TanqueEnemigo enemy=null;
-			if(i==0)
-				enemy = new TanquePoder(3,(i*50),0); 
-			if(i==1)
-				enemy = new TanqueBlindado (2,(i*50),0); 
-			if(i==2)	
-				enemy = new TanqueRapido (4,(i*50),0); 
-			if(i==3)	
-				enemy = new TanqueBasico (2,(i*50),0); 
-			enemies.add(enemy);
-			gui.getContentPane().add(enemy.getImage());
+			this.spawnEnemy();
 			}
 		}catch(Exception e){
 			System.out.println("threadenemigos");
