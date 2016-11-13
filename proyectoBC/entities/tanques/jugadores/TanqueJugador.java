@@ -26,7 +26,8 @@ public class TanqueJugador extends Tanque {
 	public void levelUp(){
 		this.level = level.SubirNivel();
 		this.images = this.level.getImages();
-		this.image.setIcon(this.images[0]);		
+		this.image.setIcon(this.images[0]);
+		this.image.setBounds(this.position.x, this.position.y, this.width, this.height);
 	}
 	public void resetLevel(){
 		this.level = new NivelUno();
@@ -34,6 +35,7 @@ public class TanqueJugador extends Tanque {
 		this.image.setIcon(this.images[0]);
 		this.position.setLocation(96,288);
 		this.direccion = MOVE_UP;
+		this.image.setBounds(this.position.x, this.position.y, this.width, this.height);
 		this.move(MOVE_UP,0);
 	}
 	public void move(int dir,int dist){
