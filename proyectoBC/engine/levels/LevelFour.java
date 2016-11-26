@@ -5,11 +5,7 @@ import java.io.IOException;
 
 import proyectoBC.engine.GameEngine;
 import proyectoBC.entities.celdas.Celda;
-import proyectoBC.entities.powerups.PowerUp;
-import proyectoBC.entities.powerups.Shield;
-import proyectoBC.entities.powerups.Showel;
-import proyectoBC.entities.powerups.Star;
-import proyectoBC.entities.powerups.Timer;
+import proyectoBC.entities.powerups.*;
 import proyectoBC.entities.tanques.enemigos.TanqueBasico;
 import proyectoBC.entities.tanques.enemigos.TanqueBlindado;
 import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
@@ -51,7 +47,7 @@ public class LevelFour extends Level{
 	private void initPowerUps() {
 		this.vPowerUp.add(new Star(45,100));
 		this.vPowerUp.add(new Shield(100,45));
-		this.vPowerUp.add(new Timer(200,80));
+		this.vPowerUp.add(new Grenade(200,80));
 		this.vPowerUp.add(new Showel(250,250));
 	}
 	

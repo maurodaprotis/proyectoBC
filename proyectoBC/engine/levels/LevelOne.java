@@ -43,7 +43,7 @@ public class LevelOne extends Level {
 	private void initPowerUps() {
 		this.vPowerUp.add(new Star(45,100));
 		this.vPowerUp.add(new Shield(100,45));
-		this.vPowerUp.add(new Timer(200,80));
+		this.vPowerUp.add(new Grenade(200,80));
 		this.vPowerUp.add(new Showel(250,250));
 	}
 	

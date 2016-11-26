@@ -21,7 +21,6 @@ public class TanqueJugador extends Tanque {
 		this.level = new NivelUno();
 		this.images = level.getImages();
 		direccion=0;
-		System.out.println("Tanque jugador Creado");
 	}
 	public void levelUp(){
 		this.level = level.SubirNivel();
