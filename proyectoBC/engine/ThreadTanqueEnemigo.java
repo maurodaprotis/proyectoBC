@@ -15,6 +15,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 		private Vector<TanqueEnemigo> vEnemy;
 		private GameEngine ge;
 		private ThreadBullet balasEnemigas;
+		private boolean timerUp;
 		
 		// Flag que indica cuando debe detenerse la ejecución del hilo.
 		// Es volatile porque es accedida desde concurrentemente desde diferentes threads.
@@ -26,6 +27,7 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 			this.balasEnemigas=balasEnemigas;
 			this.detener = false;
 			this.start();
+			this.timerUp = false;
 		}
 		
 		@Override
@@ -36,11 +38,20 @@ import proyectoBC.entities.tanques.enemigos.TanqueEnemigo;
 				// De esta manera cada turno se ejecuta cada 1 segundo.
 				try {
 					Thread.sleep(30);
+					if (timerUp) {
+						Thread.sleep(10000);
+						this.timerUp = false;
+					}
 				} catch (InterruptedException e) { }
 					MovimientoEnemigos();
 					DisparoEnemigos();		
+					
 			}
 	}
+		
+		public void timerUp() {
+			this.timerUp = true;
+		}
 	
 	    public void MovimientoEnemigos(){
 	    	synchronized (vEnemy){

@@ -136,10 +136,12 @@ public class GameEngine extends Thread {
 			//Si se activo timer
 			if (timerUp) {
 				// Si ya paso el tiempo del timer
+				/**
 				if (timerTime < System.currentTimeMillis()) {
 					//this.enemiesthread.continuar();
 					timerUp = false;
 				}
+				**/
 				
 			}
 			
@@ -189,6 +191,7 @@ public class GameEngine extends Thread {
 					this.threadBullet = new ThreadBullet(vBulletsPlayer,vBulletsEnemies,this,gui);
 					this.enemiesthread = new ThreadTanqueEnemigo(this.enemies,this,this.threadBullet);
 					upLevel=false;
+					this.movePlayer(38);
 				}
 			}
 			this.checkPowerUpColision();
@@ -236,13 +239,16 @@ public class GameEngine extends Thread {
 	}
 	
 	public void movePlayer(int dir){
-		for (int i = 0;i < player.getSpeed() ; i++){
-			int d = 0;
-			if (checkColisionEnemy(player,dir) == 1 && canMove(player,dir) == 1 ) {
-				d = 1;
+		if (!upLevel) {
+			for (int i = 0;i < player.getSpeed() ; i++){
+				int d = 0;
+				if (checkColisionEnemy(player,dir) == 1 && canMove(player,dir) == 1 ) {
+					d = 1;
+				}
+				player.move(dir,d);
 			}
-			player.move(dir,d);
-		}	
+		}
+			
 	}
 	
 	//Preguntar a la celda siguiente nada m�s
@@ -422,14 +428,17 @@ public class GameEngine extends Thread {
 	}
 	
 	public void Timer() {
+		this.enemiesthread.timerUp();
+		/**
 		this.timerTime = System.currentTimeMillis() + 10000;
 		this.timerUp = true;
-		this.enemiesthread.detener();		
+		this.enemiesthread.detener();
+		**/		
 	}
 	
 	public void Tank() {
 		this.player.liveUp();
-		gui.setCantLives(player.lives());
+		gui.setCantLives(player.lives() - 1);
 	}
 	
 	public void Showel() {
